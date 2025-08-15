@@ -1,5 +1,2 @@
-4
-abcdbc
-abcdefabcde
-ababab
-a
+5 1
+2 8 -1 4 5
