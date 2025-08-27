@@ -28,6 +28,6 @@ int32_t main(){
 		if(d[i]==0)cnt++;
 	}
 	cout<<cnt;
-}
+}`
 
 

@@ -1,41 +1,31 @@
-// authur : anphung
+// author : anphung
 // github : 4npg
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 #define int64 long long
-#define TASK "tenbai"
-#define el cout<<"\n"
-#define fast ios_base::sync_with_stdio(false); cin.tie(nullptr)
-#define FOR(i,a,b) for(int (i)=(a);i<=(b);++i)
+#define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
 
-int n;
-const int maxn = 1e6+5;
-int a[maxn];
+int n,q;
+const int maxn = 1e5+5;
 
-int gcd(int a,int b){
-    if(b==0)return a;
-    return gcd(b,a%b);
-}
 
-void sanguoc()
-
-int32_t main() {
-    fast;
-    if (fopen(TASK ".inp", "r")) {
-        freopen(TASK ".inp", "r", stdin);
-        freopen(TASK ".out", "w", stdout);
+int32_t main(){
+    ios::sync_with_stdio(0);cin.tie(0);
+    cin>>n>>q;
+    vector<int64> pre(n);
+    pre[0] = 0;
+    f0(i,1,n){
+        int64 x;
+        cin>>x;
+        pre[i] = pre[i-1] + x;
     }
-    sanguoc();
-    cin>>n;
-    int res = 0;
-    int tmp = 0;
-    for(int i=0;i<n;i++){
-        res = max(res,gcd(a[i],tmp));
-        cin>>a[i];
-        tmp = a[i];
+    int64 mx = -1e9;
+    int lo = 1;
+    int hi = n;
+    while(lo<=hi){
+        mx = max(mx,pre[hi]-pre[lo-1]);
+        lo++;
     }
-    cout<<res;
-    
 }
 
 
