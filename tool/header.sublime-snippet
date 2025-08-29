@@ -1,21 +1,13 @@
 <snippet>
 	<content><![CDATA[
 // authur : anphung
-// github : 4npg
 #include <bits/stdc++.h>
 using namespace std;
 #define int64 long long
-#define TASK "tenbai"
-#define el "\n"
-#define fast ios_base::sync_with_stdio(false); cin.tie(nullptr)
-#define FOR(i,a,b) for(ll (i)=(a);i<=(b);++i)
+#define f0(i,a,b) for(ll (i)=(a);i<=(b);++i)
 
 int32_t main() {
-    fast;
-    if (fopen(TASK ".inp", "r")) {
-        freopen(TASK ".inp", "r", stdin);
-        freopen(TASK ".out", "w", stdout);
-    }
+    ios_base::sync_with_stdio(0);cin.tie(0);
 
 
 }
