@@ -1,27 +1,63 @@
 
 # Đề Thi Tin Học
 
-## Bài 1: Hình vuông bao phủ
+---
 
-Cho một tập hợp gồm **n** điểm trên mặt phẳng tọa độ, mỗi điểm có tọa độ nguyên \((x, y)\).  
-Yêu cầu: hãy tìm diện tích nhỏ nhất của hình vuông sao cho tất cả các điểm đều nằm trong hoặc trên biên hình vuông đó.
+## Bài 1 — HÌNH VUÔNG TỐI THIỂU
 
-### Input
-- Dòng đầu tiên: một số nguyên \(n\) \((1 \leq n \leq 10^5)\).  
-- \(n\) dòng tiếp theo: mỗi dòng gồm hai số nguyên \(x, y\) \((0 \leq x, y \leq 10^9)\) — tọa độ của một điểm.
+**Mô tả.**  
+Cho một tập hợp gồm **n** điểm trên mặt phẳng tọa độ, mỗi điểm có tọa độ nguyên `(x, y)`.  
+Hãy tìm **diện tích nhỏ nhất** của một hình vuông (các cạnh song song với trục tọa độ) sao cho tất cả các điểm đều nằm trong hoặc trên biên của hình vuông đó.
 
-### Output
-- Một số nguyên duy nhất — diện tích của hình vuông nhỏ nhất tìm được.
+**Input**
+- Dòng 1: số nguyên dương `n` (1 ≤ n ≤ 100000) — số điểm.
+- `n` dòng tiếp theo: mỗi dòng chứa hai số nguyên `x` và `y` (−10^9 ≤ x, y ≤ 10^9) — tọa độ một điểm.
+
+**Output**
+- Một số nguyên duy nhất — diện tích của hình vuông nhỏ nhất.
+
+**Ví dụ**
+
+***INPUT***
+
+```text
+3
+1 1
+3 2
+4 4
+
+```
+***OUTPUT***
+
+```text
+9
+```
 
 ---
 
-## Bài 2: Cặp số chia hết cho 3
+## Bài 2 — CẶP SỐ CHIA HẾT CHO 3
 
-Cho dãy số nguyên gồm **n** phần tử. Nhiệm vụ của bạn là đếm số cặp chỉ số \((i, j)\) với \(i < j\) sao cho tổng \(a[i] + a[j]\) chia hết cho 3.
+**Mô tả.**  
+Cho dãy `a1, a2, ..., an`. Một cặp chỉ số `(i, j)` với `i < j` được gọi là cặp đẹp nếu `(a[i] + a[j])` chia hết cho 3. Hãy đếm số cặp đẹp.
 
-### Input
-- Dòng đầu tiên: một số nguyên \(n\) \((1 \leq n \leq 10^5)\).  
-- Dòng tiếp theo: gồm \(n\) số nguyên \(a[i]\) \((0 \leq a[i] \leq 10^9)\).
+**Input**
+- Dòng 1: số nguyên dương `n` (1 ≤ n ≤ 100000).
+- Dòng 2: `n` số nguyên `a1 a2 ... an` (−10^9 ≤ ai ≤ 10^9).
 
-### Output
-- Một số nguyên duy nhất — số lượng cặp \((i, j)\) thỏa mãn điều kiện.
+**Output**
+- Một số nguyên duy nhất — số lượng cặp `(i, j)` thỏa điều kiện.
+
+**Ví dụ**
+
+***INPUT***
+
+```text
+5
+1 2 3 4 5
+
+```
+***OUTPUT***
+
+```text
+4
+```
