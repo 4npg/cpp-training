@@ -4,31 +4,23 @@ using namespace std;
 #define int64 long long
 #define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
 
-int n;int64 s;
-vector<int64>w;
-vector<int64>v;
-int64 ans;
-void Try(int i,int64 cw,int64 cv){
-    if(i==n){
-        if(cw<=s)ans = max(ans,cv);
-        return;
-    }
-    Try(i+1,cw,cv);
-    if(cw+w[i]<=s){
-        Try(i+1,cw+w[i],cv+v[i]);
-    }
-}
+int n,q;
 
 int32_t main(){
     ios::sync_with_stdio(0);cin.tie(0);
-    cin>>n>>s;
-    v.resize(n);w.resize(n);
+    cin>>n;
+    unordered_map<string,int> freq; 
     f0(i,0,n-1){
-        cin>>w[i]>>v[i];
+        string s;cin>>s;
+        freq[s]++;
     }
-    ans=0;
-    Try(0,0,0);
-    cout<<ans;
+    cin>>q;
+    while(q--){
+        string x;cin>>x;
+        if(freq.count(x)){
+            cout<<"YES\n";
+        }else cout<<"NO\n";
+    }
 }
 
 
