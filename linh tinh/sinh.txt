@@ -1,42 +1,7 @@
 5
-5 4 3 2 1   : CHIỀU CAO
-5 4 3 2 1   : ĐIỂM TB
-1 2 3 4 5   : INDEX HS
+2 2 3 6 1
 
+i = 3
 
-YC1: Sxep CHIỀU CAO TĂNG DẦN
-
-5 4 3 2 1 
-
-YC2: Sxep ĐIỂM TB GIẢM DẦN
-
-1 2 3 4 5
-
-
-5
-2  5 7 1  0    : CHIỀU CAO
-10 9 8 11 15   : ĐIỂM TB
-1  2 3 4  5    : INDEX HS
-
-
-YC1: Sxep CHIỀU CAO TĂNG DẦN
-
-5 4 1 2 3
-
-YC2: Sxep ĐIỂM TB GIẢM DẦN
-
-5 4 1 2 3
-
-
-10
-40 73 91 63 99 50 87 16 36 51   : CHIỀU CAO
-40 58 67 52 78 3  15 9  98 15   : ĐIỂM TB
-1  2  3  4  5  6  7  8  9  10   : INDEX HS
-
-YC1: Sxep CHIỀU CAO TĂNG DẦN
-
-8 9 1 6 10 4 2 7 3 5
-
-YC2: Sxep ĐIỂM TB GIẢM DẦN
-
-9 5 3 2 4 1 7 10 8 6
+6 
+2 1 3 4 1 4
