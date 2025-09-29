@@ -1,11 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const string NAME = "SEQ";
+const string NAME = "WATERFILL";
 const int NTEST = 30;
 
 mt19937_64 rd(chrono::steady_clock::now().time_since_epoch().count());
-#define rand rd
 
 long long Rand(long long L, long long R) {
     assert(L <= R);
@@ -13,7 +12,11 @@ long long Rand(long long L, long long R) {
 }
 
 void make_folder(const string& path) {
+#ifdef _WIN32
     string cmd = "mkdir " + path;
+#else
+    string cmd = "mkdir -p " + path;
+#endif
     system(cmd.c_str());
 }
 
@@ -28,27 +31,32 @@ int main() {
 
         ofstream inp(inpFile);
 
-        int n, q;
-        if (iTest <= 15) {
-            n = Rand(1, 100);
-            q = Rand(1, 100);
-        } else {
-            n = Rand(90000, 100000);
-            q = Rand(90000, 100000);
-        }
+        int n;
+        long long k;
+        //if (iTest <= 15) {
+            n = Rand(1, 100);            
+            k = Rand(1, 1000);
+        //} 
+        // else {
+        //     n = Rand(90000, 100000);      
+        //     k = Rand(1, 1000000000);
+        // }
 
-        inp << n << " " << q << "\n";
-        for (int i = 0; i < n; ++i)
-            inp << Rand(-1000000000, 1000000000) << " ";
-        inp << "\n";
-        for (int i = 0; i < q; ++i)
-            inp << Rand(1, 1000000000) << "\n";
+        inp << n << " " << k << "\n";
+        for (int i = 0; i < n; ++i) {
+            //inp << Rand(1, 1000000000) << (i+1==n?'\n':' ');
+            inp << Rand(1, 10000) << (i+1==n?'\n':' ');
+        }
         inp.close();
 
         system((NAME + ".exe").c_str());
         system((NAME + "_trau.exe").c_str());
 
+#ifdef _WIN32
         if (system(("fc " + outFile + " " + ansFile + " > nul").c_str()) != 0) {
+#else
+        if (system(("diff -w " + outFile + " " + ansFile).c_str()) != 0) {
+#endif
             cout << "Test " << iTest << ": WRONG!\n";
             string cmd = "copy " + inpFile + " " + NAME + "_WRONG_" + to_string(iTest) + ".inp";
             system(cmd.c_str());
@@ -69,18 +77,18 @@ int main() {
     if (allCorrect) {
         make_folder(NAME);
         for (int i = 1; i <= NTEST; ++i) {
-            string testFolder = NAME + "\\" + (i < 10 ? "0" : "") + to_string(i);
+            string testFolder = NAME + "/" + (i < 10 ? "0" : "") + to_string(i);
             make_folder(testFolder);
 
-            ofstream fout1(testFolder + "\\" + NAME + ".inp");
+            ofstream fout1(testFolder + "/" + NAME + ".inp");
             fout1 << inputs_outputs[i - 1].first;
             fout1.close();
 
-            ofstream fout2(testFolder + "\\" + NAME + ".out");
+            ofstream fout2(testFolder + "/" + NAME + ".out");
             fout2 << inputs_outputs[i - 1].second;
             fout2.close();
         }
-        cout << "✅ All tests correct! Test data saved in folder: " << NAME << "\\\n";
+        cout << "✅ All tests correct! Test data saved in folder: " << NAME << "/\n";
     }
 
     return 0;

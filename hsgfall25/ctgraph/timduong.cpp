@@ -1,16 +1,40 @@
 // author : anphung >> npkly
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-#define int64 long long
-#define TIME (1.0 * clock() / CLOCKS_PER_SEC)
-#define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
-#define file(name) if(fopen(name".inp","r")){ freopen(name".inp","r",stdin);freopen(name".out","w",stdout);}
+#define pb push_back
 
-int32_t main(){
-	ios::sync_with_stdio(0);cin.tie(0);
-	
+int n, m, S, T;
+vector<int> g[100005];
+int parent[100005];
+bool vis[100005];
 
-	cerr << "time elapsed: "<<TIME <<"s.\n";
+bool dfs(int u){
+    vis[u] = 1;
+    if(u == T) return 1;
+    for(int v : g[u]){
+        if(!vis[v]){
+            parent[v] = u;
+            if(dfs(v)) return 1;
+        }
+    }
+    return 0;
 }
 
-
+int main(){
+    ios::sync_with_stdio(0); cin.tie(0);
+    cin >> n >> m >> S >> T;
+    for(int i=0;i<m;i++){
+        int u,v; cin >> u >> v;
+        g[u].pb(v);
+        g[v].pb(u);
+    }
+    parent[S] = -1;
+    if(!dfs(S)){
+        cout << -1;
+        return 0;
+    }
+    vector<int> path;
+    for(int v=T; v!=-1; v=parent[v]) path.pb(v);
+    reverse(path.begin(), path.end());
+    for(int x : path) cout<<x<<" ";
+}
