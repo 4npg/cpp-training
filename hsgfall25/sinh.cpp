@@ -1,13 +1,10 @@
-/*
-    www.youtube.com/YugiHackerChannel
-    linktr.ee/YugiHacker
-*/
+// author : anphung >> npkly
+
 #include<bits/stdc++.h>
 #define el cout<<"\n"
 #define f0(i,n) for(int i=0;i<n;++i)
-#define f1(i,n) for(int i=1;i<=n;++i)
 #define maxn
-#define file "triple"
+#define file ""
 using namespace std;
 mt19937 rd(time(0));
 int Rand(int l, int r) {
@@ -15,7 +12,10 @@ int Rand(int l, int r) {
 }
 void sinh() {
     ofstream cout(file".inp");
-    cout << Rand(1, 100);
+
+    // viet sinh test o day
+
+    //cout << Rand(1, 100);
 }
 int main()
 {
