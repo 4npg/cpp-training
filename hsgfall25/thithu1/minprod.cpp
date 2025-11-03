@@ -1,3 +1,4 @@
+// author : anphung
 #include<bits/stdc++.h>
 using namespace std;
 #define file "minprod"
@@ -51,11 +52,11 @@ void sub2(){
     cand.erase(unique(cand.begin(), cand.end()), cand.end());
 
     int64 ans = LLONG_MIN;
-    for (int i = 0; i < (int)cand.size(); i++) {
-        for (int j = i + 1; j < (int)cand.size(); j++) {
+    f0(i,0,(int)cand.size()-1){
+        f0(j,i+1,(int)cand.size()-1){
             int u = cand[i], v = cand[j];
-            int64 val = min(a[u] * a[v], b[u] * b[v]);
-            ans = max(ans, val);
+            int64 val = min(a[u]*a[v],b[u]*b[v]);
+            ans = max(ans,val);
         }
     }
 
@@ -70,10 +71,7 @@ int32_t main(){
     cin>>n;
     f0(i,0,n-1)cin>>a[i];
     f0(i,0,n-1)cin>>b[i];
-    /*
     if(n<=3000)sub1();
     else sub2();
-    */
-    sub2();
     cerr <<'\n'<< "time elapsed: "<<TIME <<"s.\n";
 }

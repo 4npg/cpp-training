@@ -6,6 +6,9 @@ using namespace std;
 #define fast ios_base::sync_with_stdio(false); cin.tie(nullptr)
 #define FOR(i,a,b) for(ll (i)=(a);i<=(b);++i)
 #define fi first
+#define se second
+
+
 const ll maxn = 1e7;
 ll a[maxn];
 int32_t main() {

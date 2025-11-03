@@ -3,7 +3,6 @@
 #include<bits/stdc++.h>
 #define el cout<<"\n"
 #define f0(i,n) for(int i=0;i<n;++i)
-#define maxn
 #define file ""
 using namespace std;
 mt19937 rd(time(0));
@@ -13,9 +12,6 @@ int Rand(int l, int r) {
 void sinh() {
     ofstream cout(file".inp");
 
-    // viet sinh test o day
-
-    //cout << Rand(1, 100);
 }
 int main()
 {
