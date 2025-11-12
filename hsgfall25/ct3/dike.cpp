@@ -9,27 +9,15 @@ using namespace std;
 int64 n;
 int64 ans;
 
-bool safe_mul(int64 a,int64 b,int64 limit){
-	if(a==0)return 1;
-	return b<=limit/a;
-}
 
 bool ok(int64 k, int64 n) {
-    int64 x = k, y = k + 1, z = k + 2;
+    int64 x = k, y = k + 1, z = k + 5;
 
-    if (x % 2 == 0) x /= 2;
-    else if (y % 2 == 0) y /= 2;
-    else z /= 2;
+    if(x>6*(n+1)/y)return false;
 
-    if (x % 3 == 0) x /= 3;
-    else if (y % 3 == 0) y /= 3;
-    else z /= 3;
+    if(x*y>6*(n+1)/z)return false;
 
-    if (!safe_mul(x, y, n)) return false;
-    int64 xy = x * y;
-    if (!safe_mul(xy, z, n)) return false;
-
-    return xy * z <= n;
+    return x*y*z<=6*(n+1);
 }
 
 int32_t main(){
@@ -38,10 +26,10 @@ int32_t main(){
 
 
 	cin>>n;
-	int64 lo = 0, hi = 2000000;
+	int64 lo = 0, hi = 3e6;
 
 	while (lo <= hi) {
-        int64 mid = lo + (hi - lo) / 2;
+        int64 mid = (lo+hi)/ 2;
         if (ok(mid, n)) {
             ans = mid;
             lo = mid + 1;
