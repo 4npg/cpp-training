@@ -10,6 +10,8 @@ int n,k,s;
 
 int32_t main(){
     ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    freopen(file".inp","w",stdin);
+    freopen(file".out","w",stdout);
     cin>>n>>s>>k;
 
     vector<int> L(n+1), R(n+1);

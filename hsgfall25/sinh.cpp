@@ -2,8 +2,9 @@
 
 #include<bits/stdc++.h>
 #define el cout<<"\n"
+#define int64 long long
 #define f0(i,n) for(int i=0;i<n;++i)
-#define file ""
+#define file "SORT"
 using namespace std;
 mt19937 rd(time(0));
 int Rand(int l, int r) {
@@ -11,7 +12,12 @@ int Rand(int l, int r) {
 }
 void sinh() {
     ofstream cout(file".inp");
-
+    int n = Rand(2,1000000);
+    cout<<n<<'\n';
+    f0(i,n){
+        int64 a = Rand(-1000000000,1000000000);
+        cout<<a<<" ";
+    }
 }
 int main()
 {
