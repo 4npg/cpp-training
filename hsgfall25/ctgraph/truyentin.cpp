@@ -10,7 +10,7 @@ using namespace std;
 int n,m;
 const int maxn = 2e5+5;
 vector<int> a[maxn];
-int dist[maxn];
+int d[maxn];
 
 
 int32_t main(){
@@ -21,22 +21,26 @@ int32_t main(){
 		a[u].pb(v);a[v].pb(u);
 	}	
 
-	memset(dist,-1,sizeof(dist));
+	memset(d,-1,sizeof(d));
 	queue<int> que;
 	que.push(1);
-	dist[1] = 0;
+	d[1] = 0;
 
 	while(!que.empty()){
 		int u = que.front();que.pop();
+		// for(auto &x:a[u])cout<<x<<" ";
+		// cout<<'\n';
 		for(int v:a[u]){
-			if(dist[v]==-1){
-				dist[v] = dist[u]+1;
+			if(d[v]==-1){
+				d[v] = d[u]+1;
+				//cout<<u<<" "<<d[u]<<" : "<<v<<" "<<d[v]<<'\n';
 				que.push(v);
 			}
 		}
 	}
-	if(dist[n]==-1)cout<<-1;
-	else cout<<dist[n]+1;
+	//cout<<"res = "<<" : ";
+	if(d[n]==-1)cout<<-1;
+	else cout<<d[n]+1;
 	cerr << "time elapsed: "<<TIME <<"s.\n";
 }
 
