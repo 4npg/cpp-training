@@ -7,41 +7,23 @@ using namespace std;
 #define file(name) if(fopen(name".inp","r")){ freopen(name".inp","r",stdin);freopen(name".out","w",stdout);}
 #define maxn 100005
 
-int n;
-int64 a[maxn], k;
+int n,s;
+int w[maxn], v[maxn];
+int64 dp[maxn];
 
-int64 check(int64 mid){
-    int64 len = 1, x = a[0];
-
-    f0(i,0,n-1){
-        if(a[i]-x>=mid){
-            len++;
-            x = a[i];
-        }
-    }
-    return len;
-}
 
 int32_t main(){
     ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
     
-    cin>>n>>k;
-    f0(i,0,n-1)cin>>a[i];
-
-    sort(a,a+n);
-    int cnt=0;
-    int64 lo = 0, hi = 1e9;
-    int64 ans = -1;
-    while(lo <= hi){
-        int64 mid = lo + ((hi-lo)>>1);
-        if(check(mid)>=k){
-            lo = mid + 1;
-        }else hi = mid - 1;
-        cnt++;
-        cerr<<cnt<<" "<<mid<<" "<<check(mid)<<'\n';
-    }        
-    cout<<hi;
-    cerr<<'\n'<<cnt;
+    cin>>n>>s;    
+    f0(i,1,n)cin>>w[i]>>v[i];
+    dp[0] = 0;
+    f0(i,1,n){
+        for(int j = s; j>=w[i]; j--){
+            dp[j] = max(dp[j], dp[j-w[i]]+v[i]);
+        }
+    }
+    cout<<dp[s];
     cerr << "time elapsed: "<<TIME <<"s.\n";
 }
 
