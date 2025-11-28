@@ -25,7 +25,7 @@ int32_t main(){
 	vector<int64> dp(n+1,LLONG_MIN);
 	dp[0] = 0;
 	deque<int> dq;
-	int64 ans = LLONG_MIN;
+	int64 ans = 0;
 
 	dq.pb(0);
 
