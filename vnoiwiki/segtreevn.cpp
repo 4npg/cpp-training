@@ -7,39 +7,57 @@ using namespace std;
 #define file(name) if(fopen(name".inp","r")){ freopen(name".inp","r",stdin);freopen(name".out","w",stdout);}
 #define maxn 200005
 
+
 int n,q;
+int64 a[maxn], t[maxn*4];
 
-int64 a[maxn];
-
-void build(int id, int l, int r){
-	if(l==r){
+void build(int id, int l, int r){	
+	if(l == r){
 		t[id] = a[l];
-		return; 
+		return;
 	}
-	int mid = l + (r-l)/2;
+
+	int mid = (l+r)/2;
 	build(id*2, l, mid);
 	build(id*2+1, mid+1, r);
-	t[id] = t[id*2] + t[id*2 + 1]; 
+	t[id] = t[id*2] + t[id*2+1];
 }
 
-int get(int id, int l, int r, int u, int v){
-	if(l==r){
-		td[id] = a[l];
-	}
+int64 get(int id, int l, int r, int u, int v){
+	if(r<u || v<l)return 0;
+	if(l<=u && v<=r)return t[id];
+
+	int mid = (l+r)/2;
+	int64 tl = get(id*2, l, mid, u, v);
+	int64 tr = get(id*2+1, r, mid+1, u, v);
+	return tl + tr;
 }
-void update(int id, int l, int r, int i, int x){
+
+void update(int id, int l, int r, int p, int x){
 	if(l==r){
 		t[id] = x;
 		return;
 	}
-	int mid = l + (r-l)/2;
-	if(i<=mid)update(id*2, l, mid, i, x);
-	else update(id*2, mid+1, r, i, x);
+	int mid = (l+r)/2;
+	update(id*2, l, mid, p, x);
+	update(id*2+1, mid+1, r, p, x);
+	t[id] = t[id*2] + t[id*2+1];
 }
 
 int32_t main(){
-	ios::sync_with_stdio(0);cin.tie(0);
-		
+	ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+	
+	cin>>n>>q;
+	f0(i, 0, n-1)cin>>a[i];
+
+	build(1, 1, n);
+
+	while(q--){
+		int t, u, v;
+		cin>>t>>u>>v;
+		if(t==1)update(1, 1, n, u, v);
+		else cout<<get(1, 1, n, u, v)<<'\n';
+	}
 
 	cerr << "time elapsed: "<<TIME <<"s.\n";
 }

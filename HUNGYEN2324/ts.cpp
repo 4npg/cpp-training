@@ -1,41 +1,55 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define ll long long
-#define TASK "tenbai"
-#define endl "\n"
-#define fast ios_base::sync_with_stdio(false); cin.tie(nullptr)
-#define FOR(i,a,b) for(ll (i)=(a);i<=(b);++i)
-#define LOCAL
+#define int64 long long
+#define f0(i,a,b) for(int i=(a); i<=(b); ++i)
+#define maxn 10
+#define inf 1e9
 
-#ifdef LOCAL
-  #define dbg(x) do { cerr << "[" << #x << "] = " << (x) << '\n'; } while(0)
-#else
-  #define dbg(x) do {} while(0)
-#endif
+int n;
+int a[maxn][maxn];
+int64 ans = -inf;
+bool vis[maxn]; 
 
-const ll maxn = 1e7*1ll;
-ll a[maxn];
-int32_t main() {
-    fast;
-    if (fopen(TASK ".inp", "r")) {
-        freopen(TASK ".inp", "r", stdin);
-        freopen(TASK ".out", "w", stdout);
+int maR[maxn];
+
+void Try(int r, int64 cur) {
+    if (r == n) {
+        if (cur > ans) {
+            ans = cur;
+        }
+        return;
     }
-    ll n; ll k;
-	cin >> n; cin >> k;
-	for (ll i = 0; i <n; i++)cin >> a[i];
-	
 
-	ll d = 0;
-	for (ll i = 0; i <n; i++) {
-		ll sum = a[i];
-		for (ll j = i+1; j <n; i++) {
-			sum+=a[j];
-			if (sum%k==0) d++;
-		}
-	}
-	cout << d;
+    int64 rmain = 0;
+    f0(i,r,n-1) rmain += maR[i];
+    if (cur + rmain <= ans) return; 
 
+    f0(c,0,n-1){
+        if(!vis[c]){
+            vis[c] = 1; 
+            Try(r+1, cur + a[r][c]);
+            vis[c] = 0;
+        }
+    }
 }
 
+int main() {
+    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    cin >> n;
+    f0(i,0,n-1){
+        f0(j,0,n-1) 
+            cin>>a[i][j];
+    }
 
+    f0(i,0,n-1){
+        maR[i] = *max_element(a[i], a[i]+n);
+    }
+
+    // f0(i, 0, n-1){
+    //     cout<<maR[i]<<" ";
+    // }
+    // cout<<'\n';
+    Try(0, 0);
+
+    cout<<ans;
+}

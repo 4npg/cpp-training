@@ -10,22 +10,26 @@ using namespace std;
 int n,d;
 int64 a[maxn];
 int64 pre[maxn];
+int64 ans;
 
 int32_t main(){
     ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
     
     cin>>n>>d;
     pre[0] = 0;
-    f0(i, 0, n-1){
+    f0(i, 1, n){
         cin>>a[i];
-        pre[i+1] = pre[i] + a[i];
+        pre[i] = pre[i-1] + a[i];
     }
 
-    f0(i,0,n-1){
-        f0(j, i+1, n-1){
-            cerr<<i<<" "<<j<<" "<<pre[j] - pre[i-1]<<'\n';
-        }
+    map<int64, int> mp;
+
+    f0(r, 1, n){
+        mp[(pre[r-1]%d+d)%d]++;
+        ans += mp[(pre[r]%d+d)%d];
     }
+
+    cout<<ans;
 
     cerr << "time elapsed: "<<TIME <<"s.\n";
 }
