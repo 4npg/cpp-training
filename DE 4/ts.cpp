@@ -38,18 +38,20 @@ void thuong(int n, int m){
     cin>>n>>m;
 }
 int main(){
-    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    int m,n;
-    cin>>n>>m;
-    if(n==m){
-        cout<<0;
-        return 0;
+    string s;
+     getline(cin,s);
+    ll n = s.size(), res = 0;
+    vector<ll> pre(n+1,0);
+    for(int i=0; i<n; ++i)
+    {
+        if(s[i] == '0') pre[i+1] = pre[i] - 1;
+        else pre[i+1] = pre[i] + 1;
     }
-    auto nto = sang(n);
-    int ans = 0;
-    for (int p : nto) {
-        ll e = vp(n, p) - vp(m, p) - vp(n - m, p);
-        if (e > 0) ans++;
+    unordered_map<ll ,ll> cnt;
+    for(int i = 1; i<=n+1; ++i){
+        res += cnt[pre[i]];
+        cnt[pre[i-1]]++;
     }
-    cout << ans << '\n';
+    cout << res;
+
 }

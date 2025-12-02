@@ -1,30 +1,19 @@
-#include <bits/stdc++.h>
+// author : anphung
+#include<bits/stdc++.h>
 using namespace std;
 #define int64 long long
-#define file "task"
-int n, k;
-vector<int64> a;
+#define file ""
+#define TIME (1.0 * clock() / CLOCKS_PER_SEC)
+#define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
 
-int64 dfs(int pos, int last){
-    if(pos > n) return 0;
-    int64 res = 0;
+int a, b;
 
-    res = dfs(pos+1, last);
+int32_t main(){
+    ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    freopen(file".inp","w",stdin);
+    freopen(file".out","w",stdout);
 
-    if(last == -1 || pos > last && pos <= last + k){
-        res = max(res, a[pos] + dfs(pos+1, pos));
-    }
-
-    return res;
-}
-
-int main(){
-    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    freopen(file".inp","r",stdin);
-    freopen(file".ans","w",stdout);
-    cin >> n >> k;
-    a.resize(n+1);
-    for(int i=1;i<=n;i++) cin >> a[i];
-
-    cout << dfs(1, -1);
+    cin>>a>>b;
+    cout<<a+b;
+    cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }

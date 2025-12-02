@@ -1,46 +1,43 @@
 // author : anphung
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-#define file "task"
-#define int64 long long
-#define f0(i,a,b) for(int (i) = (a); (i) <= (b); ++i)
-#define TIME (1.0*clock()/CLOCKS_PER_SEC)
 
-mt19937 rd(time(0));
-int Rand(int l, int r){
-    return l + rd()%(r-l+1);
+#define TASK_NAME "A_plus_B"
+
+mt19937 rd(chrono::steady_clock::now().time_since_epoch().count());
+long long Rand(long long l, long long r) {
+    return l + rd() % (r - l + 1);
 }
 
-int64 Rand64(int64 l, int64 r){
-    return l + rd()%(r-l+1);
+void generate_test(ofstream &fin, long long &a, long long &b) {
+    a = Rand(1, 1000000000);
+    b = Rand(1, 1000000000);
+    fin << a << " " << b << "\n";
 }
-void sinh(){
-    ofstream cout(file".inp");
 
-    int n = Rand(1,100000);
-    int k = Rand(1,100000);
-    cout<<n<<" "<<k<<'\n';
+int32_t main() {
 
-    f0(i,0,n-1){
-        int64 a = Rand64(1,1000000000);
-        cout<<a<<" ";
-    }
-}
-int32_t main(){
+    string task_name = TASK_NAME;
+    system(("mkdir " + task_name).c_str());
 
-    f0(i,1,10000000){
-        sinh();
-        system(file);
-        system(file"_trau");
+    for (int i = 1; i <= 30; i++) {
+        char buf[10];
+        sprintf(buf, "test%02d", i); // test01 ... test30
+        string test_folder = task_name + "\\" + buf;
 
-        cout<<"Test "<<i<<" ";
+        system(("mkdir " + test_folder).c_str());
 
-        if(system("fc " file".out " file".ans")){
-            cout<<"Wrong";
-            break;
-        }
-        cout<<"Correct\n";
+        string inp = test_folder + "\\" + task_name + ".inp";
+        string out = test_folder + "\\" + task_name + ".out";
+
+        long long a, b;
+
+        ofstream fi(inp);
+        generate_test(fi, a, b);
+
+        ofstream fo(out);
+        fo << (a + b) << "\n";
     }
 
-    cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
+    return 0;
 }
