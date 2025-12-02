@@ -5,10 +5,11 @@ using namespace std;
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
 #define file(name) freopen(name".inp","r",stdin);freopen(name".out","w",stdout);
-#define maxn 200005
+#define maxn 100005
+#define inf 1e9
 
-int n, q;
-int64 a[maxn], t[maxn*4];
+int n,q;
+int64 a[maxn], t[maxn*4], lazy[maxn*4];
 
 void build(int id, int l, int r){
 	if(l == r){
@@ -20,47 +21,66 @@ void build(int id, int l, int r){
 	build(id*2, l, mid);
 	build(id*2+1, mid+1, r);
 
-	t[id] = t[id*2] + t[id*2+1];
+	t[id] = min(t[id*2], t[id*2+1]);
 }
 
-void update(int id, int l, int r, int p, int64 x){
-	if(l == r){
-		t[id] = x;
+void push(int id){
+
+	lazy[id*2] += lazy[id];
+	t[id*2] += lazy[id];
+
+	lazy[id*2+1] += lazy[id];
+	t[id*2+1] += lazy[id];
+
+	lazy[id] = 0;
+}
+
+void update(int id, int l, int r, int u, int v, int64 x){
+	if(v<l || r<u)return;
+	if(u<=l && r<=v){
+		t[id] += x;
+		lazy[id] += x;
 		return;
 	}
 
 	int mid = (l+r)/2;
-	if(p<=mid)update(id*2, l, mid, p, x);
-	else update(id*2+1, mid+1, r, p, x);
+	push(id);
 
-	t[id] = t[id*2] + t[id*2+1];
+	update(id*2, l, mid, u, v, x);
+	update(id*2+1, mid+1, r, u, v, x);
+
+	t[id] = min(t[id*2], t[id*2+1]);
 }
 
+
 int64 get(int id, int l, int r, int u, int v){
-	if(r<u || v<l)return 0;
+	if(v<l || r<u)return inf;
 	if(u<=l && r<=v){
 		return t[id];
 	}
 
 	int mid = (l+r)/2;
+	push(id);
 	int64 tl = get(id*2, l, mid, u, v);
 	int64 tr = get(id*2+1, mid+1, r, u, v);
-	return tl + tr;
-}
 
+	return min(tl, tr);
+}
 int32_t main(){
 	ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 	
-	cin>>n>>q;		
+	cin>>n>>q;
 	f0(i, 1, n)cin>>a[i];
 
-	build(1, 1, n); 
+	build(1, 1, n);
 
 	while(q--){
-		int t, u, v;
-		cin>>t>>u>>v;
-		if(t==1)update(1, 1, n, u, v);
-		else cout<<get(1, 1, n, u , v)<<'\n';
+		int t, l, r;
+		cin>>t>>l>>r;
+		if(t==1){
+			int64 x; cin>>x;
+			update(1, 1, n, l, r, x);
+		}else cout<<get(1, 1, n, l, r)<<'\n';
 	}
 
 	cerr << "time elapsed: "<<TIME <<"s.\n";
