@@ -8,7 +8,7 @@ using namespace std;
 #define maxn 1000006
 
 int n, m;
-int a[maxn], t[maxn*4], lazy[maxn*4];
+int a[maxn], t[maxn*4];
 
 void build(int id, int l, int r){
 	if(l == r){
@@ -18,57 +18,49 @@ void build(int id, int l, int r){
 
 	int mid = (l+r)/2;
 	build(id*2, l, mid);
-	build(id*2, mid+1, r);
-	t[id] = 
+	build(id*2+1, mid+1, r);
+	t[id] = t[id*2] + t[id*2+1];
 }
 
 
-void push(int id){
-	lazy[id*2] += lazy[id];
-	t[id*2] += lazy[id];
-
-	lazy[id*2+1] += lazy[id];
-	t[id*2+1] += lazy[id];
-
-	lazy[id] = 0;
-}
-
-
-void update(int id, int l, int r, int p, int x){
+void update(int id, int l, int r, int p){
 	if(l == r){
-		t[id] = x;
+		a[l] ^=1;
+		t[id] = a[l];
 		return ;
 	}
 
 	int mid = (l+r)/2;
-	push(id);
 
-	if(p<=mid)update(id*2, l, mid, p, x);
-	else update(id*2+1, mid+1, r, p, x);
+	if(p<=mid)update(id*2, l, mid, p);
+	else update(id*2+1, mid+1, r, p);
 
-	t[id] = 
+	t[id] = t[id*2] + t[id*2+1];
 }
 
-int64 get(int id, int l, int r, int k, int x){
-	
+int get(int id, int l, int r, int k){
+	if(l == r)return l;
+
+	int mid = (l+r)/2;
+	int cnt = t[id*2];
+	if(k<=cnt)return get(id*2, l, mid, k);
+	else return get(id*2+1, mid+1, r, k-cnt);
 }
 
 int32_t main(){
-	ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	
 	cin>>n>>m;
 	f0(i, 1, n)cin>>a[i];
 
 	build(1, 1, n);	
 
-	while(q--){
-		int type;
-		cin>>type;
+	while(m--){
+		int type, i;
+		cin>>type>>i;
 		if(type == 1){
-			int i;
-			int x = ((t[i]==1)?0:1);
-			update(1, 1, n, i, x);
-		}else cout<<get(1, 1, n, k, 1);
+			update(1, 1, n, i);
+		}else cout<<get(1, 1, n, i)<<'\n';
 	}
 	cerr << "time elapsed: "<<TIME <<"s.\n";
 }

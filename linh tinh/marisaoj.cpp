@@ -5,78 +5,44 @@ using namespace std;
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
 #define file(name) freopen(name".inp","r",stdin);freopen(name".out","w",stdout);
+#define pb push_back
 #define maxn 100005
-#define inf 1e9
+#define fi first
+#define se second
+int n, m, x, y;
+vector<int> g[maxn];
 
-int n, q;
-int64 a[maxn], t[maxn*4], lazy[maxn*4];
-
-void build(int id, int l, int r){
-    if(l == r){
-        t[id] = a[l];
-        return;
-    }
-
-    int mid = (l+r)/2;
-    build(id*2, l, mid);
-    build(id*2+1, mid+1, r);
-    t[id] = max(t[id*2], t[id*2+1]);
-}
-
-void push(int id){
-
-    lazy[id*2] += lazy[id];
-    t[id*2] += lazy[id];
-
-    lazy[id*2+1] += lazy[id];
-    t[id*2+1] += lazy[id];
-
-    lazy[id] = 0;
-}
-
-void update(int id, int l, int r, int u, int v, int64 x){
-    if(v<l || r<u)return ;
-    if(u<=l && r<=v){
-        t[id] += x;
-        lazy[id] += x;
-        return;
-    }
-
-    int mid = (l+r)/2;
-    push(id);
-    update(id*2, l, mid, u, v, x);
-    update(id*2+1, mid+1, r, u, v, x);
-    t[id] = max(t[id*2], t[id*2+1]);
-}
-
-int64 get(int id, int l, int r, int u, int v){
-    if(v<l || r<u)return -inf;
-    if(u<=l && r<=v){
-        return t[id];
-    }
-
-    int mid = (l+r)/2;
-    push(id);
-
-    int64 tl = get(id*2, l, mid, u, v);
-    int64 tr = get(id*2+1, mid+1, r, u, v);
-    return max(tl, tr);
-}
 
 int32_t main(){
-    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
     
-    cin>>n>>q;
-    build(1, 1, n);
-
-    while(q--){
-        int t, x, y;
-        cin>>t>>x>>y;
-        if(t==0){
-            int64 k; cin>>k;
-            update(1, 1, n, x, y, k);
-        }else cout<<get(1, 1, n, x, y)<<'\n';
+    cin>>n>>m>>x>>y;
+    vector< vector<int> > d(n+1, vector<int>(2, -2));
+    f0(i, 0, m-1){
+        int u, v;
+        cin>>u>>v;
+        g[u].pb(v);
+        g[v].pb(u);
     }
+
+    queue< pair<int, int> > q;
+    q.push({x, 0});
+    d[x][0] = 0;
+    while(!q.empty()){
+        int u = q.front().fi;
+        int k = q.front().se;
+        q.pop();
+
+        for(auto &v:g[u]){
+            if(d[v][1-k] == -2){
+                d[v][1-k] = d[u][k]+1;
+                q.push({v, 1-k});
+            }
+        }
+    }
+    
+    cout<<d[y][0]/2;
+
     cerr << "time elapsed: "<<TIME <<"s.\n";
 }
 

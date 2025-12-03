@@ -1,1 +1,4 @@
-2 1 2 3
+1 l r v
+: Nhân đoạn từ l đến r lên một lượng là v.
+2 l r
+: Tính tổng các số từ al đến ar.
