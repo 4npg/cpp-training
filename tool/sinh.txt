@@ -1,4 +1,4 @@
-1 l r v
-: Nhân đoạn từ l đến r lên một lượng là v.
-2 l r
-: Tính tổng các số từ al đến ar.
+
+1 l r v: Với mọi ai thoả mãn l≤i≤r, gán ai=ai|v (Phép bitwise OR)
+2 l r: Tính al & al+1 & ... & ar−1 & ar (Phép bitwise AND)
+Với mỗi truy vấn loại 2, in ra kết quả trên một dòng.
