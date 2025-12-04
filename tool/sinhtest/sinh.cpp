@@ -1,43 +1,42 @@
 // author : anphung
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
+#define int64 long long
+#define file "task"
+#define TIME (1.0 * clock() / CLOCKS_PER_SEC)
+#define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
 
-#define TASK_NAME "A_plus_B"
+mt19937 rd(time(0));
 
-mt19937 rd(chrono::steady_clock::now().time_since_epoch().count());
-long long Rand(long long l, long long r) {
-    return l + rd() % (r - l + 1);
+int Rand(int l, int r){
+    return l + rd()%(r-l+1);
 }
 
-void generate_test(ofstream &fin, long long &a, long long &b) {
-    a = Rand(1, 1000000000);
-    b = Rand(1, 1000000000);
-    fin << a << " " << b << "\n";
-}
+void sinh(){
+    ofstream fuck(file".inp");
+    int t = Rand(1, 100);
+    fuck<<t<<'\n';
 
-int32_t main() {
-
-    string task_name = TASK_NAME;
-    system(("mkdir " + task_name).c_str());
-
-    for (int i = 1; i <= 30; i++) {
-        char buf[10];
-        sprintf(buf, "test%02d", i); // test01 ... test30
-        string test_folder = task_name + "\\" + buf;
-
-        system(("mkdir " + test_folder).c_str());
-
-        string inp = test_folder + "\\" + task_name + ".inp";
-        string out = test_folder + "\\" + task_name + ".out";
-
-        long long a, b;
-
-        ofstream fi(inp);
-        generate_test(fi, a, b);
-
-        ofstream fo(out);
-        fo << (a + b) << "\n";
+    while(t--){
+        int l = Rand(1, 3000006);
+        int r = Rand(l, 3000006);
+        fuck<<l<<" "<<r<<'\n';
     }
 
-    return 0;
+}
+int32_t main(){
+
+    f0(i,1,100000){
+        sinh();
+        system(file);
+        system(file"_trau");
+
+        if(system("fc " file".out " file".ans")){
+            cout<<"Wrong";
+            break;
+        }
+        cout<<"Correct\n";
+    }
+
+    cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }
