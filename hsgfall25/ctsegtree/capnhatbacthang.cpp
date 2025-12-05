@@ -19,9 +19,9 @@ void apply(int id, int l, int r, int64 a, int64 b){
     lazyB[id] += b;
 }
 
-void push(int id, int l, int r){
+inline void push(int id, int l, int r){
+    if (l == r) return; 
     if(lazyA[id] == 0 && lazyB[id] == 0) return;
-
     int mid = (l+r)/2;
     apply(id*2, l, mid, lazyA[id], lazyB[id]);
     apply(id*2+1, mid+1, r, lazyA[id], lazyB[id]);
