@@ -1,0 +1,10 @@
+{
+    "linters": {
+        "gcc": {
+            "args": ["-std=c++17"],
+            "executable": "g++",
+            "working_dir": "$folder",
+            "lint_mode": "background"
+        }
+    }
+}
