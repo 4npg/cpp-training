@@ -14,13 +14,13 @@ int Rand(int l, int r){
 
 void sinh(){
     ofstream fuck(file".inp");
-    int t = Rand(1, 100);
-    fuck<<t<<'\n';
+    int n = Rand(1, 10004);
 
-    while(t--){
-        int l = Rand(1, 3000006);
-        int r = Rand(l, 3000006);
-        fuck<<l<<" "<<r<<'\n';
+    fuck<<n<<'\n';
+
+    f0(i, 0, n-1){
+        int a = Rand(1, 1000);
+        fuck<<a<<" ";
     }
 
 }
