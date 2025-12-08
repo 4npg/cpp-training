@@ -7,12 +7,24 @@ using namespace std;
 #define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
 #define maxn 10004
 
-int n;
-int64 a[maxn];
-int64 cnt = 0;
+int n, m;
 
-bool pwo2(int n){
-    return (n&(n-1))==0;
+int64 factor(int64 n){
+    if(n==0 || n == 1)return 1;
+    return n*factor(n-1);
+}
+
+int cnt(int64 n){
+    int d = 0;
+    for(int i=2; i<=n; i++){
+        if(n%i==0){
+            while(n%i==0){
+                n/=i;
+            }
+            d++;
+        }
+    }
+    return d;
 }
 
 int32_t main(){
@@ -20,18 +32,9 @@ int32_t main(){
     freopen(file".inp","r",stdin);
     freopen(file".ans","w",stdout);
 
-    cin>>n;
-    f0(i, 0, n-1)cin>>a[i];
+    cin>>n>>m;
 
-    f0(i, 0, n-1){
-        f0(j, i+1, n-1){
-            if(pwo2(a[i]+a[j])){
-                cnt++;
-            }
-        }
-    }
-
-    cout<<cnt;
+    cout<<cnt(factor(n)/(factor(m)*(factor(n-m))));
 
     cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }

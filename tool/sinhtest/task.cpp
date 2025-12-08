@@ -1,25 +1,52 @@
-#include<iostream>
-#include<algorithm>
-#include<vector>
-#define file "task"
+// author : anphung
+#include<bits/stdc++.h>
 using namespace std;
-short n;
-int s,c=0;
-int main(){
-    ios_base::sync_with_stdio(0);cin.tie(0);
-    freopen(file".inp","r",stdin);
-    freopen(file".out","w",stdout);
-    cin>>n;
-    int a[n];
-    vector<int> lt={2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536,131072,262144,524288,1048576,2097152,4194304,8388608,16777216,33554432,67108864,134217728,268435456,536870912,1073741824};
-    for(short i=0;i<n;++i)
-        cin>>a[i];
-    for(short i=0;i<n-1;++i)
-        for(short j=i+1;j<n;++j){
-            s=a[i]+a[j];
-            auto it=binary_search(lt.begin(),lt.end(),s);
-            if(it)
-                c++;
-        }
-    cout<<c;
+#define int64 long long
+#define TIME (1.0 * clock() / CLOCKS_PER_SEC)
+#define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
+#define file(name) freopen(name".inp","r",stdin);freopen(name".out","w",stdout);
+#define maxn 1000006
+#define pb push_back
+
+int64 n,m;
+bool d[maxn];
+
+void sang(){
+	d[0] = d[1] = 1;
+
+	for(int64 i=2; 1ll*i*i<n; i++){
+		if(d[i] == 0){
+			for(int64 j = i; j<maxn; j+=i)d[j] = 1;
+		}
+	}
 }
+
+int64 legendre(int64 n, int64 p){
+	int64 cnt = 0;
+	while(n){
+		cnt+=n/p;
+		n/=p;
+	}
+	return cnt;
+}
+
+int32_t main(){
+	ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    file("task");
+	cin>>n>>m;
+
+	vector<int64> nto;
+	f0(i,2,n){
+		if(!d[i])nto.pb(i);
+	}
+
+	int64 ans = 0;
+	for(auto &p:nto){
+		int exp = legendre(n, p) - legendre(m, p) - legendre(n-m, p);
+		ans += ((exp>0)?1:0);
+	}
+	cout<<ans;
+	cerr << "time elapsed: "<<TIME <<"s.\n";
+}
+
+
