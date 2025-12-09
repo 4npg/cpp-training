@@ -11,7 +11,7 @@ int k;
 
 bool getcnt(int64 x, int k){
     int prev = -1;
-    int cnt = 0;
+    int cnt = 0;==
     while(x > 0){
         int d = x % 10;
         x /= 10;
@@ -29,7 +29,7 @@ bool getcnt(int64 x, int k){
 
 int32_t main(){
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    
+
 
     cin>>a>>b>>k;
     int c = 0;
