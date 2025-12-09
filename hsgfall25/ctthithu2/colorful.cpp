@@ -1,65 +1,50 @@
 // author : anphung
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 #define int64 long long
-#define file "remk"
-#define f0(i,a,b) for(int i=(a); i<=(b); ++i)
-#define TIME (1.0*clock()/CLOCKS_PER_SEC)
+#define TIME (1.0 * clock() / CLOCKS_PER_SEC)
+#define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
+#define file(name) freopen(name".inp","r",stdin);freopen(name".out","w",stdout);
 
 int n;
 string s;
 
-void sub1(){
-    double mind = 1e9;
-    int lans=1, rans=1;
-    f0(l,0,n-1){
-        set<char> sub;
-        f0(r,l,n-1){
-            sub.insert(s[r]);
-            int len = r-l+1;
-            int cnt = sub.size();
-            double d = (double)cnt / len;
-            if(d < mind){
-                mind = d;
-                lans = l+1;
-                rans = r+1;
+int32_t main(){
+    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+        
+    cin>>n>>s;
+    double best = 1e18;
+    int L = 1, R = n;
+
+    for (int l = 0; l < n; l++) {
+        for (int r = l; r < n; r++) {
+
+            
+            int cnt = 0;
+            vector<int> seen(26, 0);
+
+            for (int i = l; i <= r; i++) {
+                int c = s[i] - 'a';
+                if (!seen[c]) {
+                    seen[c] = 1;
+                    cnt++;
+                }
+            }
+
+            int len = r - l + 1;
+            double color = (double)cnt / len;
+
+            if (color < best) {
+                best = color;
+                L = l + 1;
+                R = r + 1;
             }
         }
     }
-    cout << lans << " " << rans << "\n";
-}
 
-void sub2(){
-    int freq[256] = {0};
-    int unique = 0;
-    int l = 0, lans=1, rans=1;
-    double mind = 1e9;
+    cout << L << " " << R;
 
-    for(int r=0; r<n; r++){
-        if(freq[s[r]]==0) unique++;
-        freq[s[r]]++;
-
-        double d = (double)unique / (r-l+1);
-        if(d < mind){
-            mind = d;
-            lans = l+1;
-            rans = r+1;
-        }
-    }
-
-    cout << lans << " " << rans << "\n";
+    cerr << "time elapsed: "<<TIME <<"s.\n";
 }
 
 
-int32_t main(){
-    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    freopen(file".inp","r",stdin);
-    //freopen(file".out","w",stdout);
-    cin>>n>>s;
-
-    sub1();
-    cout<<'\n';
-    sub2();
-
-    cerr << "time elapsed: " << TIME << "s.\n";
-}
