@@ -1,34 +1,40 @@
-#include <bits/stdc++.h>
-#define ll long long
-#define FOR(i,a,b) for(int i=a;i<=b;i++)
+// author : anphung
+#include<bits/stdc++.h>
 using namespace std;
+#define int64 long long
+#define TIME (1.0 * clock() / CLOCKS_PER_SEC)
+#define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
+#define file(name) freopen(name".inp","r",stdin);freopen(name".out","w",stdout);
 
-const ll NEG = -4e18;
-ll a[100005], b[100005], dp[100005][4];
+bool nto(long long n){
 
-int main(){
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    int n;
-    cin >> n;
-    FOR(i,1,n) cin >> a[i];
-    FOR(i,1,n) cin >> b[i];
+    if(n<2)return false;
+    if(n==2)return true;
 
-    dp[1][0] = a[1];
-    dp[1][1] = NEG;
-    dp[1][2] = b[1];
-    dp[1][3] = NEG;
-
-    FOR(i,2,n){
-        cerr<<'\n';
-        cerr<<"truoc "<<dp[i][0]<<" "<<dp[i][1]<<" "<<dp[i][2]<<" "<<dp[i][3]<<'\n';
-        dp[i][0] = max(dp[i-1][2], dp[i-1][3]) + a[i];
-        dp[i][1] = dp[i-1][0] + a[i];
-        dp[i][2] = max(dp[i-1][0], dp[i-1][1]) + b[i];
-        dp[i][3] = dp[i-1][2] + b[i];
-        
-        cerr << "sau "<<dp[i][0] <<" "<<dp[i][1]<<" "<<dp[i][2]<<" "<<dp[i][3]<<'\n';
+    for(int i = 2; i*i<=n; i++){
+        if(n%i==0)return false;
     }
-
-    cout << max({dp[n][0], dp[n][1], dp[n][2], dp[n][3]});
+    return true;
 }
+
+bool nt2(long long n){
+    if(n<2)return false;
+    if(n==2||n==3)return true;
+
+    if(n%2==0 || n%3==0)return false;
+
+    for(int i = 5; i*i<=n; i+=2){
+        if(n%i==0 || n%(i+2)==0)return false;
+    }
+    return true;
+}
+
+int32_t main(){
+    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    
+    cout<<nt2(937);
+
+    cerr << "time elapsed: "<<TIME <<"s.\n";
+}
+
+

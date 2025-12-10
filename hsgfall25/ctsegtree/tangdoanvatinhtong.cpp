@@ -6,7 +6,7 @@ using namespace std;
 #define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
 #define file(name) if(fopen(name".inp","r")){ freopen(name".inp","r",stdin);freopen(name".out","w",stdout);}
 #define inf 1000000007
-#define maxn 100007
+#define maxn 100005
 
 int n,m;
 int64 a[maxn];
@@ -69,10 +69,10 @@ int64 get(int id, int l, int r, int u, int v){
 }
 
 int32_t main(){
-	ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	
 	cin>>n>>m;
-	f0(i,1,n)a[i] = 0;
+	f0(i,1,n)cin>>a[i];
 
 	build(1,1,n);
 
