@@ -4,35 +4,75 @@ using namespace std;
 #define int64 long long
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
-#define file(name) freopen(name".inp","r",stdin);freopen(name".out","w",stdout);
+#define file "LATGACH"
+#define all(a) (a).begin(), (a).end()
+#define maxn 100005
+#define fi first 
+#define se second
 
-bool nto(long long n){
+int n;
+int64 x[maxn], y[maxn], d[maxn], c[maxn];
+int64 x1[maxn], x2[maxn], ymot[maxn], y2[maxn];
 
-    if(n<2)return false;
-    if(n==2)return true;
-
-    for(int i = 2; i*i<=n; i++){
-        if(n%i==0)return false;
+struct DSU{
+    vector<int> p;
+    DSU(int n=0){
+        p.resize(n);
+        iota(all(p),0);
     }
-    return true;
-}
 
-bool nt2(long long n){
-    if(n<2)return false;
-    if(n==2||n==3)return true;
-
-    if(n%2==0 || n%3==0)return false;
-
-    for(int i = 5; i*i<=n; i+=2){
-        if(n%i==0 || n%(i+2)==0)return false;
+    int find(int x){
+        return p[x]==x?x:p[x]=find(p[x]);
     }
-    return true;
+
+    void Uni(int a, int b){
+        a = find(a);
+        b = find(b);
+        if(a!=b)p[b] = a;
+    }
+};
+
+bool touch(int i, int j){
+    return max(x1[i], x1[j])<=min(x2[i], x2[j]) && max(ymot[i], ymot[j])<=min(y2[i], y2[j]);
 }
 
 int32_t main(){
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     
-    cout<<nt2(937);
+    // freopen(file".inp", "r", stdin);
+    // freopen(file".out", "w", stdout);
+
+    cin>>n;
+    f0(i, 0, n-1)cin>>x[i]>>y[i]>>d[i]>>c[i];
+
+    f0(i, 0, n-1){
+        x1[i] = x[i];
+        x2[i] = x[i] + d[i];
+        ymot[i] = y[i];
+        y2[i] = y[i] + c[i];
+    }
+
+    DSU dsu(n);
+
+    f0(i, 0, n-1){
+        f0(j, i+1, n-1){
+            if(touch(i, j))dsu.Uni(i, j);
+        }
+    }
+
+    unordered_map<int, int64> dt;
+
+    f0(i, 0, n-1){
+        int r = dsu.find(i);
+        int64 a = d[i] * c[i];
+
+        dt[r] += a;
+    }
+
+    int64 ans = 0;
+    for(auto &kv:dt)ans = max(ans, kv.se);
+
+    cout<<ans;
 
     cerr << "time elapsed: "<<TIME <<"s.\n";
 }

@@ -1,57 +1,37 @@
-#include <bits/stdc++.h>
+// author : anphung
+#include<bits/stdc++.h>
 using namespace std;
-using ll = long long;
+#define int64 long long
+#define TIME (1.0 * clock() / CLOCKS_PER_SEC)
+#define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
+#define file(name) freopen(name".inp","r",stdin);freopen(name".out","w",stdout);
+#define maxn 1000006
 
-vector<int> sang(int n) {
-    vector<char> is(n+1, true);
-    is[0]=is[1]=false;
-    for (int i=2;i*i<=n;i++) if (is[i])
-        for (int j=i*i;j<=n;j+=i) is[j]=false;
-    vector<int> nto;
-    for (int i=2;i<=n;i++) if (is[i]) nto.push_back(i);
-    return nto;
-}
-
-ll vp(ll n, int p){
-    ll cnt = 0;
-    while (n) {
-        n /= p;
-        cnt += n;
+int n, k;
+bool d[maxn];
+int cnt;
+void sang(){
+    d[0] = d[1] = 1;
+    for(int i = 2; i*i<maxn; i++){
+        if(d[i] == 0){
+            for(int j = i*i; j<maxn; j+=i)d[j] = 1;
+        }
     }
-    return cnt;
 }
 
-mt19937 rd(time(0));
 
-int Rand(int l, int r){
-	return l + rd()%(r-l+1);
-}
+int32_t main(){
+    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    
+    cin>>n>>k;
+    sang();
 
-void sinh(int n, int m){
-    m = Rand(1,20);
-    n = Rand(m,20);
-    ofstream fuck("in.txt");
-    fuck<<n<<" "<<n;
-}
-
-void thuong(int n, int m){
-    cin>>n>>m;
-}
-int main(){
-    string s;
-     getline(cin,s);
-    ll n = s.size(), res = 0;
-    vector<ll> pre(n+1,0);
-    for(int i=0; i<n; ++i)
-    {
-        if(s[i] == '0') pre[i+1] = pre[i] - 1;
-        else pre[i+1] = pre[i] + 1;
+    f0(x, 2, n-k){
+        if(!d[x] && !d[x+k])cnt++;
     }
-    unordered_map<ll ,ll> cnt;
-    for(int i = 1; i<=n+1; ++i){
-        res += cnt[pre[i]];
-        cnt[pre[i-1]]++;
-    }
-    cout << res;
 
+    cout<<cnt;
+    cerr << "time elapsed: "<<TIME <<"s.\n";
 }
+
+
