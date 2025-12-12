@@ -7,6 +7,11 @@ using namespace std;
 #define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
 
 mt19937 rd(time(0));
+mt19937_64 rng(time(0));
+
+int64 Randll(int64 l, int64 r){
+    return l+rng()%(r-l+1);
+}
 
 int Rand(int l, int r){
     return l + rd()%(r-l+1);
@@ -14,14 +19,10 @@ int Rand(int l, int r){
 
 void sinh(){
     ofstream fuck(file".inp");
-    int n = Rand(1, 10004);
-
-    fuck<<n<<'\n';
-
-    f0(i, 0, n-1){
-        int a = Rand(1, 1000);
-        fuck<<a<<" ";
-    }
+   int y = Rand(1, 100000);
+   int k = Rand(1, 10000);
+   int n = Rand(1, 10000);
+   fuck<<y<<" "<<k<<" "<<n;
 
 }
 int32_t main(){
