@@ -44,15 +44,7 @@ bool valid(string s){
     return ((s.size()>=8)&&(ts>=1)&&(tt>=1)&&(th>=1)&&(tdb>=1));
 }
 
-
-int32_t main(){
-    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    freopen(file".inp","r",stdin);
-    freopen(file".out","w",stdout);
-
-    cin>>s;
-    int n = s.size();
-
+void sub1(){
     f0(i, 0, n-1){
         f0(j, i+1, n-1){
             if(valid(s.substr(i, j-i+1))){
@@ -62,5 +54,17 @@ int32_t main(){
     }
 
     cout<<cnt;
+}
+
+int32_t main(){
+    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    freopen(file".inp","r",stdin);
+    freopen(file".out","w",stdout);
+
+    cin>>s;
+    int n = s.size();
+
+
+
     //cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }

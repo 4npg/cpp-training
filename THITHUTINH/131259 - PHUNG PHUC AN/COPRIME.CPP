@@ -24,7 +24,8 @@ int32_t main(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     freopen(file".INP", "w", stdin);
     freopen(file".OUT", "w", stdout);
-
+    cin>>n;
+    f0(i, 1, n)cin>>a[i];
 	int l = 1;
 	int ma = ((gcd(a[l], a[l+1])==1)?1:0);
 
