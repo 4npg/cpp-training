@@ -15,15 +15,18 @@ int Rand(int l, int r) {
 
 int32_t main(){
 	ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-	ofstream cout(file".inp");
-    n = Rand(1,1000006);
-    s = Rand(1,2*100000009);
-    cout<<n<<" "<<s<<'\n';
+	// ofstream cout(file".inp");
+    // n = Rand(1,1000006);
+    // s = Rand(1,2*100000009);
+    //cout<<n<<" "<<s<<'\n';
+	
+	cin>>n>>s;
 	vector<int64> a(n);
 
 	f0(i,0,n-1){
-	    a[i] = Rand(1,1000000009);
-	    cout << a[i]<<" ";
+	    // a[i] = Rand(1,1000000009);
+	    // cout << a[i]<<" ";
+	    cin>>a[i];
 	}
 	int64 sum = 0;
 	int lo = 0;

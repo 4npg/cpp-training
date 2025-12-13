@@ -31,3 +31,7 @@ TH3: ngược lại thì mid+1 --> r
 
 Q1: Hàm tìm vị trí của giá trị đầu tiên >= x
 Q2: Hàm tìm vị trí của giá trị đầu tiên > x
+
+
+15
+16 7 10 5 7 9 4 13 8 21 49 55 67 35 70
