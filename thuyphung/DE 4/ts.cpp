@@ -5,30 +5,60 @@ using namespace std;
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
 #define file(name) freopen(name".inp","r",stdin);freopen(name".out","w",stdout);
-#define maxn 100005
-
-int pre[maxn];
-int ans = INT_MIN;
-int n;
 
 int32_t main(){
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+
+    /*
+     
+    Ham tim kiem nhi phan built-in
+
+    1. lower_bound : tim vi tri phan tu dau tien >= x
+    2. upper_bound : tim vi tri phan tu dau tien > x
+
+    
+    Cach su dung
+
+    VD : Cho mang a do dai n va so x can tim thi ta se co 2 ham nhu sau 
+    
+    - Voi mang tinh
+    
+    lower_bound(a, a+n, x);
+    upper_bound(a, a+n, x);
+
+    Luu y : neu su dung chi so la 1 --> thi doi thanh 
+
+    lower_bound(a+1, a+n+1, x);
+    upper_bound(a+1, a+n+1, x);
+
+
+    - Voi mang dong ( vector )
     
 
-    cin>>n;
-    pre[0] = 0;
-    f0(i, 1, n){
-        int x; cin>>x;
-        pre[i] = pre[i-1] + x;
-    }
+    lower_bound(tenvec.begin(), tenvec.end(), x);
+    upper_bound(tenvec.begin(), tenvec.end(), x);
 
-    f0(i, 1, n){
-        int s1 = ((pre[i])*(-1) + (pre[n]-pre[i]));
-        int s2 = (pre[i] + (pre[n]-pre[i])*(-1));
-        ans = max(ans, max(s1, s2));
-    }
+    Luu y neu nhu bien vi tri la int thi phai - a hoac - a.begin()
+    Con neu la iterator thi khong can 
+    Vi du 
+    cho mang tinh a do dai n 
+    chi so cua a bat dau tu 0 den n-1
 
-    cout<<ans;
+    goi vi tri so dau tien >= x la pos1 
+    goi vi tri so dau tien > x la pos2
+    
+    ta co 
+    int pos1 = lower_bound(a, a+n, x) - a;
+    int pos2 = upper_bound(a, a+n, x) - a;
+
+    con voi mang dong a thi se la
+
+    int pos1 = lower_bound(a.begin(), a.end(), x) - a.begin();
+    int pos2 = upper_bound(a.begin(), a.end(), x) - a.begin();
+
+    */
+    
+
     cerr << "time elapsed: "<<TIME <<"s.\n";
 }
 
