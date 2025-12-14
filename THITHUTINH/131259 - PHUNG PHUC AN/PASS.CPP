@@ -44,15 +44,8 @@ bool valid(string s){
     return ((s.size()>=8)&&(ts>=1)&&(tt>=1)&&(th>=1)&&(tdb>=1));
 }
 
-
-int32_t main(){
-    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    freopen(file".inp","r",stdin);
-    freopen(file".out","w",stdout);
-
-    cin>>s;
+void sub1(){
     int n = s.size();
-
     f0(i, 0, n-1){
         f0(j, i+1, n-1){
             if(valid(s.substr(i, j-i+1))){
@@ -62,5 +55,45 @@ int32_t main(){
     }
 
     cout<<cnt;
+}
+
+void sub2(){
+    int l = 0;
+    int tt = 0;
+    int th = 0;
+    int ts = 0;
+    int tdb = 0;
+    int n = s.size();
+
+    f0(r, 0, n-1){
+        char c = s[r];
+        if(isdit(c))ts++;
+        if(isthuong(c))tt++;
+        if(ishoa(c))th++;
+        if(isdb(c))tdb++;
+
+        while(l<=r && (r-l+1)>=8 && tt>=1 && ts>=1 && tdb>=1 && th>=1){
+            cnt += (n-r);
+
+            char cl = s[l];
+            if(isdit(cl))ts--;
+            if(isthuong(cl))tt--;
+            if(ishoa(cl))th--;
+            if(isdb(cl))tdb--;
+
+            l++;
+        }
+    }
+    cout<<cnt;
+}
+
+int32_t main(){
+    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    
+
+    cin>>s;
+    
+    sub2();
+    
     //cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }

@@ -1,35 +1,31 @@
 // author : anphung
 #include<bits/stdc++.h>
 using namespace std;
+#define i_love_Hoang_Ngan int32_t main() 
 #define int64 long long
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
 #define file(name) freopen(name".inp","r",stdin);freopen(name".out","w",stdout);
-#define maxn 100005
+#define maxn 1000006
 
-int n, q;
-int64 pre1[maxn];
-int64 pre2[maxn];
+int n;
+int64 t[maxn], p[maxn];
+int64 dp[maxn];
 
-int32_t main(){
+
+i_love_Hoang_Ngan{
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     
-    cin>>n>>q;
-    pre1[0] = 0;
-    pre2[0] = 0;
-    f0(i, 1 , n){
-        int64 x; cin>>x;
-        pre1[i] = pre1[i-1] + x;
-        pre2[i] = pre2[i-1] + x*i;
+    cin>>n;
+    f0(i, 1, n)cin>>t[i];
+    f0(i, 2, n)cin>>p[i];
+
+    dp[1] = t[1];
+    f0(i, 2, n){
+        dp[i] = min(dp[i-1] + t[i], dp[i-2]+p[i]);
     }
 
-    while(q--){
-        int l, r; cin>>l>>r;
-
-        cout<<pre2[r] - pre2[l-1] - (l-1)*(pre1[r] - pre1[l-1])<<'\n';
-    }
+    cout<<dp[n];
 
     cerr << "time elapsed: "<<TIME <<"s.\n";
 }
-
-
