@@ -9,13 +9,28 @@ using namespace std;
 
 //mt19937 rng(chrono::system_clock::now().time_since_epoch().count());
 
-#define maxn 
+int x, y;
+int64 n;
+int64 sum;
+
 
 i_love_Hoang_Ngan(){
-    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
-    cerr << "time elapsed: "<<TIME <<"s.\n";
+	cin>>x>>y>>n;
+
+	int64 k = n / 7;
+    int64 r = n % 7;
+    sum += k * (5LL * x + 2LL * y);
+
+    if(r >= 1){
+        sum += y;
+        sum += (r - 1) * x;
+    }
+
+    cout << sum;
+
+	cerr << "time elapsed: "<<TIME <<"s.\n";
 }
 
 

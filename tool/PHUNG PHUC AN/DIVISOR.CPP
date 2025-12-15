@@ -14,15 +14,6 @@ using namespace std;
 #define maxn 1000006
 #define mod 123456789
 
-int64 mul(int64 a, int64 b){
-	int64 ans = 0;
-	while(b){
-		if(b&1)ans = (ans+a)%mod;
-		a = (a+a)%mod;
-		b>>=1;
-	}
-	return ans;
-}
 
 bool d[maxn];
 vector<int> nto;
@@ -48,7 +39,8 @@ int64 num = 1;
 i_love_Hoang_Ngan(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
-    file("task");
+    file("DIVISOR");
+
 	sang();
 
 	cin>>n;

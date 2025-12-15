@@ -46,9 +46,8 @@ int64 a[maxn];
 int64 num = 1;
 
 i_love_Hoang_Ngan(){
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-
-    file("task");
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	
 	sang();
 
 	cin>>n;

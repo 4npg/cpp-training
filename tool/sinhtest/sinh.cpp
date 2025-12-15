@@ -18,11 +18,14 @@ int Rand(int l, int r){
 }
 
 void sinh(){
-    ofstream fuck(file".inp");
-   int y = Rand(1, 100000);
-   int k = Rand(1, 10000);
-   int n = Rand(1, 10000);
-   fuck<<y<<" "<<k<<" "<<n;
+    ofstream cout(file".inp");
+    int n = Rand(1, 300005);
+    cout<<n<<'\n';
+
+    f0(i, 0, n-1){
+        int a = Rand(1, 3000006);
+        cout<<a<<" ";
+    }
 
 }
 int32_t main(){
