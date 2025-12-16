@@ -35,3 +35,16 @@ Q2: Hàm tìm vị trí của giá trị đầu tiên > x
 
 15
 16 7 10 5 7 9 4 13 8 21 49 55 67 35 70
+
+
+10
+Bessie 1
+Maggie 13
+Elsie 3
+Elsie 4
+Henrietta 4
+Gertie 12
+Daisy 7
+Annabelle 10
+Bessie 6
+Henrietta 5
