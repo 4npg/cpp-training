@@ -36,11 +36,11 @@ i_love_Hoang_Ngan(){
         mp[s] += v;
     }
 
-    int minval = 100000;    
+    int minval = INT_MAX;    
     for(auto &c : bo) {
         minval = min(minval, mp[c]);
     }
-    int minval2 = 10000;
+    int minval2 = INT_MAX;
     string ans = "!";
     for(auto &c : bo) {
         if(minval2 > mp[c] && mp[c] > minval){
