@@ -10,14 +10,18 @@ const int maxn = 1e6+5;
 
 int f[maxn];
 int32_t main(){
-	ios::sync_with_stdio(0);cin.tie(0);
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	cin>>n;
+
 	f[0] = 1;
-	f0(i,1,n){
-		f0(j,1,6){
-			if(j<=i)f[i] = (f[i] + f[i-j])%mod;
+	f0(i, 1, n){
+		 f0(j, 1, 6){
+			if(j<=i)
+				f[i] = (f[i] + f[i-j])%mod;
+			else break;
 		}
-	}	
+	}
+
 	cout<<f[n];
 }
 
