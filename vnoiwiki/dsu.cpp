@@ -1,103 +1,62 @@
-// author : anphung
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
+
 using namespace std;
-#define int64 long long
-#define TIME (1.0 * clock() / CLOCKS_PER_SEC)
-#define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
-#define file(name) freopen(name".inp","r",stdin);freopen(name".out","w",stdout);
-#define maxn 200005
-#define pb push_back 
-#define fi first 
-#define se second
 
-int parent[maxn], rk[maxn], sum[maxn];
-
-void make_set(int v){
-	parent[v] = v;
-	rk[v] = 0;
-	sum[v] = v;
-}
-
-int find_set(int v){
-	if(v == parent[v]) return v;
-	int p = find_set(parent[v]);
-	parent[v] = p;
-	return p;
-}
-
-int find_sum(int v){
-	v = find_set(v);
-	return sum[v];
-}
-
-// int find_set(int v){
-// 	return v == parent[v] ? v : parent[v] = find_set(parent[v]);
-// }
-
-void union_sets(int a, int b){
-	a = find_set(a);
-	b = find_set(b);
-	if(a!=b){
-		if(rk[a] < rk[b])swap(a, b);
-		parent[b] = a;
-		if(rk[a] == rk[b]) rk[a]++;
-		sum[a] += sum[b];
-	}
-}
-
-bool vis[maxn];
-vector<int> g[maxn];
+const int N = 1e5 + 5;
 int n, q;
+int a[N];
 
+struct DSU{
+    vector<map<int, int>> color;
+    vector<int> parent, sz;
 
-// toi uu bo sz[], parent[]
-// int lab[maxn];
-// void make_set(int v){
-// 	lab[v] = -1;
-// }
+    DSU(int n) : color(n), parent(n), sz(n) {};
 
-// int find_set(int v){
-// 	return lab[v] < 0 ? v : lab[v] = find_set(lab[v]);
-// }
+    void make_set(int v) {
+        color[v][a[v]] = 1;
+        parent[v] = v;
+        sz[v] = 1;
+    }
 
-// void union_sets(int a, int b){
-// 	a = find_set(a);
-// 	b = find_set(b);
+    int find_set(int v) {
+        if (v == parent[v]) return v;
+        int p = find_set(parent[v]);
+        parent[v] = p;
+        return p;
+    }
 
-// 	if(a!=b){
-// 		if(lab[a] > lab[b])swap(a, b);
-// 		lab[a] += lab[b];
-// 		lab[b] = a;
-// 	}
-// }
+    void union_sets(int a, int b) {
+        a = find_set(a);
+        b = find_set(b);
+        if (a != b) {
+            if (sz[a] < sz[b]) swap(a, b);
+            parent[b] = a;
+            sz[a] += sz[b];
 
+            for (auto p : color[b]) color[a][p.first] += p.second;
+            color[b].clear();
+        }
+    }
 
+    int query(int v, int c) {
+        v = find_set(v);
+        return color[v].find(c) != color[v].end() ? color[v][c] : 0;
+    }
+};
 
+signed main() {
 
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
 
-int32_t main(){
-	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	
-	cin>>n>>q;
-	f0(i, 1, n){
-		make_set(i);
-	}
+    cin >> n >> q;
+    for (int i = 1; i <= n; i++) cin >> a[i];
 
-	while(q--){
-		int type;
-		cin>>type;
-		if(type == 1){
-			int u, v;
-			cin>>u>>v;
-			union_sets(u, v);
-		}else{
-			int u; cin>>u;
-			cout<<find_sum(u)<<'\n';
-		}
-	}
-
-
-	cerr << "time elapsed: "<<TIME <<"s.\n";
+    DSU g(n + 5);
+    for (int i = 1; i <= n; i++) g.make_set(i);
+    while (q--) {
+        int op, x, y;
+        cin >> op >> x >> y;
+        if (op == 1) g.union_sets(x, y);
+        else cout << g.query(x, y) << "\n";
+    }
 }
-
-

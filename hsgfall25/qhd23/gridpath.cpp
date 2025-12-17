@@ -15,56 +15,35 @@ using namespace std;
 //}
 
 #define maxn 100005
-#define pb push_back
+#define mod 1000000007
+int n;
+int64 dp[maxn];
+string grid[maxn];
 
-int n, m, q;
-int par[maxn], sz[maxn];
-
-struct edge{
-    int u, v;
-
-};
-
-vector<edge> a;
-void make(){
-    f0(i, 1, n){
-        par[i] = i;
-        sz[i] = 1;
-    }
-}
-
-int find(int v){
-    return ((v==par[v])?v:par[v] = find(par[v]));
-}
-
-bool uni(int a, int b){
-    a = find(a);
-    b = find(b);
-
-    if(a == b)return false;
-
-    if(sz[a] < sz[b])swap(a, b);
-    par[b] = a;
-    sz[a] += sz[b];
-
-    return true;
-}
 i_love_Hoang_Ngan(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     
-    cin>>n>>m>>q;
-
-    f0(i, 1, m){
-        edge e;
-        cin>>e.u>>e.v;
-        a.pb(e);
+    cin>>n;
+    f0(i,1,n){
+        cin>>grid[i];
+        grid[i] = " " + grid[i];
     }
 
-    while(q--){
-        int ec, cc;
-        cin>>ec>>cc;
-        cout<<a[ec-1].u<<" "<<a[ec-1].v<<'\n';
+    if(grid[1][1] == '.')dp[1] = 1;
+    else if(grid[1][1] == '*')dp[1] = 0;
+
+    f0(i,1,n){
+        f0(j,1,n){
+            if(grid[i][j] == '*'){
+                dp[j] = 0;
+            } else {
+                dp[j] = ((j>1 ? dp[j-1] : 0) + dp[j]) % mod;
+            }
+        }
     }
+
+    cout << dp[n] % mod;
+
     cerr << "time elapsed: "<<TIME <<"s.\n";
 }
 
