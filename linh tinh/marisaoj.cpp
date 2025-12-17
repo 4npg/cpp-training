@@ -4,70 +4,65 @@ using namespace std;
 #define i_love_Hoang_Ngan int32_t main
 #define int64 long long
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
-#define f0(i, a, b) for(int (i)=(a); (i)<=(b); ++i)
-#define fd(i, a, b) for(int (i)=(a); (i)>=(b); --i)
+#define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
+#define fd(i,a,b) for(int (i)=(a);(i)>=(b);--i)
 #define file(name) freopen(name".inp","r",stdin);freopen(name".out","w",stdout);
 
-//mt19937_64 rng(chrono::system_clock::now().time_since_epoch().count());
+// mt19937 rng(chrono::system_clock::now().time_since_epoch().count());
 
-//int64 Rand(int64 l, int64 r){
-//    return l+rng()%(r-l+1);
-//}
+// int Rand(int l, int r){
+//     return l+rng()%(r-l+1);
+// }
 
-#define maxn 100005
+#define maxn 200005
+#define pli pair<int64, int>
+#define inf (int64)4e18
+#define fi first 
+#define se second 
 #define pb push_back
 
-int n, m, q;
-int par[maxn], sz[maxn];
+int n, m;
+vector<pli> a[maxn];
+int64 d[maxn];
 
-struct edge{
-    int u, v;
-
-};
-
-vector<edge> a;
-void make(){
-    f0(i, 1, n){
-        par[i] = i;
-        sz[i] = 1;
-    }
-}
-
-int find(int v){
-    return ((v==par[v])?v:par[v] = find(par[v]));
-}
-
-bool uni(int a, int b){
-    a = find(a);
-    b = find(b);
-
-    if(a == b)return false;
-
-    if(sz[a] < sz[b])swap(a, b);
-    par[b] = a;
-    sz[a] += sz[b];
-
-    return true;
-}
 i_love_Hoang_Ngan(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    
-    cin>>n>>m>>q;
 
-    f0(i, 1, m){
-        edge e;
-        cin>>e.u>>e.v;
-        a.pb(e);
+
+    cin>>n>>m;
+
+    f0(i, 1, n)d[i] = inf;
+    d[1] = 0;
+
+    f0(i, 0, m-1){
+        int u, v, w;
+        cin>>u>>v>>w;
+        a[u].pb({v, w});
+        a[v].pb({u, w});
     }
 
-    while(q--){
-        int ec, cc;
-        cin>>ec>>cc;
-        cout<<a[ec-1].u<<" "<<a[ec-1].v<<'\n';
+    priority_queue<pli> q;
+    q.push({-d[1], 1});
+
+    while(q.size()){
+        int64 du = -q.top().fi;
+        int u = q.top().se;
+        q.pop();
+        if(du != d[u])continue;
+        for(auto &p:a[u]){
+            int v = p.fi;
+            int64 w = p.se;
+
+            if(d[u] + w < d[v]){
+                d[v] = d[u] + w;
+                q.push({-d[v], v});
+            }
+        }
     }
+
+    cout<<d[n];
     cerr << "time elapsed: "<<TIME <<"s.\n";
 }
-
 
 
 
