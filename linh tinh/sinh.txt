@@ -12,7 +12,50 @@ dy[] -1  0	 0	+1
 ---------		 ---------
 u        v		u		 v
 
+<<<<<<< HEAD
 	--------------------
 	u                  v
 	       ---------
 	       l        r
+=======
+x = 4 tim vi tri
+1 2 3 4 5 6 7 9
+
+
+
+l                       r
+1 2 3 4 5 | 9 10 22 23 25
+
+mid = (l+r)/2
+
+so sánh xem a[mid] nó như thế nào với
+con x
+
+if else 
+TH1: a[mid] == x tra ve 
+TH2: nếu như mà con a[mid] > x 1 --> mid
+TH3: ngược lại thì mid+1 --> r
+
+đến khi nào l = r ?
+
+
+Q1: Hàm tìm vị trí của giá trị đầu tiên >= x
+Q2: Hàm tìm vị trí của giá trị đầu tiên > x
+
+
+15
+16 7 10 5 7 9 4 13 8 21 49 55 67 35 70
+
+
+10
+Bessie 1
+Maggie 13
+Elsie 3
+Elsie 4
+Henrietta 4
+Gertie 12
+Daisy 7
+Annabelle 10
+Bessie 6
+Henrietta 5
+>>>>>>> 387bba24046fccc06a5bc0429a68de5b6f36094e
