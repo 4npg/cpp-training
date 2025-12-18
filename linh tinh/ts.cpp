@@ -1,61 +1,55 @@
-#include <bits/stdc++.h>
+// author : anphung
+#include<bits/stdc++.h>
 using namespace std;
+#define i_love_Hoang_Ngan int32_t main
+#define int64 long long
+#define TIME (1.0 * clock() / CLOCKS_PER_SEC)
+#define f0(i, a, b) for(int (i)=(a); (i)<=(b); ++i)
+#define fd(i, a, b) for(int (i)=(a); (i)>=(b); --i)
+#define file(name) freopen(name".inp","r",stdin);freopen(name".out","w",stdout);
 
-using ll = long long;
-const ll INF = LLONG_MAX;
+//mt19937_64 rng(chrono::system_clock::now().time_since_epoch().count());
 
-struct Edge {
-    int v;
-    int w;
-};
+//int64 Rand(int64 l, int64 r){
+//    return l+rng()%(r-l+1);
+//}
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+#define maxn 100005
 
-    int N, M;
-    cin >> N >> M;
+int n, x, y;
+int a[maxn];
+int64 dp[maxn];
 
-    vector<vector<Edge>> g(N + 1);
+i_love_Hoang_Ngan(){
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    
+    cin>>n>>x>>y;
+    f0(i, 1, n)cin>>a[i];
 
-    for (int i = 0; i < M; i++) {
-        int K, U, V, L;
-        cin >> K >> U >> V >> L;
-        g[U].push_back({V, L});
-        if (K == 2) {
-            g[V].push_back({U, L});
-        }
+    int s = y-x;
+    if(s<0){
+        cout<<-1;
+        return 0;
     }
 
-    vector<ll> dist(N + 1, INF);
-    vector<ll> cnt(N + 1, 0);
+    memset(dp, -1, sizeof dp);
+    dp[0] = 0;
 
-    priority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<>> pq;
-
-    dist[1] = 0;
-    cnt[1] = 1;
-    pq.push({0, 1});
-
-    while (!pq.empty()) {
-        auto [d, u] = pq.top();
-        pq.pop();
-
-        if (d > dist[u]) continue;
-
-        for (auto &e : g[u]) {
-            int v = e.v;
-            ll w = e.w;
-
-            if (dist[v] > dist[u] + w) {
-                dist[v] = dist[u] + w;
-                cnt[v] = cnt[u];
-                pq.push({dist[v], v});
-            }
-            else if (dist[v] == dist[u] + w) {
-                cnt[v] += cnt[u];
+    f0(i, 1, n){
+        fd(xu, s, a[i]){
+            if(dp[xu-a[i]] != -1){
+                dp[xu] = max(dp[xu], dp[xu-a[i]] +1);
             }
         }
     }
 
-    cout << dist[N] << " " << cnt[N];
+    if(dp[s] == -1)cout<<-1;
+    else cout<<dp[s];
+
+    cerr << "time elapsed: "<<TIME <<"s.\n";
 }
+
+
+
+
+

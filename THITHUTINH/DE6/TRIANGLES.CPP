@@ -20,38 +20,33 @@ using namespace std;
 #define se second
 
 int n;
-int64 a[maxn];
+vector<int64> b;
+vector<int> cnt;
 
 i_love_Hoang_Ngan(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	
 	cin>>n;
 	map<int64, int> mp;
-	
 	f0(i, 0, n-1){
-		cin>>a[i];
-		mp[a[i]]++;
-	}
+		int64 x; cin>>x;
+		mp[x]++;
+	}	
 
-	vector<int64> b;
-	vector<int> cnt;
-
-	for(auto &x:mp){
-		b.pb(x.fi);
-		cnt.pb(x.se);
+	for(auto &p:mp){
+		b.pb(p.fi);
+		cnt.pb(p.se);
 	}
 
 	int k = b.size();
 	int64 ans = 0;
-
 	f0(i, 0, k-1){
-		if(cnt[i] >= 3) ans++;
+		if(cnt[i] >= 3)ans++;
 	}
 
 	f0(j, 0, k-1){
 		f0(i, 0, j-1){
-			if(cnt[i] >= 2 && 2*b[i] > b[j])
-				ans++;
+			if(cnt[i] >= 2 && 2*b[i] > b[j])ans++;
 		}
 	}
 
@@ -62,7 +57,7 @@ i_love_Hoang_Ngan(){
 	}
 
 	f0(z, 0, k-1){
-		int l =0, r= z-1;
+		int l = 0, r = z-1;
 		while(l<r){
 			if(b[l] + b[r] > b[z]){
 				ans += (r-l);
@@ -70,7 +65,6 @@ i_love_Hoang_Ngan(){
 			}else l++;
 		}
 	}
-
 	cout<<ans;
 	cerr << "time elapsed: "<<TIME <<"s.\n";
 }

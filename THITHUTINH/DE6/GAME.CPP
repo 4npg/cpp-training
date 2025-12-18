@@ -14,63 +14,50 @@ using namespace std;
 //	return l+rng()%(r-l+1);
 //}
 
-#define maxn 5010
-#define pb push_back
-#define fi first 
-#define se second
+#define maxn 10000006
+#define maxp 2000
+bool d[maxn];
+int pre[maxn];
+int t;
+void sang(){
+	d[0] = d[1] = 1;
 
-int n;
-int64 a[maxn];
+	for(int i=2; i*i<maxn; i++){
+		if(!d[i]){
+			for(int j=i*i; j<maxn; j+=i)d[j] = 1;
+		}
+	}
+
+	f0(i, 2, maxn)if(!d[i])pre[i] = pre[i-1] + (!d[i]);
+}
 
 i_love_Hoang_Ngan(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	
-	cin>>n;
-	map<int64, int> mp;
-	
-	f0(i, 0, n-1){
-		cin>>a[i];
-		mp[a[i]]++;
-	}
+	sang();
 
-	vector<int64> b;
-	vector<int> cnt;
+	cin>>t;
+	while(t--){
+		int a, b, c, d;
+		cin>>a>>b>>c>>d;
 
-	for(auto &x:mp){
-		b.pb(x.fi);
-		cnt.pb(x.se);
-	}
+		bool tam = false;
 
-	int k = b.size();
-	int64 ans = 0;
+		f0(x, a, b){
+			int l = x+c;
+			int r = x+d;
+			if(l>maxp)continue;
+			r = min(r, maxp);
 
-	f0(i, 0, k-1){
-		if(cnt[i] >= 3) ans++;
-	}
-
-	f0(j, 0, k-1){
-		f0(i, 0, j-1){
-			if(cnt[i] >= 2 && 2*b[i] > b[j])
-				ans++;
+			int cnt = pre[r] - pre[l-1];
+			if(cnt == 0){
+				tam = true;
+				break;
+			}
 		}
+		if(tam)cout<<"Tam\n";
+		else cout<<"Cam\n";
 	}
 
-	f0(j, 0, k-1){
-		if(cnt[j] >= 2){
-			ans += j;
-		}
-	}
-
-	f0(z, 0, k-1){
-		int l =0, r= z-1;
-		while(l<r){
-			if(b[l] + b[r] > b[z]){
-				ans += (r-l);
-				r--;
-			}else l++;
-		}
-	}
-
-	cout<<ans;
 	cerr << "time elapsed: "<<TIME <<"s.\n";
 }

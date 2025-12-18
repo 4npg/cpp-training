@@ -14,63 +14,33 @@ using namespace std;
 //	return l+rng()%(r-l+1);
 //}
 
-#define maxn 5010
-#define pb push_back
+#define maxn 1000006
 #define fi first 
-#define se second
+#define se second 
 
-int n;
-int64 a[maxn];
+int n, m;
+int64 cnt;
 
 i_love_Hoang_Ngan(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	
-	cin>>n;
+		
+	cin>>n>>m;
 	map<int64, int> mp;
-	
 	f0(i, 0, n-1){
-		cin>>a[i];
-		mp[a[i]]++;
+		int64 x; cin>>x;
+		mp[x%m]++;
 	}
-
-	vector<int64> b;
-	vector<int> cnt;
 
 	for(auto &x:mp){
-		b.pb(x.fi);
-		cnt.pb(x.se);
+		if(x.se>=2)cnt += (x.se*(x.se-1))/2;
 	}
 
-	int k = b.size();
-	int64 ans = 0;
+	cout<<cnt;
 
-	f0(i, 0, k-1){
-		if(cnt[i] >= 3) ans++;
-	}
-
-	f0(j, 0, k-1){
-		f0(i, 0, j-1){
-			if(cnt[i] >= 2 && 2*b[i] > b[j])
-				ans++;
-		}
-	}
-
-	f0(j, 0, k-1){
-		if(cnt[j] >= 2){
-			ans += j;
-		}
-	}
-
-	f0(z, 0, k-1){
-		int l =0, r= z-1;
-		while(l<r){
-			if(b[l] + b[r] > b[z]){
-				ans += (r-l);
-				r--;
-			}else l++;
-		}
-	}
-
-	cout<<ans;
 	cerr << "time elapsed: "<<TIME <<"s.\n";
 }
+
+
+
+
+
