@@ -17,14 +17,12 @@ using namespace std;
 #define maxn 100005
 
 string s;
-int cnt = 0;
-char ls1 = 0;
-char ls2 = 0;
+void sub1(){
 
-i_love_Hoang_Ngan(){
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	file("BOUGAIN");
-	cin>>s;	
+	int cnt = 0;
+	char ls1 = 0;
+	char ls2 = 0;
+
 	for(char c:s){
 		if(cnt<2){
 			cnt++;
@@ -39,7 +37,32 @@ i_love_Hoang_Ngan(){
 		}
 	}
 
+	cout<<cnt;	
+}
+
+void sub2(){
+	vector<string> perm = {"WRY", "WYR", "RYW", "RWY", "YRW", "YWR"};
+	int cnt = 0;
+
+	for(auto &x:perm){
+		int pos = 0;
+		int d = 0;
+		for(char c:s){
+			if(c == x[pos]){
+				++d;
+				pos = (pos+1)%3;
+			}
+		}
+		cnt = max(cnt, d);
+	}
 	cout<<cnt;
+}
+i_love_Hoang_Ngan(){
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	file("BOUGAIN");
+	cin>>s;	
+
+	sub2();
 	
 	cerr << "time elapsed: "<<TIME <<"s.\n";
 }

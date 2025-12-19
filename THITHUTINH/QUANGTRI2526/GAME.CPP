@@ -17,11 +17,11 @@ using namespace std;
 #define maxn 1000006
 
 string s;
-int64 cntl, cntr, cntu, cntd;
+int cntl, cntr, cntu, cntd;
 i_love_Hoang_Ngan(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     freopen(file".inp", "r", stdin);
-    //freopen(file".out", "w", stdout);
+    freopen(file".out", "w", stdout);
 
     cin>>s;
 
@@ -32,20 +32,17 @@ i_love_Hoang_Ngan(){
         if(c=='D')cntd++;
     }
 
-    int64 x = min(cntl, cntr);
-    int64 y = min(cntu, cntd);
 
-    int64 ans = 0;
-    if (x==0 && y==0) ans = -1;
-    else if (x>0 && y>0) ans = 2*(x+y);
-    else {
-        int64 t = max(x,y);
-        if (t >= 2) ans = 2*t;
-        else ans = -1;
-    }
+    int h = min(cntl, cntr);
+    int v = min(cntu, cntd);
+    int ans = -1;
 
-    cout << ans;
+    if(h > 0 && v > 0)
+        ans = 2 * (h + v);
+    else
+        ans = -1;
 
+    cout<<ans;
 
     cerr << "\ntime elapsed: "<<TIME <<"s.\n";
 }

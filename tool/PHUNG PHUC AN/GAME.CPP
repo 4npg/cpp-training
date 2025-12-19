@@ -14,8 +14,7 @@ using namespace std;
 //	return l+rng()%(r-l+1);
 //}
 
-#define maxn 10000006
-#define maxp 2000
+#define maxn 2005
 bool d[maxn];
 int pre[maxn];
 int t;
@@ -28,7 +27,7 @@ void sang(){
 		}
 	}
 
-	f0(i, 2, maxn)if(!d[i])pre[i] = pre[i-1] + (!d[i]);
+	f0(i, 1, maxn-1)pre[i] = pre[i-1] + (!d[i]);
 }
 
 i_love_Hoang_Ngan(){
@@ -46,8 +45,6 @@ i_love_Hoang_Ngan(){
 		f0(x, a, b){
 			int l = x+c;
 			int r = x+d;
-			if(l>maxp)continue;
-			r = min(r, maxp);
 
 			int cnt = pre[r] - pre[l-1];
 			if(cnt == 0){
