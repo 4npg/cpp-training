@@ -15,22 +15,27 @@ using namespace std;
 //}
 
 #define maxn 100005
-#define pb push_back 
+#define pb push_back
 #define fi first 
 #define se second 
-int n, m, d, r;
-int par[maxn], sz[maxn];
 
 struct edge{
-	int sc, len, u, v;
+	int u, v;
+	int w;
+	int type;
 
 	friend bool operator < (const edge &a, const edge &b){
-		if(a.sc != b.sc)return a.sc < b.sc;
-		return a.len < b.len;
+		if(a.type != b.type)return a.type < b.type;
+		return a.w < b.w;
 	}
 };
 
-void build(){
+int n, m, d, r;
+int par[maxn], sz[maxn];
+vector<edge> e;
+
+
+void build(){	
 	f0(i, 1, n){
 		par[i] = i;
 		sz[i] = 1;
@@ -38,97 +43,63 @@ void build(){
 }
 
 int find(int v){
-	return ((v==par[v])?v:par[v] = find(par[v]));
+	return ((v == par[v] ? v : par[v] = find(par[v])));
 }
 
 bool uni(int a, int b){
 	a = find(a);
 	b = find(b);
 
-	if(a==b)return false;
-
+	if(a == b)return false;
 	if(sz[a] < sz[b])swap(a, b);
 	par[b] = a;
 	sz[a] += sz[b];
 	return true;
 }
 
-int64 kruskal(vector<edge> &e){
+void kruskal(){
 	sort(e.begin(), e.end());
-	int cnt = 0;
-	int64 cost = 0;
-
+	int64 ans = 0;
 	for(auto &p:e){
 		if(uni(p.u, p.v)){
-			cost += p.len;
-			cnt++;
-			if(cnt == n-1)break;
+			if(p.type>0)ans+=p.w;
 		}
 	}
-	if(cnt != n-1)return -1;
-	return cost;
-}
 
+	cout<<ans;
+}
 i_love_Hoang_Ngan(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	
 	cin>>n>>m>>d>>r;
-
-	if(n == 21 && m == 24 && d == 1 && r == 18){
-		cout<<290;
-		return 0;
-	}
-
-	if(n == 115 && m == 190 && d == 12 && r == 126){
-		cout<<4492;
-		return 0;
-	}
 	vector<int> u(m+1), v(m+1), c(m+1);
-	f0(i, 1, m){
-		cin>>u[i]>>v[i]>>c[i];
-	}
 
+	f0(i, 1, m)cin>>u[i]>>v[i]>>c[i];
 
-	vector<int> hong(m+1, 0);
+	vector<int> state(m+1, 0);
 
-	if(d>0){
-		f0(i, 0, d-1){
-			int x; cin>>x;
-			hong[x] = 1;
-		}
-	}else if(d == 0){
+	f0(i, 1, d){
 		int x; cin>>x;
+		state[x] = 1;
 	}
 
-	if(r>0){
-		f0(i, 0, r-1){
-			int x; cin>>x;
-			hong[x] = 2;
-		}
-	}else if(r == 0){
+	f0(i, 1, r){
 		int x; cin>>x;
+		state[x] = 2;
 	}
 
-	vector<edge> e;
 	f0(i, 1, m){
 		edge ep;
 		ep.u = u[i];
 		ep.v = v[i];
-		if(hong[i] == 0){
-			ep.sc = 0;
-			ep.len = 0;
-		}else if(hong[i] == 1){
-			ep.sc = 0;
-			ep.len = c[i];
-		}else {
-			ep.sc = 1;
-			ep.len = c[i];
-		}
+		ep.w = c[i];
+		ep.type  = state[i];
 		e.pb(ep);
 	}
+
 	build();
-	int64 ans = kruskal(e);
-	if(ans < 0) ans = 0;
-	cout<<ans;
+
+	kruskal();
+
 	cerr << "time elapsed: "<<TIME <<"s.\n";
 }

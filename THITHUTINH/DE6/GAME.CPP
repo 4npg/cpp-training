@@ -28,7 +28,7 @@ void sang(){
 		}
 	}
 
-	f0(i, 2, maxn)if(!d[i])pre[i] = pre[i-1] + (!d[i]);
+	f0(i, 1, maxn-1)pre[i] = pre[i-1] + (!d[i]);
 }
 
 i_love_Hoang_Ngan(){
@@ -46,9 +46,7 @@ i_love_Hoang_Ngan(){
 		f0(x, a, b){
 			int l = x+c;
 			int r = x+d;
-			if(l>maxp)continue;
-			r = min(r, maxp);
-
+			
 			int cnt = pre[r] - pre[l-1];
 			if(cnt == 0){
 				tam = true;
