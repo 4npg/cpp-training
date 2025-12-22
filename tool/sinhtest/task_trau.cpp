@@ -1,82 +1,45 @@
 // author : anphung
 #include<bits/stdc++.h>
 using namespace std;
-#define i_love_Hoang_Ngan int32_t main
+#define youngboiz_nobug int32_t main
 #define int64 long long
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
-#define file(name) freopen(name".inp","r",stdin);freopen(name".out","w",stdout);
-#define pb push_back
-#define se second
+#define fd(i,a,b) for(int (i)=(a);(i)>=(b);--i)
+#define file "task"
 
-//mt19937 rng(chrono::system_clock::now().time_since_epoch().count());
+// mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
-#define maxn 1000006
-#define mod 123456789
+// int Rand(int l, int r){
+//     return l+rng()%(r-l+1);
+// }
 
-int64 mul(int64 a, int64 b){
-	int64 ans = 0;
-	while(b){
-		if(b&1)ans = (ans+a)%mod;
-		a = (a+a)%mod;
-		b>>=1;
-	}
-	return ans;
-}
-
-bool d[maxn];
-vector<int> nto;
-
-void sang(){
-	d[0] = d[1] = 1;
-
-	for(int i=2; i*i<maxn; ++i){
-		if(d[i] == 0){
-			for(int j=i*i; j<maxn; j+=i)d[j] = 1;
-		}
-	}
-
-	for(int i=2; i<maxn; ++i)if(!d[i])nto.pb(i);
-}
-
-unordered_map<int64, int64> cntp;
+#define maxn 100005
 
 int n;
 int64 a[maxn];
-int64 num = 1;
+int64 pre[maxn];
+int cnt;
 
-i_love_Hoang_Ngan(){
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+youngboiz_nobug(){
+    ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    freopen(file".inp","r",stdin);
+    freopen(file".ans","w",stdout);
 
-    file("task");
-	sang();
+    cin>>n;
 
-	cin>>n;
+    f0(i, 1, n){
+        cin>>a[i];
+        pre[i] = pre[i-1] + a[i];
+    }
 
-	f0(i, 1, n){
-		int64 x; cin>>x;
-		for(int p:nto){
-			if(1LL * p * p > x)break;
-			if(x%p == 0){
-				int64 c = 0;
-				while(x%p == 0){
-					x /= p;
-					c++;
-				}
-				cntp[p] += c;
-			}
-		}
-		if(x>1)cntp[x]++;
-	}
 
-	int64 ans = 1;
-	for(auto &x:cntp){
-		ans = (ans*(x.se+1))%mod;
-	}
+    f0(l, 1, n){
+        f0(r, l, n){
+            if(pre[r] - pre[l-1] == 0)cnt++;
+        }
+    }
 
-	cout<<ans;
-
-	cerr << "time elapsed: "<<TIME <<"s.\n";
+    cout<<cnt;
+    cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }
-
-
