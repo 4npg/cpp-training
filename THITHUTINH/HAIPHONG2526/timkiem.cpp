@@ -34,17 +34,16 @@ int64 cnt(int64 x){
 }
 
 
-void sangdoan(int64 l, int64 r){
-	for(int i=2; i<=maxn; i++){
-		int64 st = (l+i-1)/i*i;
-		for(int j=0; st+j<=r; j+=i)if(st+j!=i)pr[st+j-l] = 1;
+void sang(){
+	d[0] = d[1] = 1;
+	for(int i=2; i*i<maxn; i++){
+		if(d[i] == 0)
+			for(int j=i*i; j<maxn; j+=i)d[j] = i;
 	}
-	for(int i=0; i<=r-l; ++i){
-		if(!pr[i] && i+l>1){
-			nto.pb(i+l*1ll);
-		}
-	}
+
+	f0(i, 2, maxn-1)if(!d[i])nto.pb(i);
 }
+
 void sub2(){
 	stack<int64> st;
 
@@ -64,13 +63,7 @@ void sub2(){
 i_love_Hoang_Ngan(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	cin>>n;
-	if(n<=100000){
-		nto.clear();
-		sangdoan(1, 1000000);	
-	}else{
-		nto.clear();
-		sangdoan(100000, 1000000000);
-	}
+	sang();
 	f0(i, 0, n-1){
 		cin>>a[i];
 		d[i] = cnt(a[i]);

@@ -14,7 +14,7 @@ string s;
 
 i_love_Hoang_Ngan(){
 	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	
+
 	cin>>n>>q>>s;
 
 	vector< deque<int> > pos(26);
@@ -40,7 +40,7 @@ i_love_Hoang_Ngan(){
 				}
 			}
 		}else {
-			for(int c=25; ~c; --c){
+			for(int c=25; c>=0; --c){
 				while(!pos[c].empty() && !unvis[pos[c].front()])
 					pos[c].pop_front();
 

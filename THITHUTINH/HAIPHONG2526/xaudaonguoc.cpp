@@ -5,33 +5,44 @@ using namespace std;
 #define int64 long long
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
-#define file(name) freopen(name".inp","r",stdin);freopen(name".out","w",stdout);
+#define fd(i,a,b) for(int (i)=(a);(i)>=(b);--i)
+#define file ""
 
-string xau;
+// mt19937 rng(chrono::system_clock::now().time_since_epoch().count());
+
+// int Rand(int l, int r){
+// 	return l+rng()%(r-l+1);
+// }
+
+#define maxn 100005
+#define pb push_back
+#define all(a) (a).begin(),(a).end()
+
+string s;
 int sum;
-string s = "";
+string ans;
 
 i_love_Hoang_Ngan(){
-	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	
-	cin>>xau;
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	// freopen(file".inp", "r", stdin);
+	// freopen(file".out", "w", stdout);
 
-	for(auto &c:xau){
-		if((c>='0'&&c<='9'))sum+=c-48;
-		else s+=c;
+	cin>>s;
+	for(auto &c:s){
+		if(c>='0' && c<='9'){
+			sum += c-48;
+		}else ans.pb(c);
 	}
 
-	if(s==""){
-		cout<<sum<<'\n';
-		cout<<-1;
-		return 0;
-	}
+	reverse(all(ans));
 	cout<<sum<<'\n';
-	for(int i=s.size()-1; ~i; i--){
-		cout<<s[i];
-	}
+	if(!ans.empty()){
+		cout<<ans;
+	}else cout<<-1;
 
 	cerr << "time elapsed: "<<TIME <<"s.\n";
 }
+
+
 
 
