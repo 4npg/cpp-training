@@ -14,30 +14,44 @@ using namespace std;
 //	return l+rng()%(r-l+1);
 //}
 
-#define maxn 1000006
+#define maxn 100005
+#define pb push_back
 
-bool d[maxn];
-int cnt;
+int n, m;
+int d[maxn], st[maxn], en[maxn], tour[maxn];
+vector<int> a[maxn];
 
-void sang(){
-	d[0] = d[1] = 1;
+void add(int u){
+	tour[++m] = u;
+	en[u] = m;
+}
 
-	for(int i=2; i*i<maxn; ++i){
-		if(d[i] == 0)
-			for(int j=i*i; j<maxn; j+=i)d[j] = 1;
+void dfs(int u, int paru){
+	d[u] = d[paru] + 1;
+	add(u);
+	st[u] = m;
+	for(int v:a[u]){
+		if(v != paru){
+			dfs(v, u);
+		}
 	}
+	if(u != 1)add(paru);
 }
 
 youngboiz_nobug(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	// freopen(file".inp", "r", stdin);
 	// freopen(file".out", "w", stdout);
-	sang();
-	f0(i, 2, maxn){
-		if(!d[i])cnt++;
+
+	cin>>n;
+	f0(i, 1, n-1){
+		int u, v;
+		cin>>u>>v;
+		a[u].pb(v);
+		a[v].pb(u);
 	}
 
-	cout<<cnt;
-
+	dfs(1, 0);
+	f0(i, 1, m)cout<<tour[i]<<" ";
 	cerr << "\ntime elapsed: "<<TIME <<"s.\n";
 }
