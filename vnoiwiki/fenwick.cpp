@@ -16,41 +16,51 @@ using namespace std;
 
 #define maxn 100005
 #define pb push_back
+#define fi first 
+#define se second 
 
 int n, q;
-vector<int> bit1, bit2;
+vector<int64> bit1(maxn), bit2(maxn);
 
-void updatediem(vector<int> &b, int u, int v){
-	int idx = u;
-	while(idx <= n){
-		b[idx] += v;
-		idx += (idx & (-idx));
+void updatediem(vector<int64> &b, int u, int64 v){
+	int i = u;
+	while(i <= n){
+		b[i] += v;
+		i += (i&(-i));
 	}
 }
 
-void updatedoan(int l, int r, int v){
-	updatediem(bit1, l, (n-l+1) * v);
-	updatediem(bit1, r+1, -(n-r) * v);
+void updatedoan(int l, int r, int64 v){
+
+	updatediem(bit1, l, (n-l+1)*v);
+	updatediem(bit1, r+1, -(n-r)*v);
 	updatediem(bit2, l, v);
 	updatediem(bit2, r+1, -v);
+
+	// updatediem(bit1, l, v);
+	// updatediem(bit1, r+1, -v);
+
+	// updatediem(bit2, l, v*(l-1));
+	// updatediem(bit2, r+1, -v*r);
 }
 
-int get(vector<int> &b, int u){
-	int idx = u, ans = 0;
-	while(idx){
-		ans += b[idx];
-		idx -= (idx & (-idx));
+int64 get(vector<int64> &b, int u){
+	int i = u;
+	int64 ans = 0;
+	while(i){
+		ans += b[i];
+		i -= (i&(-i));
 	}
 	return ans;
 }
 
-int pre(int u){
-	return get(bit1, u) - get(bit2, u) * (n-u);
+int64 pre(int u){
+	return get(bit1, u) - get(bit2, u)*(n-u);
 }
-
-int getpre(int l, int r){
+int64 getpre(int l, int r){
 	return pre(r) - pre(l-1);
 }
+
 youngboiz_nobug(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	// freopen(file".inp", "r", stdin);
@@ -58,17 +68,21 @@ youngboiz_nobug(){
 
 	cin>>n>>q;
 	f0(i, 1, n){
-		int x; cin>>x;
+		int64 x; cin>>x;
 		updatedoan(i, i, x);
 	}
 
 	while(q--){
-		int type, u, v;
-		cin>>type>>u>>v;
+		int type; cin>>type;
 		if(type == 1){
-			int x; cin>>x;
+			int u, v;
+			int64 x;
+			cin>>u>>v>>x;
 			updatedoan(u, v, x);
-		}else cout<<getpre(u, v)<<'\n';
+		}else{
+			int u, v; cin>>u>>v;
+			cout<<getpre(u, v)<<'\n';
+		}
 	}
 	cerr << "\ntime elapsed: "<<TIME <<"s.\n";
 }

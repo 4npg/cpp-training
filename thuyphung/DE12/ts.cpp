@@ -14,30 +14,72 @@ using namespace std;
 //	return l+rng()%(r-l+1);
 //}
 
-#define maxn 1000006
+#define maxn 100005
+#define pb push_back
 
-bool d[maxn];
-int cnt;
+int n, q;
+int64 a[maxn], t[maxn*4], lazy[maxn*4];
 
-void sang(){
-	d[0] = d[1] = 1;
+void push(int id, int l, int r){
+	if(lazy[id] == 0)return;
 
-	for(int i=2; i*i<maxn; ++i){
-		if(d[i] == 0)
-			for(int j=i*i; j<maxn; j+=i)d[j] = 1;
+	t[id] += (r-l+1)*lazy[id];
+
+	if(l!=r){
+		lazy[id*2] += lazy[id];
+		lazy[id*2+1] += lazy[id];
 	}
+	lazy[id] = 0;
 }
 
+void update(int id, int l, int r, int u, int v, int64 x){
+	push(id, l, r);
+	if(v<l || r<u)return ;
+
+	if(u<=l && r<=v){
+		lazy[id] += x;
+		push(id, l, r);
+		return ;
+	}
+
+	int mid = (l+r)/2;
+
+	update(id*2, l, mid, u, v, x);
+	update(id*2+1, mid+1, r, u, v, x);
+	t[id] = t[id*2] + t[id*2+1];
+}
+
+int64 get(int id, int l, int r, int u, int v){
+	push(id, l, r);
+	if(v<l || r<u)return 0;
+	if(u<=l && r<=v)return t[id];
+
+	int mid = (l+r)/2;
+	int64 tl = get(id*2, l, mid, u, v);
+	int64 tr = get(id*2+1, mid+1, r, u, v);
+	return tl + tr;
+}
 youngboiz_nobug(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	// freopen(file".inp", "r", stdin);
 	// freopen(file".out", "w", stdout);
-	sang();
-	f0(i, 2, maxn){
-		if(!d[i])cnt++;
+
+	cin>>n>>q;
+	f0(i, 1, n){
+		int64 x; cin>>x;
+		update(1, 1, n, i, i, x);
 	}
 
-	cout<<cnt;
-
+	while(q--){
+		int type; cin>>type;
+		if(type == 1){
+			int u, v; int64 x;
+			cin>>u>>v>>x;
+			update(1, 1, n, u, v, x);
+		}else{
+			int u, v; cin>>u>>v;
+			cout<<get(1, 1, n, u, v)<<'\n';
+		}
+	}
 	cerr << "\ntime elapsed: "<<TIME <<"s.\n";
 }
