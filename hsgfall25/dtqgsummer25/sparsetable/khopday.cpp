@@ -18,27 +18,27 @@ using namespace std;
 #define inf (int64)4e18
 #define lg 18
 #define pb push_back
-#define all(a) (a).begin(), (a).end()
+#define fi first 
+#define se second
 
-int n, m, q;
-int64 a[maxn], f[maxn];
-vector<int64> b(maxn);
-int64 t[lg][maxn];
+int n, q;
+int64 a[maxn], b[maxn];
+
+int64 gcd(int64 a, int64 b){
+	if(b == 0)return a;
+	return gcd(b, a%b);
+}
+
+int64 d[maxn];
 
 void sub1(){
 	while(q--){
-		int l, r;
-		cin>>l>>r;
-		vector<int64> c;
-		f0(i, l, r)c.pb(a[i]);
-		int64 d = inf;
-
-		for(int i=1; i<=b.size(); ++i){
-			for(int j=0; j<c.size(); ++j){
-				d = min(abs(b[i] - c[j]), d);
-			}
+		int l, r; cin>>l>>r;
+		int64 m = 0;
+		f0(i, l, r){
+			m = gcd(m, d[i-1]);
 		}
-		cout<<d<<'\n';
+		cout<<m<<'\n';
 	}
 }
 
@@ -46,19 +46,21 @@ int lg2(int64 n){
 	return n?63-__builtin_clzll(n):-1;
 }
 
+int64 t[lg][maxn];
+
 void init(){
-	//f0(i, 1, maxn)t[0][i] = f[i];
+	f0(i, 0, n-1)t[0][i] = d[i];
 
 	f0(j, 1, lg){
-		for(int i=1; i + (1<<j) - 1<=n; i++){
-			t[j][i] = min(t[j-1][i], t[j-1][i + (1<<(j-1))]);
+		for(int i=0; i + (1<<j) - 1 < n; ++i){
+			t[j][i] = gcd(t[j-1][i], t[j-1][i + (1<<(j-1))]);
 		}
 	}
 }
 
-int64 get(int l, int r){
+int get(int l, int r){
 	int k = lg2(r-l+1);
-	return min(t[k][l], t[k][r-(1<<k)+1]);
+	return gcd(t[k][l], t[k][r - (1<<k) + 1]);
 }
 
 youngboiz_nobug(){
@@ -66,29 +68,23 @@ youngboiz_nobug(){
 	// freopen(file".inp", "r", stdin);
 	// freopen(file".out", "w", stdout);
 
-	cin>>n>>m>>q;
-	b.resize(m);	
-	f0(i, 1, n)cin>>a[i];
-	f0(i, 0, m-1)cin>>b[i];
-
-	sort(all(b));
-
-	f0(i, 1, n){
-		int pos = lower_bound(all(b), a[i]) - b.begin();
-		int64 res = inf;
-
-		if(pos < m)res = min(res, llabs(a[i] - b[pos]));
-		if(pos > 0)res = min(res, llabs(a[i] - b[pos-1]));
-
-		f[i] = res;
-		t[0][i] = f[i];
-	}
+	cin>>n>>q;
+	f0(i, 0, n-1)cin>>a[i];
+	f0(i, 0, n-1)cin>>b[i];
+	
+	f0(i, 0, n-1)d[i] = abs(a[i] - b[i]);		
 
 	init();
 
 	while(q--){
 		int l, r; cin>>l>>r;
+		l--; r--;
+		if(l == r){
+			cout<<0<<'\n';
+			continue;
+		}
 		cout<<get(l, r)<<'\n';
-	}
+	}	
+
 	cerr << "\ntime elapsed: "<<TIME <<"s.\n";
 }
