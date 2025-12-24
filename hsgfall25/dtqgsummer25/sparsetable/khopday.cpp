@@ -59,7 +59,7 @@ void init(){
 }
 
 int get(int l, int r){
-	int k = lg2(r-l+1);
+	int64 k = lg2(r-l+1);
 	return gcd(t[k][l], t[k][r - (1<<k) + 1]);
 }
 
