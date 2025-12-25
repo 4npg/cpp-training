@@ -18,6 +18,44 @@ using namespace std;
 
 int64 k;
 
+bool d[maxn];
+vector<int> nto;
+
+void sang(){
+    d[0] = d[1] = 1;
+
+    for(int i=2; i*i<maxn; i++){
+        if(d[i] == 0){
+            for(int j=i*i; j<maxn; j+=i){
+                d[j] = 1;
+            }
+        }
+    }
+
+    f0(i, 2, maxn-1)if(!d[i])nto.pb(i);
+}
+
+void sangdoan(int64 l, int64 r){
+    memset(d, 0, (r-l+1)*sizeof(bool));
+
+    for(int p:nto){
+        if(1ll*p*p > r){
+            break;
+        }
+
+        int64 st = max(1ll*p*p, ((l+p-1)/p)*p);
+
+        for(int64 x = st; x<=r; x+=p){
+            d[x-l] = 1;
+        }
+    }
+
+    f0(i, 0, r-l){
+        if(!d[i] && l+i>1){
+            cout<<l+i<<" ";
+        }
+    }
+}
 con_meo_dua_leo(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     // freopen(file".inp", "r", stdin);
