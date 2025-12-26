@@ -14,12 +14,42 @@ using namespace std;
 //     return l+rng()%(r-l+1);
 // }
 
-#define maxn
+#define maxn 1000006
+#define pb push_back
+
+int t;
 
 con_meo_dua_leo(){
     ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    freopen(file".inp","r",stdin);
+    // freopen(file".inp","r",stdin);
 //    freopen(file".out","w",stdout);
 
+    cin>>t;
+    while(t--){
+        int n; cin>>n;
+
+        vector<int> h(n);
+        f0(i, 0, n-1)cin>>h[i];
+
+        int64 ans = 0; 
+        deque<int> st;
+
+        f0(i, 0, n-1){
+            while(!st.empty() && h[i] > h[st.back()]){
+                int bot = st.back();
+                st.pop_back();
+
+                if(st.empty())break;
+
+                int lo = st.back();
+                int wid = i - lo -1;
+                int hi =min(h[lo], h[i] - h[bot]);
+
+                if(hi > 0)ans += 1ll*wid*hi;
+            }
+            st.pb(i);
+        }
+        cout<<ans<<'\n';
+    }
     cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }
