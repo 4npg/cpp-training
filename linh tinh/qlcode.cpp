@@ -1,56 +1,63 @@
-#include <bits/stdc++.h>
+// author : anphung
+#include<bits/stdc++.h>
 using namespace std;
-#define ll long long
-#define TASK "POWEXP"
-#define endl "\n"
-#define fast ios_base::sync_with_stdio(false); cin.tie(nullptr)
-#define FOR(i,a,b) for(ll (i)=(a);i<=(b);++i)
-#define LOCAL
+#define con_meo_dua_leo int32_t main
+#define int64 long long
+#define TIME (1.0 * clock() / CLOCKS_PER_SEC)
+#define f0(i,a,b) for(int (i)=(a);(i)<=(b);++i)
+#define fd(i,a,b) for(int (i)=(a);(i)>=(b);--i)
+#define file "doancon"
 
-#ifdef LOCAL
-  #define dbg(x) do { cerr << "[" << #x << "] = " << (x) << '\n'; } while(0)
-#else
-  #define dbg(x) do {} while(0)
-#endif
+// mt19937 rng(chrono::system_clock::now().time_since_epoch().count());
 
+// int Rand(int l, int r){
+//     return l+rng()%(r-l+1);
+// }
 
-ll mulmod(ll a, ll b, ll mod) {
-    ll res = 0;
-    a %= mod;
-    b %= mod;
-    while (b > 0) {
-        if (b & 1) {
-            res = (res + a) % mod;
+#define maxn 200005
+
+int n, k;
+int64 m;
+int b[maxn];
+
+int64 opw(int64 a, int64 b, int mod){
+    int64 ans = 1;
+    while(b){
+        if(b&1)ans = (ans*a)%mod;
+        a = (a*a)%mod;
+        b>>=1;
+    }
+    return ans;
+}
+
+con_meo_dua_leo(){
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    // freopen(file".inp", "r", stdin);
+    // freopen(file".out", "w", stdout);
+    cin>>n>>m>>k;
+
+    f0(i, 1, n){
+        string s; cin>>s;
+        int64 amod = 0;
+        for(auto c:s){
+            amod = (amod*10+(c-48))%k;
         }
-        a = (a + a) % mod;
-        b >>= 1;
+        b[i] = opw(amod, m, k);
     }
-    return res;
-}
 
-ll ipow(ll base, ll exp, ll mod) {
-    ll res = 1 % mod;
-    base %= mod;
-    while (exp > 0) {
-        if (exp & 1) res = mulmod(res, base, mod);
-        base = mulmod(base, base, mod);
-        exp >>= 1;
+    unordered_map<int, int>freq;
+
+    freq[0] = 1;
+
+    int64 ans = 0;
+    int cur = 0;
+    f0(i, 1, n){
+        cur = (cur+b[i])%k;
+        ans += freq[cur];
+        freq[cur]++;
     }
-    return res;
+
+    cout<<ans;
+
+    cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }
-
-int32_t main() {
-    fast;
-    if (fopen(TASK ".inp", "r")) {
-        freopen(TASK ".inp", "r", stdin);
-        freopen(TASK ".out", "w", stdout);
-    }
-    ll a, b, m;
-    cin >> a >> b >> m;
-    ll A = ipow(a, b, m);
-    ll B = ipow(b, a, m);
-    cout << mulmod(A, B, m) << "\n";
-
-}
-
-

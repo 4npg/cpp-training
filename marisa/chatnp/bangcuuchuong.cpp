@@ -11,24 +11,41 @@ using namespace std;
 // mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 // int Rand(int l, int r){
-//     return l+rng()%(r-l+1);
+// 	return l+rng()%(r-l+1);
 // }
 
 #define maxn 100005
 #define lg 20
 #define inf (int64)4e18
 
-int n, k;
-int a[maxn];
+int n, m;
+int64 k;
 
+
+bool check(int64 mid){
+	int64 cnt = 0;
+	f0(i, 1, n){
+		cnt += min(mid/i, 1ll*m);
+	}
+	return (cnt<k);
+}
 con_meo_dua_leo(){
-    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    // freopen(file".inp", "r", stdin);
-    // freopen(file".out", "w", stdout);
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	// freopen(file".inp", "r", stdin);
+	// freopen(file".out", "w", stdout);
 
-    cin>>n>>k;
+	cin>>n>>m>>k;
 
-    f0(i, 0, n-1)cin>>a[i];
+	int64 l = 1, r=1ll*n*m;
 
-    cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
+	while(l<=r){
+		int64 mid = l + (r-l)/2;
+
+		if(check(mid)){
+			l = mid +1;
+		}else r= mid - 1;
+	}
+
+	cout<<l;
+	cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }
