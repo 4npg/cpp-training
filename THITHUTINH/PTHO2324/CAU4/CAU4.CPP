@@ -1,68 +1,44 @@
 // author : anphung
 #include<bits/stdc++.h>
 using namespace std;
-#define youngboiz_nobug int32_t main
+#define con_meo_dua_leo int32_t main
+#define int64 long long
+#define TIME (1.0 * clock() / CLOCKS_PER_SEC)
+#define f0(i,a,b) for(int i = (a); i <= (b);++i)
+#define fd(i,a,b) for(int i = (a); i >= (b);--i)
+#define file ""
+
+// mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+// int Rand(int l, int r){
+//     return l+rng()%(r-l+1);
+// }
+
 #define maxn 200005
-#define file "CAU4"
+#define lg 20
+#define inf (int64)4e18
 #define pb push_back
 
-int n;
+int n, U, V, p[maxn], d[maxn], dd[maxn];
+int f[maxn], g[maxn];
+
 vector<int> a[maxn];
-int u0, v0;
-vector<int> path;
-bool f = false;
 
-void dfsp(int u, int p){
-    if(f) return;
-    path.pb(u);
-    if(u == v0){
-        f = true;
-        return;
+void dfs(int u){
+    d[u] = 1;
+
+    if(u == V)dd[u] = 1;
+    for(int v, i=0; i<a[u].size(); ++i){
+        v = a[u][i];
+        if(v == p[u])continue;
+        p[v] = u;
     }
-    for(int v:a[u]){
-        if(v == p) continue;
-        dfsp(v, u);
-        if(f) return;
-    }
-    path.pop_back();
 }
 
-int dfsd(int u, int p, int ban){
-    int res = 1;
-    for(int v:a[u]){
-        if(v == p || v == ban) continue;
-        res = max(res, dfsd(v, u, ban) + 1);
-    }
-    return res;
-}
+con_meo_dua_leo(){
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    // freopen(file".inp", "r", stdin);
+    // freopen(file".out", "w", stdout);
 
-youngboiz_nobug(){
-    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-
-    freopen(file".inp", "r", stdin);
-    freopen(file".out", "w", stdout);
-
-    cin >> n;
-    for(int i=1;i<n;i++){
-        int u,v; cin>>u>>v;
-        a[u].pb(v);
-        a[v].pb(u);
-    }
-
-    cin >> u0 >> v0;
-
-    if(u0 == v0){
-        cout << 1;
-        return 0;
-    }
-
-    dfsp(u0, -1);
-
-    int nxu = path[1];
-    int prev = path[path.size()-2];
-
-    int dtom = dfsd(u0, -1, nxu);
-    int danna = dfsd(v0, -1, prev);
-
-    cout << max(dtom, danna);
+    cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }
