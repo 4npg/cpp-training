@@ -6,7 +6,7 @@ using namespace std;
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i, a, b) for(int (i)=(a); (i)<=(b); ++i)
 #define fd(i, a, b) for(int (i)=(a); (i)>=(b); --i)
-#define file "BULLS"
+#define file "bulls"
 
 //mt19937_64 rng(chrono::system_clock::now().time_since_epoch().count());
 

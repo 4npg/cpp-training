@@ -14,34 +14,33 @@ using namespace std;
 // 	return l+rng()%(r-l+1);
 // }
 
-#define maxn 200005
-#define lg 20
+#define maxn 100005
+#define lg 18
 #define inf (int64)4e18
-#define pb push_back
+#define pb push_back 
+#define fi first 
+#define se second 
 
 int n, q;
 vector<int> a[maxn];
-int h[maxn], up[lg][maxn], par[maxn];
+int h[maxn], up[lg][maxn];
 
 int lg2(int x){
-	return x?31 - __builtin_clz(x):-1;
+	return x ? 31 - __builtin_clz(x) : -1;
 }
 
 void dfs(int u){
-	for(int v:a[u]){
-		if(v == par[u])continue;
+	for(int &v:a[u]){
+		if(v == up[0][u])continue;
 		h[v] = h[u] + 1;
-		par[v] = u;
+		up[0][v] = u;
 		dfs(v);
 	}
 }
-void init(){
-	f0(i, 1, n)up[0][i] = par[i];
 
+void init(){
 	f0(j, 1, lg-1){
-		f0(i, 1, n){
-			up[j][i] = up[j-1][up[j-1][i]];
-		}
+		f0(u, 1, n)up[j][u] = up[j-1][up[j-1][u]];
 	}
 }
 
@@ -54,12 +53,14 @@ int lca(int u, int v){
 			if(k&(1<<j))u = up[j][u];
 		}
 	}
+
 	if(u == v)return u;
 
-	int k = lg-1;
+	int k = lg2(h[u]);
 	fd(j, k, 0){
 		if(up[j][u] != up[j][v]){
-			u = up[j][u], v = up[j][v];
+			u = up[j][u];
+			v = up[j][v];
 		}
 	}
 	return up[0][u];
@@ -71,21 +72,20 @@ con_meo_dua_leo(){
 	// freopen(file".out", "w", stdout);
 
 	cin>>n>>q;
-
 	f0(i, 1, n-1){
 		int u, v; cin>>u>>v;
 		a[u].pb(v);
 		a[v].pb(u);
 	}
 
-	h[1] = 0;	
-	par[1] = 0;
+	up[0][1] = 0;
+	h[1] = 0;
 	dfs(1);
 	init();
 
 	while(q--){
 		int u, v; cin>>u>>v;
-		cout<<lca(u, v)<<' ';
+		cout<<lca(u, v)<<'\n';
 	}
 	cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }

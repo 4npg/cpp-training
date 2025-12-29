@@ -6,7 +6,7 @@ using namespace std;
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i, a, b) for(int (i)=(a); (i)<=(b); ++i)
 #define fd(i, a, b) for(int (i)=(a); (i)>=(b); --i)
-#define file "caykhe"
+#define file "step"
 
 //mt19937_64 rng(chrono::system_clock::now().time_since_epoch().count());
 
@@ -14,43 +14,34 @@ using namespace std;
 //	return l+rng()%(r-l+1);
 //}
 
-#define maxn 129
-#define pb push_back
+#define maxn 1009
+#define mod 13051984
 
-int n, m;
-int a[maxn], b[maxn];
-int dp[maxn][maxn];
-vector<int> tr;
+int n, k;
+int dp[maxn];
 
 youngboiz_nobug(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	// freopen(file".inp", "r", stdin);
-	// freopen(file".out", "w", stdout);
+	 freopen(file".inp", "r", stdin);
+	 freopen(file".out", "w", stdout);
 
-	cin>>n>>m;
-	f0(i, 1, n)cin>>a[i]>>b[i];
+	cin>>n>>k;
+	unordered_set<int> hong;
 
-	dp[0][0] = 0;
-
-	f0(i, 1, n){
-		fd(j, m, b[i]){
-			dp[i][j] = max(dp[i-1][j], dp[i-1][j-b[i]] + a[i]);
-		}
+	f0(i, 0, k-1){
+		int x; cin>>x;
+		hong.insert(x);
 	}
 
-	cout<<dp[n][m]<<'\n';
+	dp[0] = 1;
+	dp[1] = (hong.count(1)?0:1);
 
-	int j = m;
-	fd(i, n, 1){
-		if(dp[i][j] != dp[i-1][j]){
-			tr.pb(i);
-			j -= b[i];
-		}
+	f0(i, 2, n){
+		if(hong.count(i))dp[i] = 0;
+		else dp[i] = (dp[i-1] + dp[i-2])%mod;
 	}
 
-	sort(tr.begin(), tr.end());
-	cout<<tr.size()<<" ";
-	for(auto &x:tr)cout<<x<<" ";
+	cout<<dp[n]%mod;
 
 	cerr << "\ntime elapsed: "<<TIME <<"s.\n";
 }

@@ -6,7 +6,7 @@ using namespace std;
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i,a,b) for(int i = (a); i <= (b);++i)
 #define fd(i,a,b) for(int i = (a); i >= (b);--i)
-#define file "atm"
+#define file "cau2"
 
 // mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
@@ -14,46 +14,45 @@ using namespace std;
 // 	return l+rng()%(r-l+1);
 // }
 
-#define maxn 100
+#define maxn 100005
 #define lg 20
-#define inf (int)1e9
+#define inf (int64)4e18
 
-int n, s;
-int d[maxn];
+int n;
+int64 l, ans = -1;
+int a[maxn], b[maxn];
 
-con_meo_dua_leo(){
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	// freopen(file".inp", "r", stdin);
-	// freopen(file".out", "w", stdout);
-
-	cin>>n>>s;
-	f0(i, 0, n-1)cin>>d[i];
-
-	vector<int> dp(s+1, inf);
-	vector<int> tr(s+1, -1);
-
-	dp[0] = 0;
+bool check(int64 mid){
+	int64 t = 0;
 	f0(i, 0, n-1){
-		f0(x, d[i], s){
-			if(dp[x] > dp[x-d[i]]+1){
-				dp[x] = dp[x-d[i]] + 1;
-				tr[x] = i;
-			}
+		if(a[i] < mid){
+			t += (mid - a[i] + b[i] - 1)/b[i];
+			if(t > l)return false;
 		}
 	}
+	return t<=l;
+}
+con_meo_dua_leo(){
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	 freopen(file".inp", "r", stdin);
+	 freopen(file".out", "w", stdout);
 
-	cout<<dp[s]<<'\n';
-
-	vector<int> cnt(n, 0);
-	int cur = s;
-	while(cur>0){
-		int i = tr[cur];
-		cnt[i]++;
-		cur -= d[i];
-	}
-
+	cin>>n>>l;
 	f0(i, 0, n-1){
-		cout<<cnt[i]<<(i+1<n?' ':'\n');
+		cin>>a[i]>>b[i];
 	}
+
+	int64 lo = 1, hi = (int64)1e14;
+
+	while(lo <= hi){
+		int64 mid = lo + (hi-lo)/2;
+		if(check(mid)){
+			ans = mid;
+			lo = mid + 1;
+		}else hi = mid - 1;
+	}
+
+	cout<<ans;
+
 	cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }

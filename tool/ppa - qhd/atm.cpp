@@ -23,8 +23,8 @@ int d[maxn];
 
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	// freopen(file".inp", "r", stdin);
-	// freopen(file".out", "w", stdout);
+	 freopen(file".inp", "r", stdin);
+	 freopen(file".out", "w", stdout);
 
 	cin>>n>>s;
 	f0(i, 0, n-1)cin>>d[i];

@@ -14,33 +14,72 @@ using namespace std;
 // 	return l+rng()%(r-l+1);
 // }
 
-#define maxn 200005
-#define lg 20
+#define maxn 1005
+#define lg 10
 #define inf (int64)4e18
 #define pb push_back
+#define fi first 
+#define se second 
+#define pii pair<int, int> 
 
 int n, q;
-vector<int> a[maxn];
-int h[maxn], up[lg][maxn], par[maxn];
+int par[maxn];
+int h[maxn], d[maxn];
+int up[lg][maxn];
+vector<pii> a[maxn];
+bool vis[maxn];
 
 int lg2(int x){
-	return x?31 - __builtin_clz(x):-1;
+	return x?31-__builtin_clz(x):-1;
 }
 
 void dfs(int u){
-	for(int v:a[u]){
-		if(v == par[u])continue;
+	for(auto &node:a[u]){
+		int v = node.fi;
+		int w = node.se;
+
+		if(v == up[0][u])continue;
+
 		h[v] = h[u] + 1;
-		par[v] = u;
+		d[v] = d[u] + w;
+
+		up[0][v] = u;
+		f0(j, 1, lg-1){
+			up[j][v] = up[j-1][up[j-1][v]];
+		}
+
 		dfs(v);
 	}
 }
-void init(){
-	f0(i, 1, n)up[0][i] = par[i];
 
+void bfs(int s){
+	queue<int> q;
+	q.push(s);
+
+	vis[s] = 1;
+	h[s] = 0;
+	d[s] = 0;
+	up[0][s] = 0;
+
+	while(!q.empty()){
+		int u = q.front(); q.pop();
+		for(auto &node:a[u]){
+			int v = node.fi; int w = node.se;
+			if(vis[v])continue;
+			vis[v] = 1;
+			h[v] = h[u] + 1;
+			d[v] = d[u] + w;
+			up[0][v] = u;
+
+			q.push(v);
+		}
+	}
+}
+
+void init(){
 	f0(j, 1, lg-1){
-		f0(i, 1, n){
-			up[j][i] = up[j-1][up[j-1][i]];
+		f0(u, 1, n){
+			up[j][u] = up[j-1][up[j-1][u]];
 		}
 	}
 }
@@ -51,12 +90,14 @@ int lca(int u, int v){
 
 		int k = h[u] - h[v];
 		for(int j=0; (1<<j)<=k; ++j){
-			if(k&(1<<j))u = up[j][u];
+			if(k & (1<<j)){
+				u = up[j][u];
+			}
 		}
 	}
 	if(u == v)return u;
 
-	int k = lg-1;
+	int k = lg2(h[u]);
 	fd(j, k, 0){
 		if(up[j][u] != up[j][v]){
 			u = up[j][u], v = up[j][v];
@@ -65,27 +106,27 @@ int lca(int u, int v){
 	return up[0][u];
 }
 
+int get(int u, int v){
+	return d[u] + d[v] - 2*d[lca(u, v)];
+}
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	// freopen(file".inp", "r", stdin);
 	// freopen(file".out", "w", stdout);
 
 	cin>>n>>q;
-
 	f0(i, 1, n-1){
-		int u, v; cin>>u>>v;
-		a[u].pb(v);
-		a[v].pb(u);
+		int u, v, w; cin>>u>>v>>w;
+		a[u].pb({v, w});
+		a[v].pb({u, w});
 	}
 
-	h[1] = 0;	
-	par[1] = 0;
-	dfs(1);
+	bfs(1);
 	init();
 
 	while(q--){
 		int u, v; cin>>u>>v;
-		cout<<lca(u, v)<<' ';
+		cout<<get(u, v)<<'\n';
 	}
 	cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }

@@ -6,7 +6,7 @@ using namespace std;
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i, a, b) for(int (i)=(a); (i)<=(b); ++i)
 #define fd(i, a, b) for(int (i)=(a); (i)>=(b); --i)
-#define file "SUM"
+#define file "bulls"
 
 //mt19937_64 rng(chrono::system_clock::now().time_since_epoch().count());
 
@@ -15,31 +15,32 @@ using namespace std;
 //}
 
 #define maxn 100005
+#define mod 2114992
 
-int n;
+int n, k;
+int64 dp[maxn];
 
 youngboiz_nobug(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	freopen(file".inp", "r", stdin);
-	freopen(file".out", "w", stdout);
+	 freopen(file".inp", "r", stdin);
+	 freopen(file".out", "w", stdout);
 
-	cin>>n;
+	cin>>n>>k;
 
-	int64 sum = 0;
-	int64 ans = 0;
+	dp[0] = 1;
+	int64 res = 0;
 
-	map<int64, int64> cnt;
+	f0(x, 0, n){
+		if(x + k*(x-1) > n)break;
 
-	cnt[0] = 1;
-
-	f0(i, 1, n){
-		int64 x; cin>>x;
-		sum += x;
-		ans += cnt[sum];
-
-		cnt[sum]++;
+		int64 ttp = n - k*(x-1);
+		dp[0] = 1;
+		f0(i, 1, x){
+			dp[i] = (dp[i-1] * (ttp - i + 1)/i);
+		}
+		res += dp[x];
 	}
 
-	cout<<ans;
-	cerr << "time elapsed: "<<TIME <<"s.\n";
+	cout<<res%mod;
+	cerr << "\ntime elapsed: "<<TIME <<"s.\n";
 }
