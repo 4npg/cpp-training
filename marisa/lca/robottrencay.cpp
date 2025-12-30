@@ -32,7 +32,7 @@ int lg2(int x){
 	return x ? 31 - __builtin_clz(x) : -1;
 }
 
-vector<pii> a[maxn];
+vector<int> a[maxn];
 
 void dfs(int u){
 	for(int &v:a[u]){
@@ -44,6 +44,42 @@ void dfs(int u){
 	}
 }
 
+void init(){
+	f0(j, 1, lg-1){
+		f0(u, 1, n)
+			up[j][u] = up[j-1][up[j-1][u]];
+	}
+}
+
+int totien(int u, int k){
+	for(int j=0; (1<<j)<=k; ++j){
+		if(k&(1<<j))u = up[j][u];
+	}
+	return u;
+}
+
+int lca(int u, int v){
+	if(h[u] != h[v]){
+		if(h[u] < h[v])swap(u, v);
+
+		int k = h[u] - h[v];
+		for(int j=0; (1<<j)<=k; ++j){
+			if(k&(1<<j))u = up[j][u];
+		}
+	}
+	if(u == v)return u;
+
+	int k = lg2(h[u]);
+	fd(j, k, 0){
+		if(up[j][u] != up[j][v]){
+			u = up[j][u];
+			v = up[j][v];
+		}
+	}
+	return up[0][u];
+}
+
+
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	// freopen(file".inp", "r", stdin);
@@ -52,12 +88,24 @@ con_meo_dua_leo(){
 	cin>>n>>q;
 	f0(i, 1, n-1){
 		int u, v; cin>>u>>v;
-		a[u].pb({v, 1});
-		a[v].pb({u, 1});
+		a[u].pb(v);
+		a[v].pb(u);
 	}
+
+	dfs(1);
+	init();
 
 	while(q--){
 		int u, v, w; cin>>u>>v>>w;
+		int p = lca(u, v);
+		int d1 = h[u] - h[p];
+		int d2 = h[v] - h[p];
+
+		if(w <= d1){
+			cout<<totien(u, w)<<'\n';
+		}else if(w>d1){
+			cout<<totien(v, d2-(w-d1))<<'\n';
+		}
 	}
 
 	// f0(i, 1, n){

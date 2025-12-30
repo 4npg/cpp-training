@@ -26,8 +26,8 @@ using namespace std;
 int s;
 int n, q;
 int h[maxn];
-int64 d[maxn];
 vector<int> a[maxn];
+vector<int> gr[maxn];
 int up[lg][maxn];
 bool vis[maxn];
 
@@ -77,12 +77,13 @@ int lca(int u, int v){
 		if(h[u] < h[v])swap(u, v);
 
 		int k = h[u] - h[v];
-		for(int j=0; (1<<j)<=n; ++j){
+		for(int j=0; (1<<j)<=k; ++j){
 			if(k&(1<<j))u = up[j][u];
 		}
 	}
 	if(u == v)return u;
 
+	int k = lg2(h[u]);
 	fd(j, k, 0){
 		if(up[j][u] != up[j][v]){
 			u = up[j][u];
@@ -97,18 +98,21 @@ int dist(int u, int v){
 }
 
 int dia(vector<int> &gr){
-	int a = gr[0], ma = 0, b = a, d;
+	int a = gr[0], ma = 0, b = a;
 
 	for(int x:gr){
-		ma = d;
-		b = x;
+		int d = dist(a, x);
+		if(d > ma){
+			ma = d;
+			b = x;
+		}
 	}
 
 	ma = 0;
 	for(int x:gr){
-		d = dist(b, x);
-		ma = max(ma, d);
+		ma = max(ma, dist(b, x));
 	}
+
 	return ma;
 }
 
@@ -118,20 +122,23 @@ con_meo_dua_leo(){
 	// freopen(file".out", "w", stdout);
 
 	cin>>n>>q;
-	f0(i, 1, n-1){
+	f0(i, 1, n){
 		int x, y;
 		cin>>x>>y;
-		a[x].pb(i);
-		a[g[0][i]].pb(i);
-		if(up[0][i] == 0)s = i;
+		
+		gr[x].pb(i);
+		if(y == 0){
+			s = i;
+		}else a[y].pb(i);
 	}
 
 	h[s] = 0;
 	up[0][s] = 0;
 	dfs(s);
+	init();
 
-	f0(i, 1, k){
-		cout<<dia(gr[i]);
+	f0(i, 1, q){
+		cout<<dia(gr[i])<<'\n';
 	}
 	
 	cerr << "\ntime elapsed: "<<TIME <<"s.\n";

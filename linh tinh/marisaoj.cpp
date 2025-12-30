@@ -18,17 +18,27 @@ using namespace std;
 #define lg 20
 #define inf (int64)4e18
 
-int n, k;
-int a[maxn];
+int n, ans;
+vector<int64> a(maxn);
 
 con_meo_dua_leo(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     // freopen(file".inp", "r", stdin);
     // freopen(file".out", "w", stdout);
 
-    cin>>n>>k;
+    cin>>n;
+    a.resize(n);
 
-    f0(i, 0, n-1)cin>>a[i];
+    for(auto &x:a)cin>>x;
+    sort(a.begin(), a.end());
+    a.erase(unique(a.begin(), a.end()), a.end());
+    
+    // for(auto &x:a)cout<<x<<" ";
+    // cout<<'\n';
+    for(auto &x:a){
+        ans = max(ans, (int)(upper_bound(a.begin(), a.end(), x+n-1)-lower_bound(a.begin(), a.end(), x)));
+    }
 
+    cout<<n-ans;
     cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }
