@@ -24,22 +24,17 @@ using namespace std;
 
 int n, m;
 
-struct edge{
-	int u, v;
-};
-
-vector<edge> a[maxn];
 int par[maxn];
 int sz[maxn];
-
-int mi[maxn];
 int ma[maxn];
-int cnt[maxn];
+int mi[maxn];
 
 void init(){
 	f0(i, 1, n){
 		par[i] = i;
 		sz[i] = 1;
+		ma[i] = i;
+		mi[i] = i;
 	}
 }
 
@@ -56,15 +51,10 @@ void uni(int a, int b){
 	if(sz[a] < sz[b])swap(a, b);
 	par[b] = a;
 	sz[a] += sz[b];
+	ma[a] = max(ma[a], ma[b]);
+	mi[a] = min(mi[a], mi[b]);
 }
 
-void dfs(int u){
-	f0(i, 1, n){
-		if(par[u] == par[i]){
-			
-		}
-	}
-}
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	// freopen(file".inp", "r", stdin);
@@ -75,13 +65,15 @@ con_meo_dua_leo(){
 	init();
 
 	while(m--){
-		char c; cin>>c;
+		string s; cin>>s;
 		int u, v;
-		if(c == 'u'){
+		if(s == "union"){
 			cin>>u>>v;
 			uni(u, v);
 		}else{
-
+			cin>>u;
+			int d = find(u);
+			cout<<mi[d]<<" "<<ma[d]<<" "<<sz[d]<<'\n';
 		}
 	}
 	cerr << "\ntime elapsed: "<<TIME <<"s.\n";
