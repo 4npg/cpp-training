@@ -18,36 +18,33 @@ using namespace std;
 #define inf (long long)4e18
 #define mod (long long)(1e9+7)
 
-int n;
-long long k;
-long long a[maxn];
+int n, k;
 
-double l = 1, r = 1e18;
-double ans;
-
-long long check(double mid){
-	long long sum = 0;
-	f0(i, 0, n-1){
-		sum += (a[i]*a[i]/mid);
-	}
-	return sum;
-}
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	// freopen(file".inp", "r", stdin);
 	// freopen(file".out", "w", stdout);
 
 	cin>>n>>k;
-	f0(i, 0, n-1)cin>>a[i];
 
-	f0(i, 1, 100){
-		double mid = (l+r)/2;
-		if(check(mid)>=k){
-			ans = mid;
-			l = mid;
-		}else r = mid;
+	vector<int> a(n);
+	f0(i, 0, n-1){
+		cin>>a[i];
+		a[i] -= k;
 	}
 
-	cout<<fixed<<setprecision(6)<<ans;
+	long long sum = 0;
+	long long cnt = 0;
+	map<long long, int> mp;
+	mp[0] = 1;
+	for(auto &x:a){
+		sum += x;
+		if(mp.count(sum)){
+			cnt += mp[sum];
+		}
+		mp[sum]++;
+	}
+
+	cout<<cnt;
 	cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }

@@ -38,23 +38,21 @@ con_meo_dua_leo(){
 
 	f0(i, 1, n){
 		cin>>a[i];
-		sum += a[i];
+		sum = max(a[i], sum+a[i]);
 		pre[i] = max(pre[i-1], sum);
-		if(sum<0)sum=0;
 	}
 
 	sum = 0;
 	int64 ans = LLONG_MIN;
 
 	fd(i, n, 1){
-		sum += a[i];
+		sum = max(a[i], sum+a[i]);
 		suf[i] = max(suf[i+1], sum);
-		if(sum < 0)sum = 0;
-
-		if(i - 1 >= 1)ans = max(ans, pre[i-1] + suf[i]);
-		if(i + 1 <= n)ans = max(ans, pre[i] + suf[i+1]);
 	}
 
+	f0(i, 1, n-1){
+		ans = max(ans, pre[i] + suf[i+1]);
+	}
 	cout<<ans;
 	cerr << "\ntime elapsed: "<<TIME <<"s.\n";
 }

@@ -14,19 +14,20 @@ using namespace std;
 // 	return l+rng()%(r-l+1);
 // }
 
-#define maxn 300005
+#define maxn 100005
 #define lg 20
 #define inf (int64)4e18
 #define mod (int64)(1e9+7)
+#define fi first 
+#define se second 
+#define pb push_back
 
 int n, m;
-int par[maxn], sz[maxn], mi[maxn], ma[maxn];
+int par[maxn], sz[maxn];
 
 void init(){
 	f0(i, 1, n){
 		par[i] = i;
-		mi[i] = i;
-		ma[i] = i;
 		sz[i] = 1;
 	}
 }
@@ -36,17 +37,15 @@ int find(int v){
 }
 
 void uni(int a, int b){
-	a = find(a);
-	b = find(b);
+	a = find(a); b = find(b);
 
 	if(a == b)return;
 
 	if(sz[a] < sz[b])swap(a, b);
 	par[b] = a;
 	sz[a] += sz[b];
-	mi[a] = min(mi[a], mi[b]);
-	ma[a] = max(ma[a], ma[b]);
 }
+
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	// freopen(file".inp", "r", stdin);
@@ -57,15 +56,15 @@ con_meo_dua_leo(){
 	init();
 
 	while(m--){
-		string s; cin>>s;
+		string s; int u, v;
+		cin>>s>>u>>v;
+
 		if(s == "union"){
-			int u, v; cin>>u>>v;
 			uni(u, v);
 		}else{
-			int u; cin>>u; int d = find(u);
-
-			cout<<mi[d]<<" "<<ma[d]<<" "<<sz[d]<<'\n';
+			cout<<((find(u) == find(v)) ? "YES\n" : "NO\n");
 		}
 	}
+	
 	cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }

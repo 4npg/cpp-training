@@ -14,39 +14,59 @@ using namespace std;
 // 	return l+rng()%(r-l+1);
 // }
 
-#define maxn 300005
+#define maxn 100005
 #define lg 20
 #define inf (int64)4e18
 #define mod (int64)(1e9+7)
 
 int n, m;
-int par[maxn], sz[maxn], mi[maxn], ma[maxn];
+int par[maxn], sz[maxn];
+int64 v[maxn], lazy[maxn];
 
 void init(){
 	f0(i, 1, n){
 		par[i] = i;
-		mi[i] = i;
-		ma[i] = i;
 		sz[i] = 1;
+		v[i] = 0;
+		lazy[i] = 0;
 	}
 }
 
-int find(int v){
-	return v == par[v] ? v : par[v] = find(par[v]);
+int find(int x){
+    while(par[x] != x) x = par[x];
+    return x;
 }
 
-void uni(int a, int b){
+
+
+void join(int a, int b){
 	a = find(a);
 	b = find(b);
 
 	if(a == b)return;
-
 	if(sz[a] < sz[b])swap(a, b);
+
+	v[b] = lazy[b] - lazy[a];
 	par[b] = a;
 	sz[a] += sz[b];
-	mi[a] = min(mi[a], mi[b]);
-	ma[a] = max(ma[a], ma[b]);
 }
+
+void add(int u, int av){
+	u = find(u);
+	lazy[u] += av;
+}
+
+int64 get(int x){
+    int64 res = 0;
+    while(par[x] != x){
+    	res += v[x];
+    	x = par[x];
+    }
+
+    return res + lazy[x];
+}
+
+
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	// freopen(file".inp", "r", stdin);
@@ -57,14 +77,17 @@ con_meo_dua_leo(){
 	init();
 
 	while(m--){
-		string s; cin>>s;
-		if(s == "union"){
-			int u, v; cin>>u>>v;
-			uni(u, v);
+		string s;
+		cin>>s;
+		if(s == "join"){
+			int x, y; cin>>x>>y;
+			join(x, y);
+		}else if(s == "add"){
+			int x, val; cin>>x>>val;
+			add(x, val);
 		}else{
-			int u; cin>>u; int d = find(u);
-
-			cout<<mi[d]<<" "<<ma[d]<<" "<<sz[d]<<'\n';
+			int x; cin>>x;
+			cout<<get(x)<<'\n';
 		}
 	}
 	cerr<<"\ntime elapsed: "<<TIME <<"s.\n";

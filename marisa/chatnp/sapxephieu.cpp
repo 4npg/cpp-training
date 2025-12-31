@@ -19,35 +19,39 @@ using namespace std;
 #define mod (long long)(1e9+7)
 
 int n;
-long long k;
-long long a[maxn];
+long long k, a[maxn];
 
-double l = 1, r = 1e18;
-double ans;
+long long check(long long mid){
+	long long cnt = 0;
 
-long long check(double mid){
-	long long sum = 0;
 	f0(i, 0, n-1){
-		sum += (a[i]*a[i]/mid);
+		cnt += upper_bound(a + i + 1, a+n, a[i] + mid) - (a+i+1);
 	}
-	return sum;
+	return cnt;
 }
+
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	// freopen(file".inp", "r", stdin);
 	// freopen(file".out", "w", stdout);
 
 	cin>>n>>k;
-	f0(i, 0, n-1)cin>>a[i];
-
-	f0(i, 1, 100){
-		double mid = (l+r)/2;
-		if(check(mid)>=k){
-			ans = mid;
-			l = mid;
-		}else r = mid;
+	f0(i, 0, n-1){
+		cin>>a[i];
 	}
 
-	cout<<fixed<<setprecision(6)<<ans;
+	sort(a, a+n);
+
+	long long l = 1, r = 1LL*1e9;
+
+	while(l<=r){
+		long long mid = l + (r-l)/2;
+		if(check(mid) < k){
+			l = mid + 1;
+		}else r = mid - 1;
+	}
+
+	cout<<l;
+
 	cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }

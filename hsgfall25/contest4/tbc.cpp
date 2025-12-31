@@ -1,4 +1,4 @@
-// authur : anphung
+head// authur : anphung
 // github : 4npg
 #include <bits/stdc++.h>
 using namespace std;
