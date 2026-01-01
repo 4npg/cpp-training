@@ -19,67 +19,60 @@ using namespace std;
 #define mod (long long)(1e9+7)
 
 int n;
-int a[maxn];
+vector<int> a[maxn];
+bool vis[maxn];
 int d[maxn];
-long long res = 1;
-void sang(){
-	for(int i=2; i<maxn; ++i){
-		if(d[i] == 0){
-			for(int j=i; j<maxn; j+=i)if(d[j] == 0){
-				d[j] = i;
+
+void addEdge(int u, int v){
+	a[u].emplace_back(v);
+}
+
+void bfs(int s, int &far, int &df){
+	queue<int> q; q.push(s);
+	d[s] = 0; vis[s] = 1;
+	far = s; df = 0;
+
+	while(q.size()){
+		int u = q.front(); q.pop();
+		far = u; df = d[u];
+
+		for(int &v:a[u]){
+			if(d[v] == -1){
+				d[v] = d[u] + 1;
+				vis[v] = 1;
+				q.push(v);
 			}
 		}
 	}
 }
 
-long long mul(int a, int b){
-	long long ans = 0;
-	while(b){
-		if(b&1)ans = (ans+(1LL*a))%mod;
-		a = (a+a)%mod;
-		b>>=1;
-	}
-	return ans;
-}
+int dia(int s){
+	memset(d, -1, sizeof d);
+	int u = 1, du = 0;
+	bfs(s, u, du);
 
-long long opw(int a, long long b){
-	long long ans = 1;
-	while(b){
-		if(b&1)ans = mul(ans, a);
-		a = mul(a, a);
-		b>>=1;
-	}
-	return ans;
+	memset(d, -1, sizeof d);
+	int v, dv; 
+	bfs(u, v, dv);
+
+	return dv;
 }
 
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	// freopen(file".inp", "r", stdin);
 	// freopen(file".out", "w", stdout);
-	sang();
 
 	cin>>n;
+	f0(i, 1, n-1){
+		int u, v; cin>>u>>v;
 
-	map<int, long long> mp;
+		addEdge(u, v);
+		addEdge(v, u);
 
-	f0(i, 0, n-1){
-		int x; cin>>x;
-		while(x>1){
-			int p = d[x];
-			int cnt = 0;
-			while(x%p == 0){
-				x/=p;
-				cnt++;
-			}
-			mp[p] = max(mp[p], cnt*1LL);
-		}
 	}
 
-	for(auto &x:mp){
-		//cout<<x.first<<" "<<x.second<<'\n';
-		res = mul(res, opw(x.first, x.second));
-	}
+	cout<<dia(1);
 
-	cout<<res%mod;
 	cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }

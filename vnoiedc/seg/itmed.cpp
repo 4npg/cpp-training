@@ -2,11 +2,10 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define con_meo_dua_leo int32_t main
-#define int64 long long
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i,a,b) for(int i = (a); i <= (b);++i)
 #define fd(i,a,b) for(int i = (a); i >= (b);--i)
-#define file "cau3"
+#define file ""
 
 // mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
@@ -14,36 +13,32 @@ using namespace std;
 // 	return l+rng()%(r-l+1);
 // }
 
-#define maxn 1000006
+#define maxn 100005
 #define lg 20
-#define inf (int64)4e18
+#define inf (long long)4e18
+#define mod (long long)(1e9+7)
 
-int n;
-int64 s;
-int a[maxn];
-int ans = 0;
+int n, m;
+int w[maxn], v[maxn];
+int dp[maxn];
 
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	 freopen(file".inp", "r", stdin);
-	 freopen(file".out", "w", stdout);
+	// freopen(file".inp", "r", stdin);
+	// freopen(file".out", "w", stdout);
 
-	cin>>n>>s;
-	f0(i, 0, n-1)cin>>a[i];
+	cin>>n>>m;
 
-	int l = 0;
-	int64 sum = 0;
-
-	f0(r, 0, n-1){
-		sum += a[r];
-
-		while(sum > s){
-			sum -= a[l];
-			l++;
-		}
-		ans += (r-l+1);
+	f0(i, 0, n-1){
+		cin>>w[i]>>v[i];
 	}
 
-	cout<<ans;
+	f0(i, 0, n-1){
+		fd(j, m, w[i]){
+			dp[j] = max(dp[j], dp[j-w[i]] + v[i]);
+		}
+	}
+
+	cout<<dp[m];
 	cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }

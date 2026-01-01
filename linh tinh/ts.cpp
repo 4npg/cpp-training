@@ -2,11 +2,10 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define con_meo_dua_leo int32_t main
-#define int64 long long
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i,a,b) for(int i = (a); i <= (b);++i)
 #define fd(i,a,b) for(int i = (a); i >= (b);--i)
-#define file "moneysums"
+#define file ""
 
 // mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
@@ -14,44 +13,53 @@ using namespace std;
 //     return l+rng()%(r-l+1);
 // }
 
-#define maxn 105
+#define maxn 1000006
 #define lg 20
-#define inf (int64)4e18
-#define mod (int64)(1e9+7)
-#define pb push_back
+#define inf (long long)4e18
+#define mod (long long)(1e9+7)
+#define base 31
 
-int n;
-vector<int> a(maxn);
-bool f[maxn];
-int sum = 0;
-int dp[maxn][maxn];
+string s;
+int q;
+vector<unsigned long long> h(maxn+1), p(maxn+1);
 
+int getHash(int l, int r){
+    return h[r] - h[l] * p[r-l];
+}
 con_meo_dua_leo(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     // freopen(file".inp", "r", stdin);
     // freopen(file".out", "w", stdout);
-
-    cin>>n;
-    a.resize(n);
+    cin>>s;
+    int n = s.size();
+    h.resize(n+1); p.resize(n+1);
+    p[0] = 1;
     f0(i, 0, n-1){
-        cin>>a[i];
-        sum += a[i];
+        h[i+1] = h[i] * base + (unsigned long long)(s[i] - '0' + 1);
+        p[i+1] = p[i] * base;
     }
-    f[0] = 1;
-    for(auto &x:a){
-        fd(su, sum, 0){
-            if(su-x>=0 && f[su-x])f[su] = 1;
+
+    cin>>q;
+    while(q--){
+        int a, b, l;
+        cin>>a>>b>>l;
+        a--; b--;
+        int len = l+1;
+
+        int lo = 0, hi = len;
+        while(lo < hi){
+            int mid = (lo + hi + 1)/2;
+            if(getHash(a, a+mid) == getHash(b, b+mid))lo = mid;
+            else hi = mid -1;
         }
-    }
 
-    vector<int> ans;
-    f0(s, 1, sum){
-        if(f[s])ans.pb(s);
-    }
-
-    cout<<ans.size()<<'\n';
-    for(auto &x:ans){
-        cout<<x<<" ";
+        if(lo == len){
+            cout<<"=\n";
+        }else{
+            if(s[a+lo] > s[b+lo])cout<<">\n";
+            else if(s[a+lo] < s[b+lo])cout<<"<\n";
+            else cout<<"=\n";
+        }
     }
     cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }
