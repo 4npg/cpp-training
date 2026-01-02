@@ -13,53 +13,88 @@ using namespace std;
 //     return l+rng()%(r-l+1);
 // }
 
-#define maxn 1000006
+#define maxn 200005
 #define lg 20
 #define inf (long long)4e18
 #define mod (long long)(1e9+7)
-#define base 31
+#define pli pair<long long, int>
 
-string s;
-int q;
-vector<unsigned long long> h(maxn+1), p(maxn+1);
+int n, m, k;
 
-int getHash(int l, int r){
-    return h[r] - h[l] * p[r-l];
-}
+struct edge{
+    int u, v; 
+    long long w;
+
+    edge(int _u, int _v, long long _w) : u(_u), v(_v), w(_w) {}
+
+    friend bool operator < (const edge &a, const edge &b){
+        return a.w > b.w;
+    }
+};
+
+vector<edge> e;
+
+struct graph{
+    vector< pair<int, long long> > ke[maxn];
+    long long d[maxn];
+
+
+    void addEdge(int u, int v, long long w){
+        ke[u].emplace_back(v, w);
+        ke[v].emplace_back(u, w);
+    }
+
+    void dijkstra(int s){
+
+        f0(i, 1, n)d[i] = inf;
+
+        d[s] = 0;
+
+        priority_queue<pli, vector<pli>, greater<pli>> pq;
+        pq.push({0LL, s});
+
+        while(pq.size()){
+            int u = pq.top().second; long long du = pq.top().first; pq.pop();
+
+            if(d[u] != du) continue;
+
+            for(auto &e:ke[u]){
+                int v = e.first; long long w = e.second;
+                if(d[v] > d[u] + w){
+                    d[v] = d[u] + w;
+                    pq.push({d[v], v});
+                }
+            }
+        }
+    }
+
+} g;
+
 con_meo_dua_leo(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     // freopen(file".inp", "r", stdin);
     // freopen(file".out", "w", stdout);
-    cin>>s;
-    int n = s.size();
-    h.resize(n+1); p.resize(n+1);
-    p[0] = 1;
-    f0(i, 0, n-1){
-        h[i+1] = h[i] * base + (unsigned long long)(s[i] - '0' + 1);
-        p[i+1] = p[i] * base;
+
+    cin>>n>>m>>k;
+    f0(i, 0, m-1){
+        int u, v; cin>>u>>v;
+        long long w; cin>>w;
+        g.addEdge(u, v, w);
+        e.emplace_back(u, v, w);
     }
 
-    cin>>q;
-    while(q--){
-        int a, b, l;
-        cin>>a>>b>>l;
-        a--; b--;
-        int len = l+1;
+    sort(e.begin(), e.end());
 
-        int lo = 0, hi = len;
-        while(lo < hi){
-            int mid = (lo + hi + 1)/2;
-            if(getHash(a, a+mid) == getHash(b, b+mid))lo = mid;
-            else hi = mid -1;
-        }
+    f0(i, 0, k-1){
+        int u = e[i].u, v = e[i].v;
+        long long w = e[i].w;
 
-        if(lo == len){
-            cout<<"=\n";
-        }else{
-            if(s[a+lo] > s[b+lo])cout<<">\n";
-            else if(s[a+lo] < s[b+lo])cout<<"<\n";
-            else cout<<"=\n";
-        }
+        for(auto &p:g.ke[u])if(p.first == v && p.second == w)p.second = 0;
+        for(auto &p:g.ke[v])if(p.first == u && p.second == w)p.second = 0;
     }
+
+    g.dijkstra(1);
+
+    cout<<(g.d[n]!=inf?g.d[n]:-1);
     cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }

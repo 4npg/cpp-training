@@ -20,25 +20,76 @@ using namespace std;
 
 long long a, b, c;
 
+
 long long mul(long long a, long long b){
-	long long ans = 0;
-	while(b){
-		if(b&1)ans = (ans + a)%mod;
-		a = (a+a)%mod;
-		b>>=1;
+	a %= mod;
+	b %= mod;
+	if(a < 0) a += mod;
+	if(b < 0) b += mod;
+	return (a*b)%mod;
+}
+
+void sub1(){
+	cout<<max({mul(a, b), mul(a, c), mul(b, c)});
+	//cout<<max({(a%mod*b%mod)%mod, (a%mod*c%mod)%mod, (b%mod*c%mod)%mod});
+}
+
+void sub2(){
+	vector< pair<long long, long long> > p = {
+		{a, b}, {a, c}, {b, c}
+	};
+
+	int bt = -2;
+	long double bl = -1e36;
+	pair<long long, long long> bp = {0, 0};
+
+	for(auto &node:p){
+		long long x = node.first;
+		long long y = node.second;
+		long long dau;
+
+		if(x == 0 || y == 0)dau = 0;
+		else if((x>0 && y>0) || (x<0 && y<0))dau = 1;
+		else dau = -1;
+
+		if(dau == 1){
+			long double val = logl(fabsl(x)) + logl(fabsl(y));
+			if(bt < 1 || (bt == 1 && val > bl)){
+				bt = 1;
+				bl = val;
+				bp = node;
+			}
+		}else if(dau == 0){
+			if(bt < 0){
+				bt = 0;
+				bp = node;
+			}
+		}else{
+			long double val = logl(fabsl(x)) + logl(fabsl(y));
+			if(bt == -1){
+				if(val < bl){
+					bl = val;
+					bp = node;
+				}
+			}else if(bt < -1){
+				bt = -1;
+				bl = val;
+				bp = node;
+			}
+		}
 	}
-	return ans;
+	
+	cout<<mul(bp.first, bp.second);
 }
 
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	freopen(file".inp", "r", stdin);
-	freopen(file".out", "w", stdout);
+	// freopen(file".inp", "r", stdin);
+	// freopen(file".out", "w", stdout);
 
 	cin>>a>>b>>c;
-	//cout<<max({mul(a, b), mul(a, c), mul(b, c)});
 
-	cout<<max({(a%mod*b%mod)%mod, (a%mod*c%mod)%mod, (b%mod*c%mod)%mod});
-
+	sub2();
+	
 	cerr<<"\ntime elapsed: "<<TIME <<"s.\n";
 }
