@@ -38,16 +38,19 @@ con_meo_dua_leo(){
 
 
 	f0(i, 1, n){
-		f0(j, 1, m)pre[j] = 0LL;
+		f0(j, 1, m)pre[j] = 0;
+
 		f0(v, i, n){
 			f0(j, 1, m)pre[j] += a[v][j];
+
 			long long s = pre[1];
 			ans = max(ans, s);
-			f0(j, 1, m){
+
+			f0(j, 2,m ){
 				s = max(pre[j], s+pre[j]);
 				ans = max(ans, s);
 			}
-		}	
+		}
 	}
 
 	cout<<ans;
