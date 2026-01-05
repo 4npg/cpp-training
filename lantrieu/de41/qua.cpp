@@ -6,7 +6,7 @@ using namespace std;
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i, a, b) for(int i = (a); i <=(b); ++i)
 #define fd(i, a, b) for(int i = (a); i >=(b); --i)
-#define file "task"
+#define file "qua"
 
 //mt19937_64 rng(chrono::system_clock::now().time_since_epoch().count());
 
@@ -97,10 +97,11 @@ void sub2(){
 }
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	 freopen(file".inp", "r", stdin);
-	 freopen(file".out", "w", stdout);
+	 // freopen(file".inp", "r", stdin);
+	 // freopen(file".out", "w", stdout);
 
 	cin>>n;
-	sub2();
+	if(n<=1003)sub1();
+	else sub2();
 	cerr << "\ntime elapsed: "<<TIME <<"s.\n";
 }
