@@ -6,7 +6,7 @@ using namespace std;
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i, a, b) for(int i = (a); i <=(b); ++i)
 #define fd(i, a, b) for(int i = (a); i >=(b); --i)
-#define file ""
+#define file "eqlarray"
 
 //mt19937_64 rng(chrono::system_clock::now().time_since_epoch().count());
 
@@ -28,34 +28,14 @@ con_meo_dua_leo(){
 
     cin>>t;
     while(t--){
-        int n, p, q; cin>>n>>p>>q;
-        vector<long long> a(n+1, 0);
+        int k, n;
+        cin>>n>>k;
+        vector<long long> b(n, 0);
+        long long s = 0;
+        long long bm = -inf;
+        f0(i, 0, n-1)cin>>b[i], s+=b[i], bm = max(bm, b[i]);
 
-        f0(i, 1, n)cin>>a[i];
-        int k = p + q;
-        if(k == 0){
-            long long mx = a[1], mn = a[1];
-            f0(i,1,n){
-                mx = max(mx, a[i]);
-                mn = min(mn, a[i]);
-            }
-            cout << mx - mn << '\n';
-            continue;
-        }
-
-        vector<long long> v;
-        f0(i, 1, n)v.emplace_back(abs(a[i]));
-
-        sort(v.begin(), v.end(), greater<long long>());
-
-        int m = min(n, k+2);
-
-        long long ans = 0;
-        f0(i, 0, m-1){
-            ans += v[i];
-        }
-
-        cout<<ans<<'\n';
+        cout<<((s%k == 0 && bm <= s/k)?"YES\n":"NO\n");
     }
     cerr << "\ntime elapsed: "<<TIME <<"s.\n";
 }
