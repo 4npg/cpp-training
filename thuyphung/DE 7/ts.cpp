@@ -6,7 +6,7 @@ using namespace std;
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i, a, b) for(int i = (a); i <=(b); ++i)
 #define fd(i, a, b) for(int i = (a); i >=(b); --i)
-#define file "eqlarray"
+#define file ""
 
 //mt19937_64 rng(chrono::system_clock::now().time_since_epoch().count());
 
@@ -14,28 +14,56 @@ using namespace std;
 //    return l+rng()%(r-l+1);
 //}
 
-#define maxn 
+#define maxn 1000006
 #define lg 20
 #define inf (int64)4e18
 #define mod (int64)(1e9+7)
 
-int t;
+int n, p, a, b, r;
+int cnt = 0;
+bool vis[maxn];
+queue<int> q;
 
 con_meo_dua_leo(){
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     // freopen(file".inp", "r", stdin);
     // freopen(file".out", "w", stdout);
 
-    cin>>t;
-    while(t--){
-        int k, n;
-        cin>>n>>k;
-        vector<long long> b(n, 0);
-        long long s = 0;
-        long long bm = -inf;
-        f0(i, 0, n-1)cin>>b[i], s+=b[i], bm = max(bm, b[i]);
+    cin>>n>>p;
+    cin>>a>>b>>r;
+    if(n<p)vis[n] = 1;
 
-        cout<<((s%k == 0 && bm <= s/k)?"YES\n":"NO\n");
+    n%=p;
+    q.push(n);
+
+    while(q.size()){
+        int sz = q.size();
+        while(sz--){
+            int u = q.front(); q.pop();
+            if(u == r && cnt){
+                return cout<<cnt, 0;
+            }
+            int x = (u + a)%p;
+            int y = (u + b)%p;
+            int z = (u + a + b)%p;
+            if(!vis[x]){
+                vis[x] = 1;
+                q.push(x);
+            }
+
+            if(!vis[y]){
+                vis[y] = 1;
+                q.push(y);
+            }
+
+            if(!vis[z]){
+                vis[z] = 1;
+                q.push(z);
+            }
+        }
+        cnt++;
     }
+
+    cout<<-1;
     cerr << "\ntime elapsed: "<<TIME <<"s.\n";
 }

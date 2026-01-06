@@ -6,7 +6,7 @@ using namespace std;
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i, a, b) for(int i = (a); i <=(b); ++i)
 #define fd(i, a, b) for(int i = (a); i >=(b); --i)
-#define file "door"
+#define file "countaba"
 
 //mt19937_64 rng(chrono::system_clock::now().time_since_epoch().count());
 
@@ -14,43 +14,33 @@ using namespace std;
 //	return l+rng()%(r-l+1);
 //}
 
-#define maxn 1000006
+#define maxn 10004
 #define lg 20
 #define inf (int64)4e18
-#define mod 998244353
+#define mod (int64)(1e9+7)
 
 int n;
-long long s, a[maxn];
+long long k, pre[maxn], cnt = 0;
 
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	freopen(file".inp", "r", stdin);
-	freopen(file".out", "w", stdout);
+	// freopen(file".inp", "r", stdin);
+	// freopen(file".out", "w", stdout);
 
-	cin>>n>>s;
+	cin>>n>>k;
+	map<long long, int> mp;
+	mp[0] = 1;
 	f0(i, 0, n-1){
-		cin>>a[i];
-	}
-
-	unordered_map<long long, long long> fq;
-
-	fq[0] = 1;
-	f0(i, 0, n-1){
-		if(a[i] > s)continue;
-		vector< pair<long long, long long> > tmp;
-
-		for(auto &p:fq){
-			long long nsum = p.first + a[i];
-			if(nsum <= s)tmp.emplace_back(nsum, p.second);
+		int x; cin>>x;
+		pre[i+1] = pre[i] + x;
+		if(mp.count(pre[i+1]-k)){
+			cnt += mp[pre[i+1]-k];
 		}
 
-		for(auto &p:tmp){
-			fq[p.first] = (fq[p.first] + p.second)%mod;
-		}	
+		mp[pre[i+1]]++;
 	}
 
-
-	cout<<fq[s] % mod;
+	cout<<cnt;
 
 	cerr << "\ntime elapsed: "<<TIME <<"s.\n";
 }

@@ -6,7 +6,7 @@ using namespace std;
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i, a, b) for(int i = (a); i <=(b); ++i)
 #define fd(i, a, b) for(int i = (a); i >=(b); --i)
-#define file "ntmax"
+#define file "prime"
 
 //mt19937_64 rng(chrono::system_clock::now().time_since_epoch().count());
 
@@ -14,49 +14,34 @@ using namespace std;
 //	return l+rng()%(r-l+1);
 //}
 
-#define maxn 100000007
+#define maxn 1000006
 #define lg 20
 #define inf (int64)4e18
 #define mod (int64)(1e9+7)
 
 bool d[maxn];
+int n, cnt = 0;
 
 void sang(){
+	d[0] = d[1] = 1;
 	for(int i=2; i*i<maxn; i++){
-		if(!d[i]){
-			for(int j=i*i; j<maxn; j+=i)d[j] = 1;
-		}
+		if(!d[i])for(int j=i*i; j<maxn; j+=i)d[j] = 1;
 	}
 }
 
-string s;
-vector<int> po;
-
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	freopen(file".inp", "r", stdin);
-	freopen(file".out", "w", stdout);
+	// freopen(file".inp", "r", stdin);
+	// freopen(file".out", "w", stdout);
 
 	sang();
 
-	cin>>s;
-	int cur = 0;
-	int cnt = 0;
-	int ans = 0;
-	if(isdigit(s[s.size()-1]))s = s + 'a';
-
-	for(int i=0; i<s.size(); i++){
-		if(isdigit(s[i])){
-			cur = cur*10+s[i]-'0';
-			cnt++;
-		}else{
-			if(cur>0)po.emplace_back(cur);
-			cur = 0;
-		}
+	cin>>n;
+	f0(i, 0, n-1){
+		int x; cin>>x;
+		if(!d[x])cnt++;
 	}
 
-	for(auto &p:po)if(!d[p])ans = max(ans, p);
-
-	cout<<cnt<<'\n'<<ans;
+	cout<<cnt;
 	cerr << "\ntime elapsed: "<<TIME <<"s.\n";
 }

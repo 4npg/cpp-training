@@ -6,7 +6,7 @@ using namespace std;
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
 #define f0(i, a, b) for(int i = (a); i <=(b); ++i)
 #define fd(i, a, b) for(int i = (a); i >=(b); --i)
-#define file ""
+#define file "pass"
 
 //mt19937_64 rng(chrono::system_clock::now().time_since_epoch().count());
 
@@ -14,35 +14,26 @@ using namespace std;
 //	return l+rng()%(r-l+1);
 //}
 
-#define maxn 
+#define maxn 1
 #define lg 20
 #define inf (int64)4e18
 #define mod (int64)(1e9+7)
 
-int n;
-string s;
+string n;
+int m;
 
 con_meo_dua_leo(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	// freopen(file".inp", "r", stdin);
-	// freopen(file".out", "w", stdout);
+	freopen(file".inp", "r", stdin);
+	freopen(file".out", "w", stdout);
 
-	cin>>n>>s;
-
-	f0(l, 1, n){
-		set<string> st;
-		bool ok = true;
-		for(int i=0; i+l<=n; i++){
-			string sub = s.substr(i, l);
-			if(st.count(sub)){
-				ok = false;
-				break;
-			}
-			st.insert(sub);
-		}
-		if(ok){
-			return cout<<l, 0;
-		}
+	cin>>n>>m;
+	int ans = 0;
+	int sz = n.size();
+	fd(i, sz-1, sz-m){
+		ans += n[i] - '0';
 	}
+
+	cout<<ans;
 	cerr << "\ntime elapsed: "<<TIME <<"s.\n";
 }
