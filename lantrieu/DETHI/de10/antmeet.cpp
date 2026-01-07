@@ -94,18 +94,24 @@ con_meo_dua_leo(){
 	int m=unique(xs+1,xs+n+1)-xs-1;
 	sort(a+1,a+n+1);
 
-	fen bit; bit.init(m);
-	long long total_right=0,ans=0;
+	fen bit; 
+	bit.init(m);
+	
+	long long phai=0,ans=0;
 
 	f0(i,1,n){
 		int id=lower_bound(xs+1,xs+m+1,a[i].x)-xs;
-		if(a[i].d==1){ bit.add(id,1); total_right++; }
+		
+		if(a[i].d==1){ 
+			bit.add(id,1); 
+			phai++; 
+		}
 		else{
 			long long lim=a[i].x-2*T;
-			if(lim<=0) ans+=total_right;
+			if(lim<=0) ans+=phai;
 			else{
 				int pos=lower_bound(xs+1,xs+m+1,lim)-xs;
-				ans+=total_right-bit.sum(pos-1);
+				ans+=phai-bit.sum(pos-1);
 			}
 		}
 	}

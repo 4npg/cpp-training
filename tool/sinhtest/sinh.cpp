@@ -16,13 +16,8 @@ int Rand(int l, int r){
 void sinh(){
     ofstream cout(file".inp");
     int n = Rand(1, 10003);
-    cout<<n<<'\n';
-    f0(i, 0, n-1){
-        int a = Rand(1, 1000005);
-        int w = Rand(1, 100005);
-
-        cout<<a<<" "<<w<<'\n';
-    }
+    int k = Rand(1, 1000);
+    cout<<n<<' '<<k;
 
 }
 con_meo_dua_leo(){

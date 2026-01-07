@@ -6,7 +6,7 @@ using namespace std;
 #define fast ios_base::sync_with_stdio(false); cin.tie(nullptr)
 #define FOR(i,a,b) for(int (i)=(a);i<=(b);++i)
 
-const ll MOD = 111539786;
+const ll MOD = 1000000007;
 
 vector<vector<ll>> mul(const vector<vector<ll>> &a, const vector<vector<ll>> &b) {
     vector<vector<ll>> c(2, vector<ll>(2));
