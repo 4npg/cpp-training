@@ -37,8 +37,6 @@ int32_t main() {
         freopen(TASK ".out", "w", stdout);
     }
     vector<vector<ll>> A = {{1, 1}, {1, 0}};
-    ll t; cin>>t;
-    while(t--){
         ll n;
         cin >> n;
         if (n == 0) {
@@ -47,8 +45,5 @@ int32_t main() {
         }
 
         vector<vector<ll>> An = ipow(A, n);
-        cout << An[0][0];
-       
-        nl;
-    }
+        cout << An[0][1];
 }
