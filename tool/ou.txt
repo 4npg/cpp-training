@@ -1,0 +1,8 @@
+Comparing files task.out and TASK.ANS
+***** task.out
+1737
+***** TASK.ANS
+-35
+*****
+
+Wrong
