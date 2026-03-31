@@ -21,7 +21,7 @@ void Sinh(){
 
 int32_t main(){
 
-	for(int i=10; ~i; i--){
+	for(int i=10000000; ~i; i--){
 		Sinh();
 		system(file);
 		system(file"_trau");
