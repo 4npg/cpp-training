@@ -72,6 +72,16 @@ struct seg{
 };
 
 
+struct seg2{
+	int n; vector<long long> t;
+
+	seg2(int _n){
+		n = _n; 
+		t.resize(4*n+5);
+	}
+};
+
+
 template < class dataT >
 struct fenwick{
 	int n;
@@ -81,6 +91,15 @@ struct fenwick{
 
 	void add(int i, dataT val){
 		for(; i<=n; i+=i&-i) bit[i] += val;
+	}
+	
+	void updateRage(int l, int r, int v){
+		// add(l, v);
+		// add(r+1, -v);
+		add(l, (n-l+1)*v);
+		add(r+1, -(n-r)*v);
+		add(l, v);
+		add(r+1, -v);
 	}
 
 	dataT sum(int i){
@@ -101,6 +120,30 @@ int32_t main(){
 	// cout<<bla;
 
 	cin >> n >> q;
+
+
+	fenwick<long long> fw(n);
+
+	f0(i, 1, n){
+		cin>>a[i];
+
+		fw.add(i, a[i]);
+	}
+
+	while(q--){
+		int op, u;
+
+		cin>>op>>u;
+		if(op == 1){
+			long long v; cin>>v;
+			fw.add(u, v);
+		}else {
+			int v; cin>>v;
+			cout<< fw.get(u, v)<<'\n';
+		}
+	}
+
+	
 	/* seg attempt 
 	seg sg(n);
 
@@ -128,25 +171,6 @@ int32_t main(){
 	
 	*/
 
-	fenwick<long long> fw(n);
-
-	f0(i, 1, n){
-		cin>>a[i];
-
-		fw.add(i, a[i]);
-	}
-
-	while(q--){
-		int op, u;
-
-		cin>>op>>u;
-		if(op == 1){
-			long long v; cin>>v;
-			fw.add(u, v);
-		}else {
-			int v; cin>>v;
-			cout<< fw.get(u, v)<<'\n';
-		}
-	}
+	
 	cerr << "\ntime elapsed:" << TIME << "s.\n";
 }
