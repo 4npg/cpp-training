@@ -7,14 +7,17 @@ using namespace std;
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 int Rand(int l, int r){
-	return l+rng()%(r-l+1);
+	return uniform_int_distribution<int>(l, r)(rng);
 }
 
 void Sinh(){
 	ofstream cout(file".inp");
 
-	int a = Rand(1, 1000);
-	int b = Rand(1, 1000);
+	int type = Rand(1, 2);
+
+	if ( type == 1 ) {
+
+	}
 
 	cout<<a<<" "<<b;
 }
