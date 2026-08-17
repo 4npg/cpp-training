@@ -1,0 +1,31 @@
+/* 
+ * Custom LSP Inlay Hints Style 
+ * You can tweak the colors, background, padding, and font to make it look better.
+ * Save this file to immediately see the changes in Sublime Text.
+ */
+
+.inlay-hint {
+    /* Text color: using a slightly transparent accent color or a specific hex code */
+    /*color: color(var(--foreground) alpha(0.45));*/
+    color : #8B8DFF80;
+    background : transparent;
+    /* Background color: subtle contrast */
+    /*background-color: color(var(--background) blend(var(--foreground) 90%));*/
+    
+    /* Border to make it look like a badge */
+    border: 1px solid color(var(--foreground) alpha(0.1));
+    border-radius: 6px;
+    
+    /* Padding around the text */
+    padding: 0.1em 2px;
+    
+    /* Font styles */
+    font-size: 0.9em;
+    font-style: italic;
+    font-family: Fira Code; /* Or change to your favorite font e.g., "Fira Code" */
+}
+
+.inlay-hint a {
+    color: inherit;
+    text-decoration: none;
+}

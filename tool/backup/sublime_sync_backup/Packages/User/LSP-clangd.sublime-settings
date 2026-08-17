@@ -1,0 +1,8 @@
+{
+    "binary": "system",
+    "system_binary": "C:\\Program Files\\LLVM\\bin\\clangd.exe",
+    "initialization_options": {
+        "clangd.query-driver": "C:\\mingw64\\bin\\g++.exe",
+        "fallbackFlags": ["-std=c++17"]
+    }
+}

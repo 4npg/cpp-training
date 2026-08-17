@@ -1,0 +1,26 @@
+CompileFlags:
+  Compiler: C:/mingw64/bin/g++.exe
+
+  Add:
+    - -std=c++17
+
+    - -isystem
+    - C:/mingw64/include/c++/16.2.0
+
+    - -isystem
+    - C:/mingw64/include/c++/16.2.0/x86_64-w64-mingw32
+
+    - -isystem
+    - C:/mingw64/include/c++/16.2.0/backward
+
+    - -isystem
+    - C:/mingw64/lib/gcc/x86_64-w64-mingw32/16.2.0/include
+
+    - -isystem
+    - C:/mingw64/include
+
+    - -isystem
+    - C:/mingw64/lib/gcc/x86_64-w64-mingw32/16.2.0/include-fixed
+
+    - -isystem
+    - C:/mingw64/x86_64-w64-mingw32/include
