@@ -198,16 +198,42 @@ template<class data> bool minimize (data &a, data b) { if (a > b) return a = b, 
 template<class data> bool maximize (data &a, data b) { if (a < b) return a = b, true; return false; }
 template<class data> data opw (data a, data b) { data ans = 1; while (b) { if (b & 1) ans = ans * a % mod; a = a * a % mod; b >>= 1;} return ans; }
 
+#define all(a) (a).begin(), (a).end()
+
+int n;
+long long a[maxn];
+vector<long long> values;
 
 void init() {
    
+    cin >> n;
 
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+        values.emplace_back(a[i]);
+    }
 
 }
 
-void solve() {
+void solve() {  
 
+    for (int i = 0; i < n; i++) {
+        cout << a[i] << ' ' ;
+    }
+    cout << '\n';
+    
+    sort(values.begin(), values.end());
 
+    values.resize(unique(values.begin(), values.end()) - values.begin());
+
+    for (int i = 0; i < n; i++) {
+        a[i] = lower_bound(values.begin(), values.end(), a[i]) - values.begin();
+    }
+
+    for (int i = 0; i < n; i++) {
+        cout << a[i] << ' ' ;
+    }
+    cout << '\n';
 
 }
 
