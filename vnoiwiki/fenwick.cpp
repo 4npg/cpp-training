@@ -198,37 +198,33 @@ template<class data> bool minimize (data &a, data b) { if (a > b) return a = b, 
 template<class data> bool maximize (data &a, data b) { if (a < b) return a = b, true; return false; }
 template<class data> data opw (data a, data b) { data ans = 1; while (b) { if (b & 1) ans = ans * a % mod; a = a * a % mod; b >>= 1;} return ans; }
 
-int n;
-int a[maxn];
-long long t[maxn*4];
-
-void build (int id, int l, int r) {
-
-    if (l == r) {
-        t[id] = a[l];
-        return;
-    }
-
-    int mid = ((l + r) >> 1);
-    build(id>>1, l, mid);
-    build(id>>1|1, mid + 1, r);
-
-    t[id] = (t[id>>1] + t[id>>1|1]);
-
+template<typename T> int size32(const T &a) {
+	return (int)a.size();
 }
 
-void upd (int id, int l, int r, int p, long long x) {
+template<typename T, int D> struct Vec : public vector< Vec<T, D - 1> > {
+	static_assert(D >= 1, "Error");
+	template <typename... Args> Vec(int n = 0, Args... args)
+		: vector <Vec<T, D - 1>>(n, Vec<T, D - 1>(args...)) {}
+};
 
-    
+template<typename T> struct Vec<T, 1> : public vector<T> {
+	Vec(int n = 0, const T &val = T()) : vector<T>(n, val) {}
+};
+
+int n; 
+int a[maxn], bit[maxn];
+
+inline void update(int x, int v) {
+	for (; x <= n; x += x & -x) bit[x] += v;
 }
 
-void init() {
-   
-    fin >> n;
-    for (int i = 1; i <= n; i++) {
-        fin >> a[i];
-    }
+inline int get(int x) {
+	
+	int res = 0;
+	for (; x >= 1; x &= x - 1) res += bit[x];
 
+	return res;
 }
 
 void solve() {
@@ -238,8 +234,6 @@ void solve() {
 }
 
 int main(void) {    
-
-    init();
 
     solve();
 

@@ -9,8 +9,8 @@ const int mod = 1e9 + 2277;
 const int inf = 1e9;
 const int base = 256;
 
-template<class T> bool minimize(T a, T &b) { if (a > b) return a = b, true; false; }
-template<class T> bool maximize(T a, T &b) { if (a < b) return a = b, true; false; }
+template<class T> bool minimize(T a, T &b) { if (a > b) return a = b, true; return false; }
+template<class T> bool maximize(T a, T &b) { if (a < b) return a = b, true; return false; }
 template<class T> T opw(T a, T b) { T ans = 1; while (b) { if (b&1) ans = (ans * a) % mod; a = (a * a) % mod; b >>=1; } return ans; }
 
 mt19937_64 rd(chrono::steady_clock::now().time_since_epoch().count());

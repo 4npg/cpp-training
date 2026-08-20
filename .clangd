@@ -1,4 +1,4 @@
 CompileFlags:
-  Compiler: C:/MinGW/bin/g++.exe
+  Compiler: C:/mingw64/bin/g++.exe
   Add:
     - -std=c++17
