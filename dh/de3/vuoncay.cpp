@@ -2,7 +2,7 @@
 using namespace std;
 
 #define TIME (1.0*clock()/CLOCKS_PER_SEC)
-#define file "task"
+#define file "tchat"
 
 const int N_ = 1e4+5;
 const int mod = 1e9 + 2277;
@@ -29,7 +29,7 @@ char a[N_][300];
 int cnt1, cnt2;
 
 void solve() {
-
+	
 	cin >> m >> n;
 
 	for (int i = 0; i < m; i++) {
@@ -67,11 +67,11 @@ void solve() {
 
 int main() {
     ios_base::sync_with_stdio(0); cin.tie(0);
-
-     freopen(file".inp", "r", stdin);
-     freopen(file".ans", "w", stdout);
+    
+    // freopen(file".inp", "r", stdin);
+    // freopen(file".out", "w", stdout);
 
     solve();
 
-    cerr << "\ntime elapsed: " << TIME << "s.\n";
+    cerr << "\ntime elapsed: " << TIME << "s.\n"; 
 }

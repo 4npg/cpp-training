@@ -6,20 +6,24 @@ using namespace std;
 
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
-int Rand(int l, int r){
+int rd(int l, int r){
 	return uniform_int_distribution<int>(l, r)(rng);
 }
 
 void Sinh(){
 	ofstream cout(file".inp");
 
-	int type = Rand(1, 2);
+    int m = rd(1, 10000);
+    int n = rd(1, 260);
 
-	if ( type == 1 ) {
-
-	}
-
-	cout<<a<<" "<<b;
+    cout << m << ' ' << n << '\n';
+    for (int i = 0 ; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            int op = rd(48, 49);
+            cout << (char)op;
+        }
+        cout << '\n';
+    }
 }
 
 int32_t main(){
