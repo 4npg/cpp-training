@@ -198,33 +198,53 @@ template<class data> bool minimize (data &a, data b) { if (a > b) return a = b, 
 template<class data> bool maximize (data &a, data b) { if (a < b) return a = b, true; return false; }
 template<class data> data opw (data a, data b) { data ans = 1; while (b) { if (b & 1) ans = ans * a % mod; a = a * a % mod; b >>= 1;} return ans; }
 
-template<typename T> int size32(const T &a) {
-	return (int)a.size();
+// https://docs.google.com/document/d/1vewxwWEYeWk6engraBpSANrbZCXsc2_AFZOeZw0iFPs/edit?tab=t.0
+
+
+int n;
+int bit[maxn], bitadd[maxn], bitmul[maxn];
+
+void upd(int bit[], int x, long long v) {
+    for (; x <= n; x += x & -x) bit[x] += v;
 }
 
-template<typename T, int D> struct Vec : public vector< Vec<T, D - 1> > {
-	static_assert(D >= 1, "Error");
-	template <typename... Args> Vec(int n = 0, Args... args)
-		: vector <Vec<T, D - 1>>(n, Vec<T, D - 1>(args...)) {}
-};
-
-template<typename T> struct Vec<T, 1> : public vector<T> {
-	Vec(int n = 0, const T &val = T()) : vector<T>(n, val) {}
-};
-
-int n; 
-int a[maxn], bit[maxn];
-
-inline void update(int x, int v) {
-	for (; x <= n; x += x & -x) bit[x] += v;
+void updrange(int l, int r, long long v) {
+    upd(bitmul, l, v);
+    upd(bitmul, r + 1, -v);
+    upd(bitadd, l, -v * (l - 1));
+    upd(bitadd, r + 1, v * r);
 }
 
-inline int get(int x) {
-	
-	int res = 0;
-	for (; x >= 1; x &= x - 1) res += bit[x];
+int get(int bit[], int x) {
+    int res = 0;
+    for (; x >= 1; x &= -x) res += bit[x];
+    return res;
+}
 
-	return res;
+int getprefixsum(int x) {
+    return get(bitmul, x) * get(bitadd, x);
+}
+
+int getsum(int l, int r) {
+    return getprefixsum(r) - getprefixsum(l - 1);
+}
+
+long long get(int x) {
+
+    long long ret = 0;
+    for (; x >= 1; x &= x - 1) ret += bit[x];
+
+    return ret;
+}
+
+long long getsum(int l, int r) {
+    return get(r) - get(l - 1);
+}
+
+void init() {
+   
+
+
 }
 
 void solve() {
@@ -234,6 +254,8 @@ void solve() {
 }
 
 int main(void) {    
+
+    init();
 
     solve();
 
