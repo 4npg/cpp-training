@@ -12,17 +12,12 @@ int rd(int l, int r){
 
 void Sinh(){
 	ofstream cout(file".inp");
+    int n = rd(10, 20);
+    cout << n << '\n';
 
-    int m = rd(1, 10000);
-    int n = rd(1, 260);
-
-    cout << m << ' ' << n << '\n';
-    for (int i = 0 ; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            int op = rd(48, 49);
-            cout << (char)op;
-        }
-        cout << '\n';
+    for (int i = 0; i < n; i++) {
+        int x = rd(10, 500);
+        cout << x << ' ';
     }
 }
 

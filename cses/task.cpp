@@ -1,11 +1,10 @@
-#include <algorithm>
 #include<bits/stdc++.h>
 using namespace std;
 
 #define TIME (1.0*clock()/CLOCKS_PER_SEC)
-#define file "tchat"
+#define file ""
 
-const int N_ = 2e5+5;
+const int N_ = 1e5+5;
 const int mod = 1e9 + 2277;
 const int inf = 1e9;
 const int base = 256;
@@ -25,70 +24,53 @@ long long rl(long long l, long long r) {
     return uniform_int_distribution<long long>(l, r)(rd);
 }
 
-long long bit[N_];
+int n, q; 
+long long bit[N_], bitadd[N_], bitmul[N_];
+long long a[N_];
 
-int n;
-
-long long t, ret;
-vector<long long> values;
-long long pre[N_];
-
-inline void upd(int x, long long v) {
-
-    for (; x <= n + 1; x += x & -x) bit[x] += v;
-
+void upd(long long bit[], int x, long long v) {
+    for (; x <= n; x += x & -x) bit[x] += v;
 }
 
-// template<typename T> inline T get(int x) {
-    
-//     T ret = 0;
-//     for(; x >= 1; x &= (x - 1)) ret += bit[x];
-//     return ret;
+void updrage(int l, int r, long long v) {
+    upd(bitmul, l, v);
+    upd(bitmul, r + 1, -v);
+    upd(bitadd, l, -v * (l - 1));
+    upd(bitadd, r + 1, v * r);
+}
 
-// }
-
-long long get(int x) {
+long long get(long long bit[], int x) {
     long long ret = 0;
-    for (; x >= 1; x &= (x - 1)) ret += bit[x];
+    for (; x >= 1; x &= x -1) ret += bit[x];
     return ret;
 }
 
+long long getprefix(int x) {
+    return get(bitmul, x) * get(bitadd, x);
+}
 
+long long getsum(long long l, long r) {
+    return getprefix(r) - getprefix(l - 1);
+}
 void solve() {
 
-    cin >> n >> t;
-
-    values.emplace_back(pre[0]);
-
+    cin >> n >> q;
     for (int i = 1; i <= n; i++) {
-        long long x; cin >> x;
-        pre[i] = pre[i-1] + x;
-
-        values.emplace_back(pre[i]);
+        cin >> a[i];
+        upd(bit, i, a[i]);
     }
 
-    sort(values.begin(), values.end());
-    values.resize(unique(values.begin(), values.end()) - values.begin());
-
-    int pos = lower_bound(values.begin(), values.end(), pre[0]) - values.begin() + 1;
-
-    upd(pos, 1);
-
-    // cout << get(2) - get(1) << '\n';
-
-    for (int r = 1; r <= n; r++) {
-        long long x  = pre[r] - t;
-
-        int p = upper_bound(values.begin(), values.end(), x) - values.begin();
-
-        ret += get(values.size()) - get(p);
-
-        pos = lower_bound(values.begin(), values.end(), pre[r]) - values.begin() + 1;
-
-        upd(pos, 1);
+    while (q--) {
+        int op; cin >> op;
+        if(op == 1) {
+            int x; long long v; cin >> x >> v;
+            upd(bit, x, v);
+        } else {
+            int l, r; cin >> l >> r;
+            cout << get(bit, r) - get(bit, l - 1) << '\n';
+        }
     }
 
-    cout << ret;
 }
 
 int main() {
