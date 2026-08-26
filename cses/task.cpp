@@ -35,6 +35,7 @@ void upd(long long bit[], int x, long long v) {
 void updrage(int l, int r, long long v) {
     upd(bitmul, l, v);
     upd(bitmul, r + 1, -v);
+    
     upd(bitadd, l, -v * (l - 1));
     upd(bitadd, r + 1, v * r);
 }
@@ -70,7 +71,6 @@ void solve() {
             cout << get(bit, r) - get(bit, l - 1) << '\n';
         }
     }
-
 }
 
 int main() {
