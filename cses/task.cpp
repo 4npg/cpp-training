@@ -50,7 +50,7 @@ long long getprefix(int x) {
     return get(bitmul, x) * get(bitadd, x);
 }
 
-long long getsum(long long l, long r) {
+long long getsum(long long l, long long r) {
     return getprefix(r) - getprefix(l - 1);
 }
 void solve() {

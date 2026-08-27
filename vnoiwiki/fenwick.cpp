@@ -32,8 +32,46 @@ void upd(long long bit[], int x, long long v) {
     for (; x <= n; x += x & -x) bit[x] += v;
 }
 
+void updrange(int l, int r, long long v) {
+    upd(bitmul, l, v);
+    upd(bitmul, r + 1, -v);
+
+    upd(bitadd, l, -v * (l - 1));
+    upd(bitadd, r + 1, v * r);
+}
+
+
+long long getbit(long long bit[], long long x) {
+    long long ret = 0;
+
+    for (; x >= 1; x &= x - 1) ret += bit[x];
+
+    return ret;
+}
+
+long long getprefix(int x) {
+    return getbit(bitmul, x) * x + getbit(bitadd, x);
+}
+
 void solve() {
-    cin >> n
+    cin >> n >> q;
+
+    for (int i = 1; i <= n; i++) {
+        cin >> a[i];
+        updrange(i, i, a[i]);
+    }
+
+    while (q--) {
+        int op;
+        cin >> op; if (op == 1) {
+            int u, v; long long x;
+            cin >> u >> v >> x;
+            updrange(u, v, x);
+        } else {
+            int u, v; cin >> u >> v;
+            cout << getprefix(v) - getprefix(u - 1) << '\n';
+        }
+    }
 }
 
 int main() {
