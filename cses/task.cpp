@@ -1,85 +1,72 @@
 #include<bits/stdc++.h>
+#include <ctime>
+#include <random>
 using namespace std;
 
-#define TIME (1.0*clock()/CLOCKS_PER_SEC)
-#define file ""
+#define TIME (1.0 * clock() / CLOCKS_PER_SEC)
+#define file "matkhau"
 
-const int N_ = 1e5+5;
-const int mod = 1e9 + 2277;
-const int inf = 1e9;
+template<typename T> bool minimize (T &a, T b) { if (a > b) return a = b, 1; return 0; }
+template<typename T> bool maximize (T &a, T b) { if (a < b) return a = b, 1; return 0; }
+
+const int N_ = 1e5 + 5;
+const int mod = (int)1e9 + 7;
 const int base = 256;
 
-template<class T> bool minimize(T a, T &b) { if (a > b) return a = b, true; return false; }
-template<class T> bool maximize(T a, T &b) { if (a < b) return a = b, true; return false; }
-template<class T> T opw(T a, T b) { T ans = 1; while (b) { if (b&1) ans = (ans * a) % mod; a = (a * a) % mod; b >>=1; } return ans; }
-
-mt19937_64 rd(chrono::steady_clock::now().time_since_epoch().count());
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
-int ri(int l, int r) {
+inline int rd (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
-long long rl(long long l, long long r) {
-    return uniform_int_distribution<long long>(l, r)(rd);
+bool d[N_];
+
+void sang() {
+    d[0] = d[1] = 1;
+    for (int i = 2; i < N_; i++) {
+        if (!d[i]) for (int j = i * i; j < N_; j += i) d[j] = 1;
+    }
 }
 
-int n, q; 
-long long bit[N_], bitadd[N_], bitmul[N_];
-long long a[N_];
+string s;
 
-void upd(long long bit[], int x, long long v) {
-    for (; x <= n; x += x & -x) bit[x] += v;
+vector<int> num;
+
+bool isdigit(char c) {
+    return (c >= '0' && c <= '9');
 }
 
-void updrage(int l, int r, long long v) {
-    upd(bitmul, l, v);
-    upd(bitmul, r + 1, -v);
-    
-    upd(bitadd, l, -v * (l - 1));
-    upd(bitadd, r + 1, v * r);
-}
-
-long long get(long long bit[], int x) {
-    long long ret = 0;
-    for (; x >= 1; x &= x -1) ret += bit[x];
-    return ret;
-}
-
-long long getprefix(int x) {
-    return get(bitmul, x) * get(bitadd, x);
-}
-
-long long getsum(long long l, long long r) {
-    return getprefix(r) - getprefix(l - 1);
-}
 void solve() {
 
-    cin >> n >> q;
-    for (int i = 1; i <= n; i++) {
-        cin >> a[i];
-        upd(bit, i, a[i]);
+    sang();
+
+    cin >> s;
+
+    for (int i = 0; i < (int)s.size(); i++) {
+        if (!isdigit(s[i])) continue;
+
+        int x = 0;
+        for (int j = i; j < (int)s.size() && isdigit(s[j]); j++) {
+            x = x * 10 + (s[j] - '0');
+            // cout << x << '\n';
+            num.emplace_back(x);
+        }
+
+        while (i + 1 < (int)s.size() && isdigit(s[i + 1])) i++;
     }
 
-    while (q--) {
-        int op; cin >> op;
-        if(op == 1) {
-            int x; long long v; cin >> x >> v;
-            upd(bit, x, v);
-        } else {
-            int l, r; cin >> l >> r;
-            cout << get(bit, r) - get(bit, l - 1) << '\n';
-        }
-    }
+    for (auto &k : num) cout << k << '\n';
 }
 
-int main() {
+
+
+int main(void) {
     ios_base::sync_with_stdio(0); cin.tie(0);
-    
+
     // freopen(file".inp", "r", stdin);
     // freopen(file".out", "w", stdout);
 
     solve();
 
-    cerr << "\ntime elapsed: " << TIME << "s.\n"; 
+    cerr << "\ntime elapsed: " << TIME << "s.\n";
 }
