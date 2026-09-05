@@ -2,7 +2,7 @@
 using namespace std;
 
 #define TIME (1.0*clock()/CLOCKS_PER_SEC)
-#define file ""
+#define file "matxich"
 
 const int N_ = 1e5+5;
 const int mod = 1e9 + 2277;
@@ -24,7 +24,17 @@ long long rl(long long l, long long r) {
     return uniform_int_distribution<long long>(l, r)(rd);
 }
 
+string s;
+int cnt;
+
 void solve() {
+
+	cin >> s;
+	for (int i = 0; i < (int)s.size(); i++) {
+		cnt += (s[i] == '0') ? 1 : 0;
+	}
+
+	cout << cnt;
 
 }
 

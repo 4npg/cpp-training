@@ -2,7 +2,7 @@
 using namespace std;
 
 #define TIME (1.0*clock()/CLOCKS_PER_SEC)
-#define file ""
+#define file "capso"
 
 const int N_ = 1e5+5;
 const int mod = 1e9 + 2277;
@@ -24,7 +24,46 @@ long long rl(long long l, long long r) {
     return uniform_int_distribution<long long>(l, r)(rd);
 }
 
+int n;
+// int d[N_];
+
+// void sang() {
+// 	d[0] = 0;
+// 	d[1] = 1;
+// 	for (int i = 1; i < N_; i++) {
+// 		for (int j = i; j < N_; j += i) {
+// 			d[j] += 1;
+// 		}
+// 	}
+// }
+
+long long calc(long long n) {
+    long long ans = 0;
+
+    for (long long l = 1; l <= n; ) {
+        long long q = n / l;
+        long long r = n / q;
+
+        ans += (r - l + 1) * q;
+
+        // cout << l << ' ' << r << ' ' << q << ' ' << ans << '\n';
+
+        l = r + 1;
+    }
+
+    return ans;
+}
+
 void solve() {
+
+	// sang();
+	cin >> n;
+
+	// for (int i = 1; i < 100; i++) {
+	// 	cout << i << ':' << d[i] << '\n';
+	// }
+	
+	cout << calc(n);
 
 }
 

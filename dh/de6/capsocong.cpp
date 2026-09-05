@@ -2,7 +2,7 @@
 using namespace std;
 
 #define TIME (1.0*clock()/CLOCKS_PER_SEC)
-#define file ""
+#define file "capsocong"
 
 const int N_ = 1e5+5;
 const int mod = 1e9 + 2277;
@@ -24,7 +24,33 @@ long long rl(long long l, long long r) {
     return uniform_int_distribution<long long>(l, r)(rd);
 }
 
+int n; 
+int a[N_];
+bool flag = 0;
+
 void solve() {
+
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+
+	sort(a, a + n);
+	int k = (a[1] - a[0]);
+
+	for (int i = 1; i < n - 1; i++) {
+		if (abs(a[i] - a[i - 1]) == k && abs(a[i] - a[i + 1]) == k) flag = true;
+	}
+
+	if (flag == 0) {
+		cout << "no";
+	} else {
+		cout << "yes\n";
+
+		for (int i = 0; i < n; i++) {
+			cout << a[i] << ' ';
+		}
+	}
 
 }
 
