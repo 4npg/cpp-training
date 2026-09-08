@@ -4,16 +4,6 @@ using namespace std;
 #define TIME (1.0*clock()/CLOCKS_PER_SEC)
 #define file ""
 
-const int N_ = 1e3+5;
-const int mod = 1e9 + 2277;
-const int inf = 1e9;
-const int base = 256;
-
-template <typename T> bool minimize(T a, T &b) { if (a > b) return a = b, true; return false; }
-template <typename T> bool maximize(T a, T &b) { if (a < b) return a = b, true; return false; }
-template <typename T> T opw(T a, T b) { T ans = 1; while (b) { if (b&1) ans = (ans * a) % mod; a = (a * a) % mod; b >>=1; } return ans; }
-template <typename T> int size32 (const T &a) { return (int)a.size(); }
-
 template <typename T, int D>
 struct Vec : public vector<Vec<T, D - 1>> {
     static_assert(D >= 1, "Error");
@@ -37,56 +27,91 @@ long long rl(long long l, long long r) {
     return uniform_int_distribution<long long>(l, r)(rd);
 }
 
-int n, m;
+const int N_ = 1e3+5;
+const int mod = 1e9 + 2277;
+const int inf = 1e9;
+const int base = 256;
+
 int dx[] = {-1,0, 0, 1};
 int dy[] = {0, -1, 1,0};
 
-int d[N_][N_];
+template <typename T> bool minimize(T &a, const T &b) { if (a > b) return a = b, true; return false; }
+template <typename T> bool maximize(T &a, const T &b) { if (a < b) return a = b, true; return false; }
+template <typename T> T opw(T a, T b) { T ans = 1; while (b) { if (b&1) ans = (ans * a) % mod; a = (a * a) % mod; b >>=1; } return ans; }
+template <typename T> int size32 (const T &a) { return (int)a.size(); }
+
+int n, m;
 char a[N_][N_];
+bool vis[N_][N_];
 
 bool valid (int x, int y) {
-    return ( (x >= 1 && x <= n) && (y >= 1 && y <= m) && a[x][y] == '0' && d[x][y] == -1);
+    return x >= 1 && x <= n && y >= 1 && y <= m && a[x][y] != '#';
 }
+// int compo;
+vector<int> cnt;
 
-void bfs () {
-    queue< pair<int, int> > q; q.push({1, 1}); d[1][1] = 0;
+// void dfs (int ux, int uy) {
+//     vis[ux][uy] = 1;
+//     if (a[ux][uy] == 'x') cnt[compo]++;
+
+//     for (int k = 0; k < 4; k++) {
+//         int nx = ux + dx[k];
+//         int ny = uy + dy[k];
+
+//         if (!vis[nx][ny] && valid(nx, ny)) {
+//             dfs(nx, ny);
+//         }
+//     }
+// }
+
+int bfs(int xi, int xj) {
+    queue< pair<int, int> > q; q.push({xi, xj} );
+    vis[xi][xj] = 1;
+
+    int cnt = (a[xi][xj] == 'x');
 
     while (!q.empty()) {
-        auto u = q.front(); q.pop();
-        int x = u.first; int y = u.second;
+        auto u = q.front(); int x = u.first; int y = u.second; q.pop();
 
-        for (int k = 0; k <= 3; k++) {
-            int nx = x + dx[k];
-            int ny = y + dy[k];
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
 
-            if (valid(nx, ny)) {
-                d[nx][ny] = d[x][y] + 1;
+            if (valid(nx, ny) && !vis[nx][ny]) {
+                vis[nx][ny] = 1; cnt += (a[nx][ny] == 'x');
                 q.push({nx, ny});
-           }
+            }
         }
     }
+
+    return cnt;
 
 }
 
 void solve() {
 
     cin >> n >> m;
-    
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= m; j++) {
             cin >> a[i][j];
         }
-    }    
-    memset(d, -1, sizeof d);
-
-    bfs();
-
-    if (a[1][1] == '1') {
-        cout << -1;
-        return;
     }
 
-    cout << d[n][m];
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+            if ( valid(i, j) && !vis[i][j] ) {
+                int temp = bfs(i, j);
+                if (temp > 0) cnt.emplace_back(temp);
+            }
+        }
+    }
+
+    sort(cnt.begin(), cnt.end());
+    for (auto &k : cnt) cout << k << ' ';
+
+    // for (int i = 0; i <= compo; i++) {
+    //     if (cnt[i] != 0) cout << cnt[i] << ' ';
+    // }
 }
 
 int main() {
@@ -99,4 +124,3 @@ int main() {
 
     cerr << "\ntime elapsed: " << TIME << "s.\n"; 
 }
-
