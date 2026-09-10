@@ -2,7 +2,7 @@
 using namespace std;
 
 #define TIME (1.0*clock()/CLOCKS_PER_SEC)
-#define file ""
+#define file "invest"
 
 const int N_ = 1e5+5;
 const int mod = 1e9 + 2277;
@@ -37,75 +37,53 @@ long long rl(long long l, long long r) {
     return uniform_int_distribution<long long>(l, r)(rd);
 }
 
-int n;
-int cnt[N_];
+int n; long long s;
+
+struct DATA {
+	long long a, b;
+
+	bool operator < (const DATA& other) {
+		return a > other.a;
+	}
+};
 
 long long ret;
 
 void solve() {
+	
+	cin >> n >> s;
+	vector<DATA> invs(n);
 
-    cin >> n;
-    vector<int> a(n + 1);
+	for (int i = 0; i < n; i++) cin >> invs[i].a;
+	for (int i = 0; i < n; i++) cin >> invs[i].b;
 
-    for (int i = 1; i <= n; i++) cin >> a[i];
+	sort(invs.begin(), invs.end());
 
-    // n = ri(1, 50005);
+	// for (int i = 0; i < n; i++) {
+	// 	cout << invs[i].a << ' ' << invs[i].b << '\n';
+	// }
 
-    // cerr << n << '\n';
+	int i = 0;
 
-    // for (int i = 1; i <= n; i++) {
-    //  a[i] = ri(1, n);
-    //  cerr << a[i] << ' ';
-    // }
+	for (int i = 0; i < n; i++) {
+		if (s <= 0) break;
 
-    for (int mx = 1; ; mx++) {
-        int l = mx * (mx + 1) / 2;
-        if (l > n) break;
+		// if (invs[i].b <= s) {
+		// 	ret += invs[i].b * invs[i].a;
+		// 	s -= invs[i].b;
+		// 	// cout << ret << ' ' << s << ' ' << invs[i].a << ' ' << invs[i].b << '\n';
+		// } else {
+		// 	if (invs[i].b >= s) {
+		// 		ret += (s) * invs[i].a;
+		// 		s -= (s);	
+		// 	}
+		// 	// cout << ret << ' ' << s << ' ' << invs[i].a << ' ' << invs[i].b << '\n';
+		// }
+		
+		ret += min(s, invs[i].b) * invs[i].a; s-= min(s, invs[i].b);
+	}
 
-        memset(cnt, 0, (mx + 1) * sizeof(int));
-        int numcr = 0;
-        int valid = 0;
-
-        for (int i = 1; i <= l; i++) {
-            int x = a[i];
-            if (x <= mx) {
-                if (cnt[x] == x) numcr--;
-                cnt[x]++;
-                if (cnt[x] == x) numcr++;
-            }
-        }
-
-        if (numcr == mx) valid++;
-
-        for (int i = l + 1; i <= n; i++) {
-            int hi = a[i - l];
-            int lo = a[i];
-
-            if (hi != lo) {
-                if (hi <= mx) {
-                    if (cnt[hi] == hi) numcr--;
-                    cnt[hi]--;
-                    if (cnt[hi] == hi) numcr++;
-                }
-
-                if (lo <= mx) {
-                    if (cnt[lo] == lo) numcr--;
-                    cnt[lo]++;
-                    if (cnt[lo] == lo) numcr++;
-                }
-            } 
-
-            if (numcr == mx) valid ++;
-        }
-
-        if (valid > 0) {
-            long long sum = 1LL * mx * (mx + 1) * (2 * mx + 1) / 6;
-
-            ret += 1LL * valid * sum;
-        }
-    }
-    
-    cout << ret;
+	cout << ret;
 }
 
 int main() {

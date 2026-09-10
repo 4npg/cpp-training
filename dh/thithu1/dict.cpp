@@ -2,9 +2,9 @@
 using namespace std;
 
 #define TIME (1.0*clock()/CLOCKS_PER_SEC)
-#define file ""
+#define file "dict"
 
-const int N_ = 1e5+5;
+const int N_ = 30;
 const int mod = 1e9 + 2277;
 const int inf = 1e9;
 const int base = 256;
@@ -38,74 +38,54 @@ long long rl(long long l, long long r) {
 }
 
 int n;
-int cnt[N_];
+int a[N_][N_];
+int cnt;
+string cur;
+bool vis[N_];
 
-long long ret;
+void Try(int pos) {
+	if (pos == n) {
+		cnt++;
+		cout << cur << '\n';
+		return;
+	}
+
+	// for (char c = 'a'; c < 'a' + n; c++) {
+	// 	if (cur.empty() || cur.back() != c) {
+	// 		cur += c;
+	// 		Try(pos + 1);
+	// 		cur.pop_back();	
+	// 	}
+	// }
+	
+	int j = pos + 1;
+
+	for (int i = 1; i <= n; i++) {
+		if (!vis[i] && a[i][j] == 1) {
+			vis[i] = true;
+			cur += (char)('a' + i - 1);
+
+			Try(pos + 1);
+			cur.pop_back();
+			vis[i] = false;
+			
+		}
+	}
+}
 
 void solve() {
+	cin >> n;
 
-    cin >> n;
-    vector<int> a(n + 1);
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= n; j++) {
+			cin >> a[i][j];
+		}
+	}
 
-    for (int i = 1; i <= n; i++) cin >> a[i];
+	cur = "";
+	Try(0);
+	cout << cnt;
 
-    // n = ri(1, 50005);
-
-    // cerr << n << '\n';
-
-    // for (int i = 1; i <= n; i++) {
-    //  a[i] = ri(1, n);
-    //  cerr << a[i] << ' ';
-    // }
-
-    for (int mx = 1; ; mx++) {
-        int l = mx * (mx + 1) / 2;
-        if (l > n) break;
-
-        memset(cnt, 0, (mx + 1) * sizeof(int));
-        int numcr = 0;
-        int valid = 0;
-
-        for (int i = 1; i <= l; i++) {
-            int x = a[i];
-            if (x <= mx) {
-                if (cnt[x] == x) numcr--;
-                cnt[x]++;
-                if (cnt[x] == x) numcr++;
-            }
-        }
-
-        if (numcr == mx) valid++;
-
-        for (int i = l + 1; i <= n; i++) {
-            int hi = a[i - l];
-            int lo = a[i];
-
-            if (hi != lo) {
-                if (hi <= mx) {
-                    if (cnt[hi] == hi) numcr--;
-                    cnt[hi]--;
-                    if (cnt[hi] == hi) numcr++;
-                }
-
-                if (lo <= mx) {
-                    if (cnt[lo] == lo) numcr--;
-                    cnt[lo]++;
-                    if (cnt[lo] == lo) numcr++;
-                }
-            } 
-
-            if (numcr == mx) valid ++;
-        }
-
-        if (valid > 0) {
-            long long sum = 1LL * mx * (mx + 1) * (2 * mx + 1) / 6;
-
-            ret += 1LL * valid * sum;
-        }
-    }
-    
-    cout << ret;
 }
 
 int main() {

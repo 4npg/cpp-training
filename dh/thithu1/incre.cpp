@@ -2,9 +2,9 @@
 using namespace std;
 
 #define TIME (1.0*clock()/CLOCKS_PER_SEC)
-#define file ""
+#define file "incre"
 
-const int N_ = 1e5+5;
+const int N_ = 1e3+5;
 const int mod = 1e9 + 2277;
 const int inf = 1e9;
 const int base = 256;
@@ -38,75 +38,55 @@ long long rl(long long l, long long r) {
 }
 
 int n;
+int a[N_];
+long long ret;
+
 int cnt[N_];
 
-long long ret;
+
+bool valid(int l, int r, const vector<int> &a, int mx) {
+
+	vector<int> cnt(mx + 1, 0);
+
+	for (int i = l; i <= r; i++) {
+		if (a[i] > mx || a[i] < 1) return 0;
+		cnt[a[i]]++;
+	}
+
+	for (int v = 1; v <= mx; v++) {
+		if (cnt[v] != v) return 0;
+	}
+	return 1;
+}
 
 void solve() {
 
-    cin >> n;
-    vector<int> a(n + 1);
+	cin >> n;
+	vector<int> a(n + 1);
 
-    for (int i = 1; i <= n; i++) cin >> a[i];
+	for (int i = 1; i <= n; i++) cin >> a[i];
 
-    // n = ri(1, 50005);
+	for (int l = 1; l <= n; l++) {
+		int mx = 0;
+		long long cursum = 0;
+		for (int r = l; r <= n; r++) {
+			cursum += a[r];
+			// maximize(mx, a[r]);
 
-    // cerr << n << '\n';
+			mx = max(mx, a[r]);
 
-    // for (int i = 1; i <= n; i++) {
-    //  a[i] = ri(1, n);
-    //  cerr << a[i] << ' ';
-    // }
+			int len = r - l + 1;
 
-    for (int mx = 1; ; mx++) {
-        int l = mx * (mx + 1) / 2;
-        if (l > n) break;
+			if (1LL * mx * (mx + 1) / 2 == len) {
+				if (valid(l, r, a, mx)) ret += cursum;
+			}
+		}
+	}
 
-        memset(cnt, 0, (mx + 1) * sizeof(int));
-        int numcr = 0;
-        int valid = 0;
-
-        for (int i = 1; i <= l; i++) {
-            int x = a[i];
-            if (x <= mx) {
-                if (cnt[x] == x) numcr--;
-                cnt[x]++;
-                if (cnt[x] == x) numcr++;
-            }
-        }
-
-        if (numcr == mx) valid++;
-
-        for (int i = l + 1; i <= n; i++) {
-            int hi = a[i - l];
-            int lo = a[i];
-
-            if (hi != lo) {
-                if (hi <= mx) {
-                    if (cnt[hi] == hi) numcr--;
-                    cnt[hi]--;
-                    if (cnt[hi] == hi) numcr++;
-                }
-
-                if (lo <= mx) {
-                    if (cnt[lo] == lo) numcr--;
-                    cnt[lo]++;
-                    if (cnt[lo] == lo) numcr++;
-                }
-            } 
-
-            if (numcr == mx) valid ++;
-        }
-
-        if (valid > 0) {
-            long long sum = 1LL * mx * (mx + 1) * (2 * mx + 1) / 6;
-
-            ret += 1LL * valid * sum;
-        }
-    }
-    
-    cout << ret;
+	cout << ret;
 }
+
+
 
 int main() {
     ios_base::sync_with_stdio(0); cin.tie(0);
@@ -114,6 +94,8 @@ int main() {
     // freopen(file".inp", "r", stdin);
     // freopen(file".out", "w", stdout);
 
+    // trau();
+    // cout << '\n';
     solve();
 
     cerr << "\ntime elapsed: " << TIME << "s.\n"; 
