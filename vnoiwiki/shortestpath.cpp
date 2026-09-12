@@ -1,8 +1,8 @@
-# include<bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
-# define TIME (1.0*clock()/CLOCKS_PER_SEC)
-# define file ""
+#define TIME (1.0*clock()/CLOCKS_PER_SEC)
+#define file ""
 
 const int N_ = 1e5+5;
 const int mod = 1e9 + 2277;
@@ -26,7 +26,6 @@ template <typename T> struct Vec<T, 1> : public vector<T> {
     Vec (int n = 0, const T &val = T()) : vector<T> (n, val) {}
 };
 
-
 mt19937_64 rd(chrono::steady_clock::now().time_since_epoch().count());
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
@@ -38,72 +37,10 @@ long long rl(long long l, long long r) {
     return uniform_int_distribution<long long>(l, r)(rd);
 }
 
-int N, M, L, Q;
-
-// # define data pair<long long, int>
-
-struct graph {
-
-    struct data {
-        int u; long long w;
-
-        bool operator < (const data& other) {
-            return w < other.w;
-        }
-    };
-
-    int n; vector<vector<pair<int, long long>>> adj;
-
-    long long d[N_];
-
-    graph(int _n) : n(_n), adj(_n + 1) {}
-
-    inline void add_edges(int u, int v, long long w) {
-        adj[u].emplace_back(v, w);
-    }
-
-    void dijkstra(int s) {
-        priority_queue<data, vector<data>, greater<data>> pq;
-        memset(d, 0x3f, sizeof d);
-        // pq.push({d[s] = 0, s}); 
-        pq.emplace(d[s] = 0, s);
-
-        while (!pq.empty()) {
-            auto f = pq.top(); pq.pop();
-            long long du = f.u; int u = f.w;
-
-            for (auto &p : adj[u]) {
-                int v = p.first; long long w = p.second;
-                if (d[v] > d[u] + w) {
-                    pq.emplace(d[v] = d[u] + w, v);
-                }
-            }
-        }
-    }
-
-} g(N_);  
+	
 
 void solve() {
 
-    cin >> N >> M >> L >> Q;
-
-    for (int i = 0; i < M; i++) {
-        int a, b; long long c;
-        cin >> a >> b >> c;
-
-        g.add_edges(a, b, c);
-    }
-
-    for (int i = 0; i < L; i++) {
-        int u, v; long long w;
-        cin >> u >> v >> w;
-
-        g.add_edges(u, v, w);
-    }
-
-    while (Q--) {
-        
-    }
 }
 
 int main() {
