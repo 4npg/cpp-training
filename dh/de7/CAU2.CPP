@@ -1,8 +1,8 @@
-# include<bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
 # define TIME (1.0*clock()/CLOCKS_PER_SEC)
-# define file ""
+# define file "CAU2"
 
 const int N_ = 1e5+5;
 const int mod = 1e9 + 2277;
@@ -37,68 +37,72 @@ long long rl (long long l, long long r) {
     return uniform_int_distribution<long long>(l, r)(rd);
 }
 
-int n, m;
-vector< int > topo;
-int mx;
-// vector< int > dp;
-
-struct graph{
-    int n;
-    vector < vector <int> > adj;
-    vector < int > indeg;
-    // priority_queue < int, vector < int >, greater < int > > sourcelist;
-    queue <int> sourcelist;
-    vector < int > dp;
-
-    graph (int n_) : n(n_), adj(n_ + 1), indeg(n_ + 1), dp(n_ + 1, 1) {}
-
-    inline void add_edges(int u, int v) {
-        adj[u].emplace_back(v);
-        indeg[v]++;
-    }
-
-    void calc() {
-
-        for (int i = 1; i <= n; i++) {
-            if (!indeg[i]) sourcelist.push(i);
+long long calc(long long num) {
+    long long res = 0, p = 1;
+    while (num > 0) {
+        long long d = num % 10;
+        if (d != 0) {
+            res += d * p;
+            p *= 10;
         }
-
-        while (!sourcelist.empty()) {
-            int u = sourcelist.front(); topo.emplace_back(u); sourcelist.pop();
-
-            for (int v : adj[u]) {
-
-                dp[v] = max(dp[v], dp[u] + 1);
-                mx = max(mx, dp[v]);
-
-                if (!(--indeg[v])) {
-                    sourcelist.push(v);
-                }
-
-            }
-
-        }
-
-        cout << mx;
+        num /= 10;
     }
+    return res;
+}
 
-};
+string add(const string &a, const string &b) {
 
-void solve() {
+	string ret = "";
 
-    cin >> n >> m;
-    graph g(n);
+	int i = size32(a) - 1; int j = size32(b) - 1;
+	int du = 0;
 
-    for (int i = 0; i < m; i++) {
-        int u, v; cin >> u >> v;
-        g.add_edges(u, v);
-    }
+	while (i >= 0 || j >= 0 || du) {
+		int sum = du;
+		if (i >= 0) sum += a[i--] - '0';
+		if (j >= 0) sum += b[j--] - '0';
+		ret += (char)('0' + sum % 10);
+		du = sum / 10;
+	}
 
-    g.calc();
+	reverse(ret.begin(), ret.end());
+
+	return ret;
 
 }
 
-int main (void) {
+string rm0 (const string &s) {
+
+	string ret = "";
+	for (char c : s) {
+		if (c != '0') ret += c;
+	}
+
+	return ret.empty() ? "0" : ret;
+
+}
+
+void solve() {
+
+    int t; cin >> t;
+    // while (t--) {
+    //     long long a, b;
+    //     cin >> a >> b;
+    //     long long c = a + b;
+    //     cout << (calc(a) + calc(b) == calc(c) ? "YES" : "NO") << '\n';
+    // }
+    while (t--) {
+    	string a, b; cin >> a >> b;
+    	string c = add(a, b);
+    	string vt = add(rm0(a), rm0(b));
+    	string vp = rm0(c);
+
+    	cout << (vt == vp ? "YES" : "NO") << '\n'; 
+    }
+    
+}
+
+int main(void) {
     ios_base::sync_with_stdio(0); cin.tie(0);
     
     // freopen(file".inp", "r", stdin);
@@ -106,7 +110,7 @@ int main (void) {
 
     solve();
 
-    cerr << "\ntime elapsed: " << TIME << "s.\n"; 
+    cerr << "\ntime elapsed: " << TIME << "s.\n";
 }
 
 

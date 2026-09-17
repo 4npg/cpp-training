@@ -1,8 +1,8 @@
-# include<bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
 # define TIME (1.0*clock()/CLOCKS_PER_SEC)
-# define file ""
+# define file "CAU1"
 
 const int N_ = 1e5+5;
 const int mod = 1e9 + 2277;
@@ -37,64 +37,23 @@ long long rl (long long l, long long r) {
     return uniform_int_distribution<long long>(l, r)(rd);
 }
 
-int n, m;
-vector< int > topo;
-int mx;
-// vector< int > dp;
+int t;
 
-struct graph{
-    int n;
-    vector < vector <int> > adj;
-    vector < int > indeg;
-    // priority_queue < int, vector < int >, greater < int > > sourcelist;
-    queue <int> sourcelist;
-    vector < int > dp;
+inline int cal (int m, int a, int b, int c) {
+	int seata = min (a, m);
+	int seatb = min (b, m);
+	int seatc = min (c, (m - seata) + (m - seatb));
 
-    graph (int n_) : n(n_), adj(n_ + 1), indeg(n_ + 1), dp(n_ + 1, 1) {}
-
-    inline void add_edges(int u, int v) {
-        adj[u].emplace_back(v);
-        indeg[v]++;
-    }
-
-    void calc() {
-
-        for (int i = 1; i <= n; i++) {
-            if (!indeg[i]) sourcelist.push(i);
-        }
-
-        while (!sourcelist.empty()) {
-            int u = sourcelist.front(); topo.emplace_back(u); sourcelist.pop();
-
-            for (int v : adj[u]) {
-
-                dp[v] = max(dp[v], dp[u] + 1);
-                mx = max(mx, dp[v]);
-
-                if (!(--indeg[v])) {
-                    sourcelist.push(v);
-                }
-
-            }
-
-        }
-
-        cout << mx;
-    }
-
-};
+	return seata + seatb + seatc;
+}
 
 void solve() {
 
-    cin >> n >> m;
-    graph g(n);
+	cin >> t; while (t--) {
+		int m, a, b, c; cin >> m >> a >> b >> c;
 
-    for (int i = 0; i < m; i++) {
-        int u, v; cin >> u >> v;
-        g.add_edges(u, v);
-    }
-
-    g.calc();
+		cout << cal(m, a, b, c) << '\n';
+	}
 
 }
 

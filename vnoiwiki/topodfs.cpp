@@ -37,65 +37,63 @@ long long rl (long long l, long long r) {
     return uniform_int_distribution<long long>(l, r)(rd);
 }
 
-int n, m;
-vector< int > topo;
-int mx;
-// vector< int > dp;
+struct graph {
+	int n;
+	vector < vector <int> > adj;
+	vector <int> vis; stack<int> topo;
+	vector<int> ans;
 
-struct graph{
-    int n;
-    vector < vector <int> > adj;
-    vector < int > indeg;
-    // priority_queue < int, vector < int >, greater < int > > sourcelist;
-    queue <int> sourcelist;
-    vector < int > dp;
+	graph(int n_) : n(n_), adj(n_ + 1), vis(n_ + 1), ans(n_ + 1) {}
 
-    graph (int n_) : n(n_), adj(n_ + 1), indeg(n_ + 1), dp(n_ + 1, 1) {}
+	inline void add_edges(int u, int v) {
+		adj[u].emplace_back(v);
+	}
 
-    inline void add_edges(int u, int v) {
-        adj[u].emplace_back(v);
-        indeg[v]++;
-    }
+	void dfs(int u) {
+		vis[u] = 1;
+		for (auto v : adj[u]) {
+			if (vis[v] == 1) {
+				cout << "Graph contains a cycle";
+				exit(0);
+			}
+			if (!vis[v]) dfs(v);
+		}
+		topo.push(u);
+		vis[u] = 2;
+	}
 
-    void calc() {
+	void calc() {
 
-        for (int i = 1; i <= n; i++) {
-            if (!indeg[i]) sourcelist.push(i);
-        }
+		for (int i = 1; i <= n; i++) {
+			if (!vis[i]) dfs(i);
+		}
 
-        while (!sourcelist.empty()) {
-            int u = sourcelist.front(); topo.emplace_back(u); sourcelist.pop();
+		int cnt = 0;
+		while (!topo.empty()) {
+			ans[topo.top()] = ++cnt;
+			topo.pop();
+		}
 
-            for (int v : adj[u]) {
-
-                dp[v] = max(dp[v], dp[u] + 1);
-                mx = max(mx, dp[v]);
-
-                if (!(--indeg[v])) {
-                    sourcelist.push(v);
-                }
-
-            }
-
-        }
-
-        cout << mx;
-    }
+		for (int i = 1; i <= n; i++) {
+			cout << ans[i] << ' ' ;
+		}
+	}	
 
 };
 
+int n, m;
+
 void solve() {
+	cin >> n >> m;
 
-    cin >> n >> m;
-    graph g(n);
+	graph g(n);
 
-    for (int i = 0; i < m; i++) {
-        int u, v; cin >> u >> v;
-        g.add_edges(u, v);
-    }
+	for (int i = 0; i < m; i++) {
+		int u, v; cin >> u >> v;
+		g.add_edges(u, v);
+	}
 
-    g.calc();
-
+	g.calc();
 }
 
 int main (void) {
