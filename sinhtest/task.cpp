@@ -4,7 +4,7 @@
 using namespace std;
 
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
-#define file "matkhau"
+#define file "task"
 
 template<typename T> bool minimize (T &a, T b) { if (a > b) return a = b, 1; return 0; }
 template<typename T> bool maximize (T &a, T b) { if (a < b) return a = b, 1; return 0; }
@@ -65,8 +65,8 @@ void solve() {
 int main(void) {
 	ios_base::sync_with_stdio(0); cin.tie(0);
 
-	// freopen(file".inp", "r", stdin);
-	// freopen(file".out", "w", stdout);
+	freopen(file".inp", "r", stdin);
+	freopen(file".out", "w", stdout);
 
 	solve();
 
