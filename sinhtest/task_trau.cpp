@@ -1,6 +1,4 @@
-#include<bits/stdc++.h>
-#include <ctime>
-#include <random>
+#include <bits/stdc++.h>
 using namespace std;
 
 #define TIME (1.0 * clock() / CLOCKS_PER_SEC)
