@@ -2,7 +2,7 @@
 using namespace std;
 
 # define TIME (1.0*clock()/CLOCKS_PER_SEC)
-# define file "bai1"
+# define file "kethop"
 
 const int N_ = 1e5+5;
 const int mod = 1e9 + 2277;
@@ -32,27 +32,58 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
-int n;
+int x, y, z;
+int n, ret;
 int a[N_];
-int ans = 0;
 
-void Try (int pos, int sum) {
-    if (pos > n) {
-        if (sum & 1) maximize(ans, sum); return;
-    }
+void sub1 () {
 
-    Try(pos + 1, sum);
-    Try(pos + 2, sum + a[pos]);
+	cin >> x >> y >> z;
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+
+	for (int i = 0; i < n - 2; i++) 
+		for (int j = i + 1; j < n - 1; j++) 
+			for (int k = j + 1; k < n; k++) 
+				maximize(ret, x * a[i] + y * a[j] + z * a[k]);
+
+	cout << ret;
+
 }
 
-void solve() {
+void sub2 () {
 
-    cin >> n;
-    for (int i = 1; i <= n; i++) cin >> a[i];
+	cin >> x >> y >> z;
+	cin >> n;
+	for (int i = 0; i < n; i++) 
+		cin >> a[i];
 
-    Try(1, 0); 
-    
-    cout << ans;
+	sort(a, a + n, greater<int>());
+
+	cout << a[0] * x + a[1] * y +  a[2] * z;
+
+}
+
+void sub3 () {
+
+	cin >> x >> y >> z;
+	cin >> n;
+
+	long long dp1 = -inf;
+	long long dp2 = -inf;
+	long long dp3 = -inf;
+
+	for (int i = 0; i < n; i++) {
+		long long val; cin >> val;
+
+		if (dp2 != -inf) dp3 = max(dp3, dp2 + z * val);
+		if (dp1 != -inf) dp2 = max(dp2, dp1 + y * val);
+		dp1 = max(dp1, x * val);
+	}
+
+	cout << dp3;
 
 }
 
@@ -63,7 +94,7 @@ int32_t main (void) {
     // freopen(file".inp", "r", stdin);
     // freopen(file".out", "w", stdout);
 
-    solve();
+    sub3();
 
     cerr << "\ntime elapsed: " << TIME << "s.\n"; 
 

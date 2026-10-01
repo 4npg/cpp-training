@@ -2,9 +2,10 @@
 using namespace std;
 
 # define TIME (1.0*clock()/CLOCKS_PER_SEC)
-# define file "bai1"
+# define file "nguyento"
 
-const int N_ = 1e5+5;
+const int maxn = (int)1e6 + 5;
+const int N_ = 16000005;
 const int mod = 1e9 + 2277;
 const int inf = 1e9;
 const int base = 256;
@@ -32,28 +33,39 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
-int n;
-int a[N_];
-int ans = 0;
+long long pre[N_];
+int t;
+bitset<N_> d; vector <int> p;
 
-void Try (int pos, int sum) {
-    if (pos > n) {
-        if (sum & 1) maximize(ans, sum); return;
-    }
+void sang() {
 
-    Try(pos + 1, sum);
-    Try(pos + 2, sum + a[pos]);
+	d[0] = d[1] = 1;
+	for (int i = 2; i * i < N_; i++) 
+		if (!d[i]) for (int j = i * i; j < N_; j += i) d[j] = 1;
+	
+	p.emplace_back(0);
+	for (int i = 2; i < N_; i++) if (!d[i]) p.emplace_back(i);
+
 }
+
+int n;
 
 void solve() {
 
-    cin >> n;
-    for (int i = 1; i <= n; i++) cin >> a[i];
+	sang();
 
-    Try(1, 0); 
-    
-    cout << ans;
+	cin >> t;
 
+	// p.erase(unique(p.begin(), p.end()), p.end());
+	pre[0] = 0;
+	for (int i = 1; i <= maxn; i++) pre[i] = pre[i - 1] + p[i] * 1LL;
+
+	// for (int i = 1; i <= maxn; i++) cout << pre[i] << ' ';
+	while (t--) {
+		int n; cin >> n;
+		cout << pre[n] << '\n';
+	}
+	
 }
 
 int32_t main (void) {

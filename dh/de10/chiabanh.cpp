@@ -2,7 +2,7 @@
 using namespace std;
 
 # define TIME (1.0*clock()/CLOCKS_PER_SEC)
-# define file "bai1"
+# define file "chiabanh"
 
 const int N_ = 1e5+5;
 const int mod = 1e9 + 2277;
@@ -32,27 +32,37 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
-int n;
-int a[N_];
-int ans = 0;
+long long n;
+set <long long> p;
 
-void Try (int pos, int sum) {
-    if (pos > n) {
-        if (sum & 1) maximize(ans, sum); return;
-    }
+int d[N_];
 
-    Try(pos + 1, sum);
-    Try(pos + 2, sum + a[pos]);
+void sang() {
+	
+	d[0] = 0; d[1] = 0;
+
+	for (int i = 2; i < N_; i++) {
+		if (!d[i]) for (int j = i; j < N_; j += i) d[j] = i;
+	}
+
 }
 
 void solve() {
 
-    cin >> n;
-    for (int i = 1; i <= n; i++) cin >> a[i];
+	cin >> n;
 
-    Try(1, 0); 
-    
-    cout << ans;
+	// sang();
+
+	// cout << d[n];
+
+	for (long long i = 1; 1LL * i * i <= n; i++) {
+		if (n % i == 0) {
+			p.insert(i);
+			if (n / i != i) p.insert(n / i);
+		}
+	}
+
+	for (auto &x : p) cout << x << ' ' << n / x << '\n';
 
 }
 

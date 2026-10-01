@@ -2,7 +2,7 @@
 using namespace std;
 
 # define TIME (1.0*clock()/CLOCKS_PER_SEC)
-# define file "bai1"
+# define file "sokhop"
 
 const int N_ = 1e5+5;
 const int mod = 1e9 + 2277;
@@ -32,27 +32,46 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
-int n;
-int a[N_];
-int ans = 0;
+int n, m;
+int ret;
 
-void Try (int pos, int sum) {
-    if (pos > n) {
-        if (sum & 1) maximize(ans, sum); return;
-    }
+void sub1() {
 
-    Try(pos + 1, sum);
-    Try(pos + 2, sum + a[pos]);
+	cin >> n >> m;
+	map <int, int> mp;
+	
+	for (int i = 0; i < n; i++) {
+		int x; cin >> x;
+		mp[x]++;
+	}
+
+	for (int i = 0; i < m; i++) {
+		int x; cin >> x; 
+		if (mp[x] > 0) ret++;
+	}
+
+	cout << ret;
 }
 
-void solve() {
+void sub2 () {
 
-    cin >> n;
-    for (int i = 1; i <= n; i++) cin >> a[i];
+	cin >> n >> m;
+	vector <int> a(n);
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
 
-    Try(1, 0); 
-    
-    cout << ans;
+	sort(a.begin(), a.end());
+	a.erase(unique(a.begin(), a.end()), a.end());
+
+	for (int i = 0; i < m; i++) {
+		int x; cin >> x;
+		if (binary_search(a.begin(), a.end(), x)) {
+			ret++;
+		}
+	}
+
+	cout << ret;
 
 }
 
@@ -63,7 +82,7 @@ int32_t main (void) {
     // freopen(file".inp", "r", stdin);
     // freopen(file".out", "w", stdout);
 
-    solve();
+    sub2();
 
     cerr << "\ntime elapsed: " << TIME << "s.\n"; 
 
