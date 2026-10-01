@@ -60,7 +60,10 @@ void sub2 () {
 	for (int i = 0; i < n; i++) 
 		cin >> a[i];
 
-	sort(a, a + n, greater<int>());
+	if (x > 0) sort(a, a + n, greater<int>());
+	else sort(a, a + n);
+
+	// for (int i = 0; i < n; i++) cout << a[i] << ' ' ;
 
 	cout << a[0] * x + a[1] * y +  a[2] * z;
 

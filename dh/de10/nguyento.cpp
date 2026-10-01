@@ -62,10 +62,12 @@ void solve() {
 
 	// for (int i = 1; i <= maxn; i++) cout << pre[i] << ' ';
 	while (t--) {
+		// int n; n = ri(5e5, 1e6);
 		int n; cin >> n;
+		// cerr << n << '\n';
 		cout << pre[n] << '\n';
 	}
-	
+
 }
 
 int32_t main (void) {
