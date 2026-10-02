@@ -32,36 +32,38 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
-int n;
-int a[N_];
-int ret = 0;
+int n; long long s;
+long long a[N_];
+vector <long long> lo, hi;
+long long ret;
+
+void Try (int pos, int limit, long long sum, vector <long long> &arr) {
+
+    if (sum > s) return;
+    if (pos > limit)
+        arr.emplace_back(sum);
+    else {
+        Try (pos + 1, limit, sum, arr);
+        Try (pos + 1, limit, sum + a[pos], arr);
+    }
+
+}
 
 void solve() {
 
-    cin >> n;
-    for (int i = 0; i < n; i++) cin >> a[i];
+    cin >> n >> s;
+    for (int i = 0; i < n; i++) 
+        cin >> a[i];
 
-    // for (int i = 0; i < n - 2; i++) 
-    //     for (int j = i + 1; j < n - 1; j++) 
-    //         for (int k = j + 1; k < n; k++) 
-    //             if ( a[i] < a[j] && a[j] < a[k]) ret++;
+    Try(0, n / 2, 0, lo);
+    Try(n / 2 + 1, n - 1, 0, hi);
 
+    sort(hi.begin(), hi.end());
+    
+    for (long long sum : lo)
+        ret += upper_bound(hi.begin(), hi.end(), s - sum) - lower_bound(hi.begin(), hi.end(), s - sum);
 
-    for (int j = 0; j < n; j++) {
-
-        int bigger = 0, smaller = 0;
-
-        for (int i = 0; i < j ;i++) 
-            if (a[i] < a[j]) ++smaller;
-        for (int k = j + 1; k < n; k++) 
-            if (a[j] < a[k]) ++bigger;
-
-        ret += smaller * bigger;
-
-    }
-
-    cout << ret;
-
+    cout << (ret > 0 ? "YES" : "NO");
 }
 
 int32_t main (void) {
