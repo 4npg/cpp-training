@@ -32,7 +32,45 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
-void solve() {
+string s;
+map<char, int> mp;
+int cntV, cntD; int ret = 0;
+
+void sub1() {
+
+	cin >> s;
+
+	for (int i = 0; i < size32(s); i++) {
+		string tmp = ""; int len = 0; map<char, int> mp1;
+		for (int j = i; j < size32(s); j++) {
+			tmp += s[j];
+			mp1[s[j]]++;
+			if(mp1['V'] == mp1['D'] * 2) maximize(len, j - i + 1);
+		}
+		maximize(ret, len);
+	}
+
+	cout << ret;
+}
+
+void solve () {
+
+	cin >> s;
+	int n = size32(s);
+	unordered_map<int, int> f_idx;
+	f_idx[0] = 0;
+
+	int pref = 0;
+	for (int i = 1; i <= n; i++) {
+		pref += ((s[i - 1] == 'V') ? 1 : -2);
+
+		if (f_idx.count(pref)) {
+			maximize(ret, i - f_idx[pref]);
+		} else f_idx[pref] = i;
+		
+	}
+
+	cout << ret;
 
 }
 

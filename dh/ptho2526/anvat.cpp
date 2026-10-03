@@ -4,7 +4,7 @@ using namespace std;
 # define TIME (1.0*clock()/CLOCKS_PER_SEC)
 # define file ""
 
-const int N_ = 1e5+5;
+const int N_ = 1e3+5;
 const int mod = 1e9 + 2277;
 const int inf = 1e9;
 const int base = 256;
@@ -32,8 +32,50 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
-void solve() {
+int m, r, u;
+int v[N_], t[N_], f[N_];
+int dp[N_][N_];
+int ret;
 
+void Try(int pos, int amount, int tim, int hapi) {
+    if (amount > u || tim > m) return;
+    if (pos > r) {
+        maximize(ret, hapi);
+        return;
+    }
+
+    Try(pos + 1, amount, tim, hapi);
+    Try(pos + 1, amount + f[pos], tim + t[pos], hapi + v[pos]);   
+}
+
+void sub1() {
+
+    cin >> m >> u >> r;
+    
+    for (int i = 1; i <= r; i++) {
+        cin >> v[i] >> t[i] >> f[i];
+    }
+
+    Try(1, 0, 0, 0);
+
+    cout << ret;
+}
+
+void sub2 () {
+    cin >> m >> u >> r;
+
+    for (int i = 1; i <= r; i++) {
+        cin >> v[i] >> t[i] >> f[i];
+    }
+
+    dp[0][0] = 0;
+
+    for (int i = 1; i <= r; i++)
+        for (int am = u; am >= f[i]; am--) 
+            for (int tim = m; tim >= t[i]; tim--) 
+                maximize(dp[am][tim], dp[am - f[i]][tim - t[i]] + v[i]);
+
+    cout << dp[u][m];
 }
 
 int32_t main (void) {
@@ -43,7 +85,7 @@ int32_t main (void) {
     // freopen(file".inp", "r", stdin);
     // freopen(file".out", "w", stdout);
 
-    solve();
+    sub2();
 
     cerr << "\ntime elapsed: " << TIME << "s.\n"; 
 

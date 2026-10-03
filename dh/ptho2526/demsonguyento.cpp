@@ -4,7 +4,7 @@ using namespace std;
 # define TIME (1.0*clock()/CLOCKS_PER_SEC)
 # define file ""
 
-const int N_ = 1e5+5;
+const int N_ = 1e7+5;
 const int mod = 1e9 + 2277;
 const int inf = 1e9;
 const int base = 256;
@@ -32,8 +32,35 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
+int l, r, k;
+bitset<N_> d;
+int ret = 0;
+
+void sang() {
+	d[0] = d[1] = 1;
+	for (int i = 2; i * i < N_; i++) 
+		if (!d[i]) for (int j = i * i; j < N_; j += i) d[j] = 1;
+}
+
+int tcs(int x) {
+	int ret = 0;
+	while (x) {
+		ret += x % 10;
+		x /= 10;
+	}
+	return ret;
+}
+
+
 void solve() {
 
+	sang();
+	cin >> l >> r >> k;
+	for (int i = l; i <= r; i++) {
+		if (!d[i] && tcs(i) % k == 0) ret ++;
+	}
+
+	cout << ret;
 }
 
 int32_t main (void) {

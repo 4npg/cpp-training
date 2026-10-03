@@ -2,9 +2,9 @@
 using namespace std;
 
 # define TIME (1.0*clock()/CLOCKS_PER_SEC)
-# define file ""
+# define file "sodacbiet"
 
-const int N_ = 1e5+5;
+const int N_ = 3e6+100;
 const int mod = 1e9 + 2277;
 const int inf = 1e9;
 const int base = 256;
@@ -32,7 +32,31 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
+int d[N_]; int pre[N_];
+vector <int> p;
+
+void sang() {
+	d[0] = 0; d[1] = 0;
+
+	for (int i = 1; i < N_; i++) {
+		for (int j = i; j < N_; j += i)
+			d[j] += i;
+	}
+
+	pre[0] = 0;
+
+	for (int i = 1; i < N_; i++) 
+		pre[i] = pre[i - 1] + (d[i] - i > i);
+}
+
+int l, r;
+
 void solve() {
+	sang();
+
+	cin >> l >> r;
+
+	cout << pre[r] - pre[l - 1];
 
 }
 

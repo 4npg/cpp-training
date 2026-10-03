@@ -32,8 +32,41 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
+int n, m;
+int b[N_], c[N_];
+long long ret;
+
+long long calc(vector <int> &a) {
+	sort(a.begin(), a.end());
+
+	long long total = 0;
+	int k = size32(a);
+
+	for (int j = 0; j < k; j++) {
+		total += 1LL * (2LL * j - k + 1) * a[j];
+	}
+
+	return total;
+}
+
 void solve() {
 
+	cin >> n >> m;
+	vector <int> all_c;
+	all_c.reserve(n);
+	vector < vector <int> > loai(m + 1);
+
+	for (int i = 1; i <= n; i++) cin >> b[i];
+	for (int i = 1; i <= n; i++) cin >> c[i], all_c.emplace_back(c[i]), loai[b[i]].emplace_back(c[i]);
+
+	long long total = calc(all_c);
+	long long cungloai = 0;
+	for (int i = 1; i <= m; i++) {
+		cungloai += calc(loai[i]);
+	}
+
+	ret = total - cungloai; 
+	cout << ret;
 }
 
 int32_t main (void) {

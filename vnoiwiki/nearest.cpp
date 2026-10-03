@@ -32,8 +32,69 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
+int n, m, b, r;
+vector <int> ba, ra;
+
+struct edge {
+    int n;
+    vector < vector <int> > adj;
+    vector < int > d;
+
+    edge(int n_) : n(n_), adj(n_), d(n_) {}
+
+    inline void add_edges(int u, int v) {
+        adj[u].emplace_back(v);
+        adj[v].emplace_back(u);
+    }
+
+    void bfs (vector <int> &source) {
+        fill(d.begin(), d.end(), -1);
+        queue <int> q;
+
+        for (auto &s : source) {
+            d[s] = 0; q.push(s);
+        }
+
+        while (!q.empty()) {
+            int u = q.front(); q.pop();
+
+            for (auto &v : adj[u]) {
+                if (d[v] == -1) {
+                    d[v] = d[u] + 1;
+                    q.push(v);
+                }
+            }
+        }
+    }
+
+
+};
+
 void solve() {
 
+    cin >> n >> m >> b >> r;
+    ba.resize(b);
+    ra.resize(r);
+
+    edge g(n + 1);
+
+    for (int i = 0; i < b; i++) 
+        cin >> ba[i];
+
+    for (int i = 0; i < r; i++) 
+        cin >> ra[i];
+
+    for (int i = 0; i < m; i++) {
+        int u, v; cin >> u >> v;
+        g.add_edges(u, v);
+    }
+
+    g.bfs(ba);
+
+    for (int i = 0; i < r; i++) {
+        cout << g.d[ra[i]] << ' ';
+    }
+    
 }
 
 int32_t main (void) {

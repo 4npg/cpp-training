@@ -32,7 +32,23 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
+int x, s, t;
+
 void solve() {
+
+	cin >> x >> s >> t;
+
+	int ret = 0; bool tt = 1;
+
+	while (ret < t) {
+		ret = ret + x;
+		tt = 1;
+		if (ret >= t) break;
+		ret = ret + s;
+		tt = 0;
+	}
+
+	cout << tt;
 
 }
 

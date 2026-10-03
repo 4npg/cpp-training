@@ -2,7 +2,7 @@
 using namespace std;
 
 # define TIME (1.0*clock()/CLOCKS_PER_SEC)
-# define file ""
+# define file "khuvuichoi"
 
 const int N_ = 1e5+5;
 const int mod = 1e9 + 2277;
@@ -32,7 +32,38 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
+int bd, kt;
+
+long long cal (int bd, int kt) {
+	
+	long long ret = 0; int j = 0;
+	for (int i = bd; i < kt; i++) {
+		j++; long long cost = 0;
+		if (i >= 6 && i < 12) {
+			cost = 6;
+		} else if (i >= 12 && i < 22) {
+			cost = 10;
+		}
+
+		if (j > 4) cost = cost * 50 / 100;
+
+		ret += cost;
+	}
+
+	return ret;
+}
+
 void solve() {
+
+	cin >> bd >> kt;
+
+	// if (kt > 12) {
+	// 	cout << 36 + (kt - 12) * 10;
+	// } else {
+	// 	cout << 6 * (kt - bd);
+	// }
+
+	cout << cal (bd, kt);
 
 }
 

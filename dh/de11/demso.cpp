@@ -2,7 +2,7 @@
 using namespace std;
 
 # define TIME (1.0*clock()/CLOCKS_PER_SEC)
-# define file ""
+# define file "demso"
 
 const int N_ = 1e5+5;
 const int mod = 1e9 + 2277;
@@ -32,7 +32,19 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
+long long a, b, c;
+
 void solve() {
+
+	cin >> a >> b >> c;
+
+	cout << 1LL * (b - a + 1) - 1LL * (b / c - ((a - 1) / c));
+
+	// int dem = 0;
+	// for (int i = a; i <= b; i++) {
+	// 	if (i % c != 0) cout << i << ' ', dem++;
+	// }
+	// cout << dem;
 
 }
 

@@ -2,11 +2,11 @@
 using namespace std;
 
 # define TIME (1.0*clock()/CLOCKS_PER_SEC)
-# define file ""
+# define file "quantrong"
 
 const int N_ = 1e5+5;
 const int mod = 1e9 + 2277;
-const int inf = 1e9;
+const long long inf = 2e18;
 const int base = 256;
 
 template <typename T> bool minimize(T &a, T b) { if (a > b) return a = b, 1; return 0; }
@@ -32,7 +32,34 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
+int n;
+int a[N_]; long long pre[N_];
+
 void solve() {
+
+	cin >> n; pre[0] = 0;
+	for (int i = 1; i <= n; i++) {
+		cin >> a[i], pre[i] = pre[i - 1] + a[i];
+	}
+
+	map <int, long long> minpref;
+	long long ans = -inf; bool f = false;
+
+	for (int i = 1; i <= n; i++) {
+		int x = a[i];
+		if (minpref.count(x)) {
+			maximize(ans, pre[i] -minpref[x]);
+			minimize(minpref[x], pre[i - 1]); f = true;
+		} else {
+			minpref[x] = pre[i - 1];
+		}
+	}
+
+	if (!f) {
+		cout << 0;
+	} else {
+		cout << ans;
+	}
 
 }
 

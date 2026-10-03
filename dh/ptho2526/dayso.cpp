@@ -32,7 +32,26 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
+int a[10];
+
 void solve() {
+
+	for (int i = 0; i < 8; i++) cin >> a[i];
+
+	bool as = true;
+	bool ds = true;
+	bool mixed = true;
+
+	for (int i = 1; i < 7; i++) {
+		// if (a[i] > a[i + 1] && a[i] < a[i - 1]) as = false;
+		// else if (a[i] < a[i + 1] && a[i] > a[i - 1]) ds = false;
+		if (a[i] >= a[i + 1]) as = false;
+		if (a[i] <= a[i + 1]) ds = false;
+	}
+
+	if (as) cout << "ascending";
+	else if (ds) cout << "descending";
+	else cout << "mixed";
 
 }
 

@@ -32,8 +32,38 @@ int ri (int l, int r) {
     return uniform_int_distribution<int>(l, r)(rng);
 }
 
+int n, k, s;
+vector < pair<int, int> > dta;
+int ret; int num;
+
+void Try(int pos, int dvs, int wght, int cost) {
+	if (cost < 0) return ;
+	if (pos == n) {
+		if (dvs > 0 && dvs % k == 0) {
+			maximize(ret, wght);
+		}
+		return;
+	}
+
+	Try(pos + 1, dvs, wght, cost);
+	if (cost >= dta[pos].second) {
+		Try(pos + 1, dvs + 1, wght + dta[pos].first, cost - dta[pos].second);
+	}
+}
 void solve() {
 
+	cin >> n >> k >> s;
+	dta.resize(n);
+
+	for (int i = 0; i < n; i++) {
+		cin >> dta[i].first;
+	} 
+	for (int i = 0; i < n; i++) {
+		cin >> dta[i].second;
+	}
+
+	Try(0, 0, 0, s);
+	cout << ret;
 }
 
 int32_t main (void) {
