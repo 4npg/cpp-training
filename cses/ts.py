@@ -1,16 +1,4 @@
-import math
-
-n = int(input())
-
-if n<2:
-    print("Khong phai la so nguyen to")
-else:
-    ok = True
-    for i in range(2, int(math.sqrt(n))+1):
-        if n%i==0:
-            ok = False
-            break
-    if ok:
-        print("La so nguyen to")
-    else:
-        print("Khong phai la so nguyen to")
+from openai import OpenAI
+client = OpenAI(base_url="https://gen.pollinations.ai/v1", api_key="YOUR_API_KEY")
+response = client.chat.completions.create(model="openai/gpt-5.4-nano", messages=[{"role": "user", "content": "Hello!"}])
+print(response.choices[0].message.content)

@@ -71,8 +71,8 @@ int32_t main (void) {
 
     ios_base::sync_with_stdio(0); cin.tie(0);
     
-    // freopen(file".inp", "r", stdin);
-    // freopen(file".out", "w", stdout);
+    freopen(file".inp", "r", stdin);
+    freopen(file".out", "w", stdout);
 
     solve();
 
