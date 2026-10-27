@@ -11,6 +11,8 @@ template<class T> bool maximize(T &a, T b) {
 	return false;
 }
 
+int a[maxn];
+
 void solve(){
 	int n, k; cin >> n >> k;	
 
@@ -18,7 +20,7 @@ void solve(){
 
 	for (int i = 0; i < k; ++i) {
 		cin >> a[i];
-		sum += x;
+		sum += a[i];
 	}
 
 	maximize(ret, sum);
